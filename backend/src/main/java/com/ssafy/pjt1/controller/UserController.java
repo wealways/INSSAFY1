@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.pjt1.model.dto.user.UserDto;
+import com.ssafy.pjt1.model.service.JwtService;
 import com.ssafy.pjt1.model.service.UserService;
 
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtService jwtService;
+
     @PostMapping("/confirm/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -37,16 +41,24 @@ public class UserController {
         logger.info("/confirm/login 잘 들어옴");
         try {
             UserDto loginUser = userService.login(userDto);
+            logger.info("로그인 객체 : " + loginUser.getUser_email());
             if (loginUser != null) {
-
+                String token = jwtService.create("userid", loginUser.getUser_email(), "access-token");// key, data,
+                                                                                                      // subject
+                logger.info("로그인 토큰정보 : {}", token);
+                // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
+                resultMap.put("auth-token", token);
+                resultMap.put("user-email", loginUser.getUser_email());
+                resultMap.put("user-nickname", loginUser.getUser_nickname());
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } else {
+                logger.info("로그인 null");
                 resultMap.put("message", FAIL);
                 status = HttpStatus.ACCEPTED;
             }
         } catch (Exception e) {
-            logger.error("로그인 실패", e);
+            logger.error("로그인 실패 : {}", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);

@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto login(UserDto userDto) {
-        logger.info("서비스까지 들어옴");
         return sqlSession.getMapper(UserMapper.class).login(userDto);
     }
 
