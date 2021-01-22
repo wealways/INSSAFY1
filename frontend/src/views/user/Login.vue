@@ -36,7 +36,7 @@
         </div>
         <div class="etc_option_item">
           <p>아직 회원이 아니신가요?</p>
-          <a href="">회원가입</a>
+          <router-link to="/user/join" class="btn--text">가입하기</router-link>
         </div>
       </div>
     </div>
