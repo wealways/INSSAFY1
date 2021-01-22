@@ -4,80 +4,83 @@
     Sub PJT I에서는 UX, 디자인 등을 포함하여 백엔드를 제외하여 개발합니다.
  -->
 <template>
-  <div class="user join wrapC">
-    <h1>가입하기</h1>
-    <div class="form-wrap">
-      <div class="input-with-label">
-        <input v-model="email" id="email" placeholder="이메일을 입력하세요." type="text" 
-        :class="{error : error.email, complete:!error.email&&email.length!==0}"
-        @blur="onDuplicate"
-        @focus="waitDuplicate"
-        autocapitalize="off"
-        />
-        <label for="email">이메일*</label>
-        <div class="error-text" v-if="error.email">{{error.email}}</div>
-        <div class="error-text" v-if="error.emailDuplicate">{{error.emailDuplicate}}</div>
+  <div class="user">
+
+    <div class="join wrapC">
+      <h1>가입하기</h1>
+      <div class="form-wrap">
+        <div class="input-with-label">
+          <input v-model="email" id="email" placeholder="이메일을 입력하세요." type="text" 
+          :class="{error : error.email&&email.length!==0, complete:!error.email&&email.length!==0}"
+          @blur="onDuplicate"
+          @focus="waitDuplicate"
+          autocapitalize="off"
+          />
+          <label for="email">이메일*</label>
+          <div class="error-text" v-if="error.email&&email.length!==0">{{error.email}}</div>
+          <div class="error-text" v-if="error.emailDuplicate">{{error.emailDuplicate}}</div>
+        </div>
+
+        <div class="input-with-label">
+          <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." 
+          :class="{error : error.password&&password.length!==0, complete:!error.password&&password.length!==0}"
+          />
+          <label for="password">비밀번호*</label>
+          <div class="error-text" v-if="error.password&&password.length!==0">{{error.password}}</div>
+        </div>
+
+        <div class="input-with-label">
+          <input v-model="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시한번 입력하세요."
+          :class="{error : error.passwordConfirm&&passwordConfirm.length!==0, complete : !error.password&&passwordConfirm.length!==0}"
+          />
+          <label for="password-confirm">비밀번호 확인*</label>
+          <div class="error-text" v-if="error.passwordConfirm&&passwordConfirm.length!==0">{{error.passwordConfirm}}</div>
+        </div>
+
+        <div calss="input-with-label">
+          <hr />
+        </div>
+        <div class="input-with-label">
+          <input v-model="nickname" id="nickname" placeholder="닉네임을 입력하세요." type="text" />
+          <label for="nickname">닉네임*</label>
+        </div>
+
+        <div class="input-with-label">
+          <select ref="select0" class="join-style" name="location" id="location" v-model="location">
+            <option value="" disabled selected>지역을 선택하세요.</option>
+            <option v-for="location in options.location" :key="location" :value="location">
+              {{ location }}
+            </option>
+          </select>
+          <label for="nickname">지역*</label>
+        </div>
+
+        <div class="input-with-label">
+          <select ref="select1" class="join-style" name="generation" id="generation" v-model="generation">
+            <option value="" disabled selected>기수을 선택하세요.</option>
+            <option v-for="generation in options.generation" :key="generation" :value="generation">
+              {{ generation }}
+            </option>
+          </select>
+          <label for="nickname">기수*</label>
+        </div>
+
+        <div class="input-with-label">
+          <input v-model="classNum" id="classNum" class="join-style" placeholder="반을 입력하세요." type="number" min="1" max="20"/>
+          <label for="nickname">반</label>
+        </div>
       </div>
 
-      <div class="input-with-label">
-        <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." 
-        :class="{error : error.password, complete:!error.password&&password.length!==0}"
-        />
-        <label for="password">비밀번호*</label>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
-      </div>
+      <label>
+        <input v-model="isTerm" type="checkbox" id="term" />
+        <span>약관을 동의합니다.</span>
+      </label>
 
-      <div class="input-with-label">
-        <input v-model="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시한번 입력하세요."
-        :class="{error : error.passwordConfirm, complete : !error.password&&passwordConfirm.length!==0}"
-        />
-        <label for="password-confirm">비밀번호 확인*</label>
-        <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
-      </div>
+      <span @click="termPopup = true">약관보기</span>
 
-      <div calss="input-with-label">
-        <hr />
-      </div>
-      <div class="input-with-label">
-        <input v-model="nickname" id="nickname" placeholder="닉네임을 입력하세요." type="text" />
-        <label for="nickname">닉네임*</label>
-      </div>
-
-      <div class="input-with-label">
-        <select ref="select0" class="join-style" name="location" id="location" v-model="location">
-          <option value="" disabled selected>지역을 선택하세요.</option>
-          <option v-for="location in options.location" :key="location" :value="location">
-            {{ location }}
-          </option>
-        </select>
-        <label for="nickname">지역*</label>
-      </div>
-
-      <div class="input-with-label">
-        <select ref="select1" class="join-style" name="generation" id="generation" v-model="generation">
-          <option value="" disabled selected>기수을 선택하세요.</option>
-          <option v-for="generation in options.generation" :key="generation" :value="generation">
-            {{ generation }}
-          </option>
-        </select>
-        <label for="nickname">기수*</label>
-      </div>
-
-      <div class="input-with-label">
-        <input v-model="classNum" id="classNum" class="join-style" placeholder="반을 입력하세요." type="number" min="1" max="20"/>
-        <label for="nickname">반</label>
-      </div>
+      <button class="btn btn--back btn--login" v-on:click="onJoin" 
+      v-bind:disabled="!isSubmit" v-bind:class="{disabled: !isSubmit}">가입하기</button>
     </div>
-
-    <label>
-      <input v-model="isTerm" type="checkbox" id="term" />
-      <span>약관을 동의합니다.</span>
-    </label>
-
-    <span @click="termPopup = true">약관보기</span>
-
-    <button class="btn-bottom" v-on:click="onJoin" 
-    v-bind:disabled="!isSubmit" v-bind:class="{disabled: !isSubmit}">가입하기</button>
   </div>
 </template>
 
@@ -135,8 +138,9 @@ export default {
       .letters();
   },
   watch:{
-    email: function(){
+    email: function(v){
       this.checkForm();
+      this.email = v.toLowerCase();
     },
     password: function(){
       this.checkForm();
@@ -253,5 +257,11 @@ hr {
 .complete {
   border: 2px solid #000 !important;
   border-radius: 3px !important;
+}
+button{
+  transition: 0.3s background-color ease-in-out;
+}
+.disabled {
+  background-color: #00000033;
 }
 </style>
