@@ -4,154 +4,106 @@
     Sub PJT I에서는 UX, 디자인 등을 포함하여 백엔드를 제외하여 개발합니다.
  -->
 <template>
-  <div class="user join wrapC">
-    <h1>비밀번호 변경</h1>
-    <div class="form-wrap">
-      <div class="input-with-label">
-        <input v-model="email" id="email" type="text" disabled/>
-        <label for="email">이메일*</label>
-        <div class="error-text" v-if="error.email">{{error.email}}</div>
-        <div class="error-text" v-if="error.emailDuplicate">{{error.emailDuplicate}}</div>
-      </div>
-
-      <div class="input-with-label">
-        <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." 
-        :class="{error : error.password, complete:!error.password&&password.length!==0}"
-        />
-        <label for="password">비밀번호*</label>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
-      </div>
-
-      <div class="input-with-label">
-        <input v-model="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시한번 입력하세요."
-        :class="{error : error.passwordConfirm, complete : !error.password&&passwordConfirm.length!==0}"
-        />
-        <label for="password-confirm">비밀번호 확인*</label>
-        <div class="error-text" v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
+  <div>
+    <nav>
+      네브바
+    </nav>
+    <div class="modify">
+      <h1>비밀번호변경</h1>
+      <div class="modify-form">
+        <div class="modify-input">
+          <div class="input-with-label">
+            <label for="nowpassword">현재 비밀번호</label>
+            <input
+              id="nowpassword"
+              placeholder="현재 비밀번호를 입력하세요."
+              type="text"
+            />
+            <div class="error-text">에러메시지</div>
+          </div>
+          <div class="input-with-label">
+            <label for="password">비밀번호</label>
+            <input
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+              type="text"
+            />
+            <div class="error-text">에러메시지</div>
+          </div>
+          <div class="input-with-label">
+            <label for="password-confirm">비밀번호확인</label>
+            <input
+              id="password-confirm"
+              placeholder="비밀번호를 입력하세요."
+              type="text"
+            />
+            <div class="error-text">에러메시지</div>
+          </div>
+        </div>
+        <button class='btn-modify'>변경</button>
       </div>
     </div>
-
-    <button class="btn-bottom" v-on:click="onModify" 
-    v-bind:disabled="!isSubmit" v-bind:class="{disabled: !isSubmit}">저장</button>
   </div>
 </template>
 
 <script>
-import "../../components/css/user.scss";
-import PV from "password-validator";
-import * as EmailValidator from "email-validator";
-import LoginVue from './Login.vue';
-
-import * as authApi from '@/api/auth';
 
 export default {
-  data() {
-    return {
-      options: {
-        location: ['서울', '대전', '구미', '광주'],
-        generation: [4, 3, 2, 1],
-      },
-      email: '',
-      password: '',
-      passwordSchema: new PV(),
-      passwordConfirm: '',
-      isLoading: false,
-      error: {
-        email: false,
-        emailDuplicate : false,
-        password: false,
-        passwordConfirm: false
-      },
-      isSubmit: false,
-      passwordType: 'password',
-      passwordConfirmType: 'password',
-      termPopup: false,
-    };
-  },
-  created() {
-    this.passwordSchema
-      .is()
-      .min(8)
-      .is()
-      .max(100)
-      .has()
-      .digits()
-      .has()
-      .letters();
-    this.email = this.$route.params.email;
-  },
-  watch:{
-    email: function(){
-      this.checkForm();
-    },
-    password: function(){
-      this.checkForm();
-    },
-    passwordConfirm: function(){
-      this.checkForm();
-    }
-  },
-  methods: {
-    checkForm() {
-      if (this.email.length >= 0 && !EmailValidator.validate(this.email))
-        this.error.email = "이메일 형식이 아닙니다.";
-      else this.error.email = false;
-
-      if (
-        this.password.length >= 0 &&
-        !this.passwordSchema.validate(this.password)
-      )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
-      else this.error.password = false;
-
-      if(this.passwordConfirm.length >= 0 && this.password != this.passwordConfirm)
-        this.error.passwordConfirm = "비밀번호가 서로 같지 않습니다."
-      else this.error.passwordConfirm = false;
-      
-      let isSubmit = true;
-      Object.values(this.error).map(v => {
-        if (v) isSubmit = false;
-      });
-      this.isSubmit = isSubmit;
-    },
-    onModify: function(){
-        authApi.modify(this.email, this.password).then(response => {
-        console.log(response.data);
-        alert('비밀번호가 변경되었습니다.\n다시 로그인해주세요.');
-        this.$router.push({name: '/', params:{email:this.email}});
-      }).catch(error => {
-        console.log(error);
-        alert("저장에 실패하였습니다.");
-        this.password = '';
-        this.passwordConfirm = '';
-      })
-    }
-  },
+  
 };
 </script>
 
 <style scoped>
-h1 {
-  margin-top: 15px;
+.modify {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  max-width: 580px;
+  width: 100%;
+  margin: 0 auto;
 }
-hr {
+.modify-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: center; */
+  height: 40vh;
+  width: 100%;
+}
+.modify-input {
+  width: 100%;
+  float: left;
+  position: relative;
   margin-bottom: 10px;
 }
-.join-style {
+input {
+  background: transparent;
+  font-size: 1em;
   width: 100%;
   height: 50px;
-  background-color: #fff;
-  float: left;
-  line-height: 1;
-  padding: 2px 15px 0 105px;
-  border: 1px solid #000;
-  border-radius: 3px;
+  line-height: 1em;
+  border: 1px solid #CCCCCC;
+  padding: 0 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-transition: .2s;
+  transition: .2s;
+  outline: none;
 }
-.btn-bottom {
-  margin: 20px 0 !important;
+.etc-options {
+  display: flex;
+  flex-direction: column;
 }
-.complete {
-  border: 2px solid #000 !important;
-  border-radius: 3px !important;
+.etc-option-item {
+  display: flex;
+  justify-content: space-between;
+}
+.etc-option-item p {
+  margin-bottom: 0;
+}
+.etc_option_item a {
+  margin: auto 0;
+  margin-bottom: 0;
 }
 </style>
