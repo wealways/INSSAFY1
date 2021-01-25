@@ -1,7 +1,13 @@
+//main
+import Main from './views/main/Main.vue'
+
+
+//로그인 영역
 import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
+import Mypage from '@/views/user/Mypage.vue'
 
 //board
 import Board from './views/boards/Board.vue'
@@ -12,10 +18,17 @@ import PageNotFound from './views/redirect/PageNotFound'
 import Errors from './views/redirect/Errors'
 import JoinSuccess from './views/redirect/JoinSuccess'
 
-import Main from './views/Main'
+import Temp from './views/Main'
 import Modify from './views/user/Modify'
 
 export default [
+
+    //main 영역
+    {
+        path : '/main',
+        name : 'Main',
+        component : Main
+    },    
 
 
     {
@@ -29,14 +42,9 @@ export default [
         component : Join
     },
     {
-        path : '/feed/main',
-        name : 'FeedMain',
-        component : FeedMain
-    },
-    {
-        path : '/components',
-        name : 'Components',
-        component : Components
+        path : '/user/mypage',
+        name : 'Mypage',
+        component : Mypage
     },
     //board
     {
@@ -73,9 +81,9 @@ export default [
 
 
     {
-        path: "/main",
-        name: "Main",
-        component : Main,
+        path: "/temp",
+        name: "Temp",
+        component : Temp,
         props: true
     },
     {

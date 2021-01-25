@@ -17,7 +17,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     public static final Logger logger = LoggerFactory.getLogger(JwtInterceptor.class);
 
-    private static final String HEADER_AUTH = "access-token";
+    private static final String HEADER_AUTH = "auth-token";
 
     @Autowired
     private JwtService jwtService;
@@ -34,5 +34,6 @@ public class JwtInterceptor implements HandlerInterceptor {
             logger.info("토큰 사용 불가능 : {}", token);
             throw new UnauthorizedException();
         }
+
     }
 }
