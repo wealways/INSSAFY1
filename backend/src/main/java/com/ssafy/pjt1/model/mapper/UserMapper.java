@@ -21,5 +21,6 @@ public interface UserMapper {
     public UserDto userInfo(String user_email); 
     
     public void updatePw(Map<String, String> map);
+
 }
 

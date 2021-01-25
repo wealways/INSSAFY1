@@ -44,16 +44,12 @@ public class UserController {
     @Autowired
     private MailSendService mss;
 
+    private PasswordEncoder passwordEncoder;
+
     /*
      * 기능
      * 
      * 로그인 developer: 문진환
-    private PasswordEncoder passwordEncoder;
-
-    /*
-     * 기능: 로그인
-     * 
-     * 개발자: 문진환
      * 
      * @param UserDto
      * 
@@ -74,7 +70,7 @@ public class UserController {
                                                                                                     // subject
                 logger.info("로그인 토큰정보 : {}", token);
                 // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
-                resultMap.put("access-token", token);
+                resultMap.put("auth-token", token);
                 resultMap.put("user-email", loginUser.getUser_email());
                 resultMap.put("user-nickname", loginUser.getUser_nickname());
                 resultMap.put("message", SUCCESS);
@@ -169,7 +165,7 @@ public class UserController {
      * @return time:
      */
     @GetMapping("/joinConfirm")
-    public ResponseEntity<Map<String, Object>> signUpConfirm(@RequestParam Map<String, String> map) {
+    public ResponseEntity<Map<String, Object>> joinConfirm(@RequestParam Map<String, String> map) {
         userService.updateAuthStatus(map);
         logger.info("authentication");
 
@@ -194,6 +190,8 @@ public class UserController {
         } catch (Exception e) {
             logger.error("실패", e);
             resultMap.put("res", "0");
+            logger.error("로그인 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -208,11 +206,6 @@ public class UserController {
      * @return ResultMap
      * 
      * time: 2021/01/25
-     * 개발자: 문진환
-     * 
-     * @param
-     * 
-     * @return ResultMap
      */
     @GetMapping("/userInfo/{user_email}")
     public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_email") String user_email,
@@ -220,8 +213,8 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/userInfo/user_email 호출성공");
-        logger.info("저장된 토큰: " + request.getHeader("access-token"));
-        if (jwtService.isUsable(request.getHeader("access-token"))) {
+        logger.info("저장된 토큰: " + request.getHeader("auth-token"));
+        if (jwtService.isUsable(request.getHeader("auth-token"))) {
             try {
                 UserDto userDto = userService.userInfo(user_email);
                 if (userDto != null) {
@@ -236,6 +229,7 @@ public class UserController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
 
 
     // 내 정보 수정

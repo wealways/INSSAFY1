@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import com.ssafy.pjt1.controller.UserController;
 public class MailSendService {
 	
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
     private JavaMailSenderImpl mailSender;
 
@@ -65,7 +67,7 @@ public class MailSendService {
 
           return authKey;
     }
-    
+
     //임시비밀번호 메일 보내기
     public String sendPwMail(String email) {
     	StringBuffer temp = new StringBuffer();

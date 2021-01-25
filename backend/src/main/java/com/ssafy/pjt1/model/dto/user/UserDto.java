@@ -11,7 +11,6 @@ public class UserDto {
     private int user_auth;
     private String user_authKey;
 
-    
     public String getUser_id() {
 		return user_id;
 	}
@@ -84,5 +83,4 @@ public class UserDto {
 		this.user_authKey = user_authKey;
 	}
 
-    
 }
