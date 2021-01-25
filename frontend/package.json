@@ -13,6 +13,8 @@
     "axios": "^0.21.1",
     "babel-eslint": "^10.0.3",
     "babel-preset-env": "^1.7.0",
+    "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
     "core-js": "^3.4.3",
     "email-validator": "^2.0.4",
     "local-lib": "^0.1.0",

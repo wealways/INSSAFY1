@@ -9,6 +9,10 @@ import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
 import Mypage from '@/views/user/Mypage.vue'
 
+//board
+import Board from './views/boards/Board.vue'
+import PostDetail from './views/boards/PostDetail.vue'
+
 //redirect vue
 import PageNotFound from './views/redirect/PageNotFound'
 import Errors from './views/redirect/Errors'
@@ -41,6 +45,17 @@ export default [
         path : '/user/mypage',
         name : 'Mypage',
         component : Mypage
+    },
+    //board
+    {
+        path : '/boards',
+        name : 'Baord',
+        component : Board
+    },
+    {
+        path: '/boards/post',
+        name : 'Post',
+        component : PostDetail
     },
 
     //redirect 영역
