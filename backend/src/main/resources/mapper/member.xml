@@ -15,23 +15,28 @@
 		#{user_generation}, #{user_image}, #{user_auth}, #{user_authKey}
 		)
 	</insert>
-	
+
 	<select id="emailCheck" parameterType="String" resultType="UserDto">
 		select * 
 		from user
 		where user_email=#{user_email};
 	</select>
-	
+
 	<update id="updateAuthKey" parameterType="map">
         update user set
         user_authKey = #{user_authKey}
         where user_email = #{user_email}
     </update>
-    
+
 	<update id="updateAuthStatus" parameterType="map">
         update user set
         user_auth = 1
         where user_email = #{email}
     </update>
 
+	<select id="userInfo" parameterType="userDto" resultType="UserDto">
+		select *
+		from user
+		where user_email=#{user_email};
+	</select>
 </mapper>

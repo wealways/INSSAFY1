@@ -19,25 +19,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private SqlSession sqlSession;
+	@Autowired
+	private SqlSession sqlSession;
 
-    public static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	public static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-    @Override
-    public UserDto login(UserDto userDto) {
-        return sqlSession.getMapper(UserMapper.class).login(userDto);
-    }
+	@Override
+	public UserDto login(UserDto userDto) {
+		return sqlSession.getMapper(UserMapper.class).login(userDto);
+	}
 
-    @Override
-    public boolean join(UserDto userDto) {
-        return sqlSession.getMapper(UserMapper.class).join(userDto) == 1;
-    }
-    
-    @Override
-    public UserDto emailCheck(String user_email) {
-       return sqlSession.getMapper(UserMapper.class).emailCheck(user_email);
-    }
+	@Override
+	public boolean join(UserDto userDto) {
+		return sqlSession.getMapper(UserMapper.class).join(userDto) == 1;
+	}
+
+	@Override
+	public UserDto emailCheck(String user_email) {
+		return sqlSession.getMapper(UserMapper.class).emailCheck(user_email);
+	}
 
 	@Override
 	public String getId() {
@@ -52,17 +52,20 @@ public class UserServiceImpl implements UserService {
 
 		return buffer.toString();
 	}
-	
+
 	@Override
 	public void updateAuthKey(Map<String, String> map) {
 		sqlSession.getMapper(UserMapper.class).updateAuthKey(map);
-		
+
 	}
 
 	@Override
 	public void updateAuthStatus(Map<String, String> map) {
 		sqlSession.getMapper(UserMapper.class).updateAuthStatus(map);
 	}
-	
 
+	@Override
+	public UserDto userInfo(String user_email) {
+		return sqlSession.getMapper(UserMapper.class).userInfo(user_email);
+	}
 }

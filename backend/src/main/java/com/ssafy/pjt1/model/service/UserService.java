@@ -16,6 +16,7 @@ public interface UserService {
 	public void updateAuthKey(Map<String, String> map);
 
 	public void updateAuthStatus(Map<String, String> map);
-	
+    
+    public UserDto userInfo(String user_email);
 //	public String sendAuthMail(String email);
 }
