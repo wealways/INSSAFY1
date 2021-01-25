@@ -2,6 +2,7 @@ import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
+import Mypage from '@/views/user/Mypage.vue'
 
 //redirect vue
 import PageNotFound from './views/redirect/PageNotFound'
@@ -25,14 +26,9 @@ export default [
         component : Join
     },
     {
-        path : '/feed/main',
-        name : 'FeedMain',
-        component : FeedMain
-    },
-    {
-        path : '/components',
-        name : 'Components',
-        component : Components
+        path : '/user/mypage',
+        name : 'Mypage',
+        component : Mypage
     },
 
     //redirect 영역
