@@ -9,6 +9,29 @@
 		where user_email=#{user_email} and user_password = #{user_password};	
 	</select>
 
-	<insert id="join" parameterType="UserDto"></insert>
+	<insert id="join" parameterType="UserDto">
+		insert into user values (
+		#{user_id}, #{user_email}, #{user_password}, #{user_nickname}, #{user_location} ,
+		#{user_generation}, #{user_image}, #{user_auth}, #{user_authKey}
+		)
+	</insert>
+	
+	<select id="emailCheck" parameterType="String" resultType="UserDto">
+		select * 
+		from user
+		where user_email=#{user_email};
+	</select>
+	
+	<update id="updateAuthKey" parameterType="map">
+        update user set
+        user_authKey = #{user_authKey}
+        where user_email = #{user_email}
+    </update>
+    
+	<update id="updateAuthStatus" parameterType="String">
+        update user set
+        user_auth = 1
+        where user_email = #{email}
+    </update>
 
 </mapper>
