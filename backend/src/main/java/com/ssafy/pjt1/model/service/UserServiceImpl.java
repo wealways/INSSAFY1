@@ -10,10 +10,12 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
@@ -85,4 +87,5 @@ public class UserServiceImpl implements UserService {
 	public void updatePw(Map<String, String> map) {
 		sqlSession.getMapper(UserMapper.class).updatePw(map);
 	}
+
 }

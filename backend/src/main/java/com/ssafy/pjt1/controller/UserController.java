@@ -17,12 +17,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +48,12 @@ public class UserController {
      * 기능
      * 
      * 로그인 developer: 문진환
+    private PasswordEncoder passwordEncoder;
+
+    /*
+     * 기능: 로그인
+     * 
+     * 개발자: 문진환
      * 
      * @param UserDto
      * 
@@ -66,7 +74,7 @@ public class UserController {
                                                                                                     // subject
                 logger.info("로그인 토큰정보 : {}", token);
                 // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
-                resultMap.put("auth-token", token);
+                resultMap.put("access-token", token);
                 resultMap.put("user-email", loginUser.getUser_email());
                 resultMap.put("user-nickname", loginUser.getUser_nickname());
                 resultMap.put("message", SUCCESS);
@@ -200,6 +208,11 @@ public class UserController {
      * @return ResultMap
      * 
      * time: 2021/01/25
+     * 개발자: 문진환
+     * 
+     * @param
+     * 
+     * @return ResultMap
      */
     @GetMapping("/userInfo/{user_email}")
     public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_email") String user_email,
@@ -207,8 +220,8 @@ public class UserController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/userInfo/user_email 호출성공");
-        logger.info("저장된 토큰: " + request.getHeader("auth-token"));
-        if (jwtService.isUsable(request.getHeader("auth-token"))) {
+        logger.info("저장된 토큰: " + request.getHeader("access-token"));
+        if (jwtService.isUsable(request.getHeader("access-token"))) {
             try {
                 UserDto userDto = userService.userInfo(user_email);
                 if (userDto != null) {
@@ -223,4 +236,12 @@ public class UserController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+
+    // 내 정보 수정
+
+    // 비번 변경
+
+    // 회원 탈퇴
+
 }

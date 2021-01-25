@@ -21,4 +21,5 @@ public interface UserService {
 //	public String sendAuthMail(String email);
 
 	public void updatePw(Map<String, String> map);
+
 }

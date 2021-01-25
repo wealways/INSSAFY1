@@ -22,3 +22,4 @@ public interface UserMapper {
     
     public void updatePw(Map<String, String> map);
 }
+
