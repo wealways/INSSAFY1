@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="user" id="login">
     <div class="wrapC">
@@ -11,7 +9,7 @@
       <div class="input-with-label">
         <input
           v-model="email"
-          v-bind:class="{error : error.email, complete:!error.email&&email.length!==0}"
+          v-bind:class="{ error: error.email, complete: !error.email && email.length !== 0 }"
           @keyup.enter="Login"
           id="email"
           placeholder="이메일을 입력하세요."
@@ -19,27 +17,22 @@
           autocapitalize="off"
         />
         <label for="email">이메일</label>
-        <div class="error-text" v-if="error.email">{{error.email}}</div>
+        <div class="error-text" v-if="error.email">{{ error.email }}</div>
       </div>
 
       <div class="input-with-label">
         <input
           v-model="password"
           type="password"
-          v-bind:class="{error : error.password, complete:!error.password&&password.length!==0}"
+          v-bind:class="{ error: error.password, complete: !error.password && password.length !== 0 }"
           id="password"
           @keyup.enter="onLogin"
           placeholder="비밀번호를 입력하세요."
         />
         <label for="password">비밀번호</label>
-        <div class="error-text" v-if="error.password">{{error.password}}</div>
+        <div class="error-text" v-if="error.password">{{ error.password }}</div>
       </div>
-      <button
-        class="btn btn--back btn--login"
-        @click="onLogin"
-        :disabled="!isSubmit"
-        :class="{disabled : !isSubmit}"
-      >로그인</button>
+      <button class="btn btn--back btn--login" @click="onLogin" :disabled="!isSubmit" :class="{ disabled: !isSubmit }">로그인</button>
 
       <div class="sns-login">
         <div class="text">
@@ -71,25 +64,24 @@
 </template>
 
 <script>
-import "../../components/css/user.scss";
-import PV from "password-validator";
-import * as EmailValidator from "email-validator";
-import KakaoLogin from "../../components/user/snsLogin/Kakao.vue";
-import GoogleLogin from "../../components/user/snsLogin/Google.vue";
+import '../../components/css/user.scss';
+import PV from 'password-validator';
+import * as EmailValidator from 'email-validator';
+import KakaoLogin from '../../components/user/snsLogin/Kakao.vue';
+import GoogleLogin from '../../components/user/snsLogin/Google.vue';
 // import UserApi from "../../api/UserApi";
 
-
 //mapGetters 등록
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 import * as authApi from '@/api/auth';
 
 export default {
   components: {
     KakaoLogin,
-    GoogleLogin
+    GoogleLogin,
   },
   computed: {
-    ...mapGetters(["getEmail", "getNickname"])
+    ...mapGetters(['getEmail', 'getNickname']),
   },
   created() {
     this.component = this;
@@ -106,7 +98,7 @@ export default {
   },
   mounted() {
     let tempEmail = this.$route.params.email;
-    if(tempEmail){
+    if (tempEmail) {
       this.email = tempEmail;
     }
   },
@@ -116,37 +108,34 @@ export default {
     },
     email: function(v) {
       this.checkForm();
-    }
+    },
   },
   methods: {
     checkForm() {
-      if (this.email.length >= 0 && !EmailValidator.validate(this.email))
-        this.error.email = "이메일 형식이 아닙니다.";
+      if (this.email.length >= 0 && !EmailValidator.validate(this.email)) this.error.email = '이메일 형식이 아닙니다.';
       else this.error.email = false;
 
-      if (
-        this.password.length >= 0 &&
-        !this.passwordSchema.validate(this.password)
-      )
-        this.error.password = "영문,숫자 포함 8 자리이상이어야 합니다.";
+      if (this.password.length >= 0 && !this.passwordSchema.validate(this.password)) this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.';
       else this.error.password = false;
 
       let isSubmit = true;
-      Object.values(this.error).map(v => {
+      Object.values(this.error).map((v) => {
         if (v) isSubmit = false;
       });
       this.isSubmit = isSubmit;
     },
     onLogin() {
-      authApi.login(this.email, this.password).then(response =>{
-        console.log(response.data);
-        this.$router.push({name: 'Main', params: {member: response.data.data}});
-      }).catch(error => {
-        console.log(error);
-        alert("일치하는 계정을 찾을 수 없습니다.\n이메일, 비밀번호를 확인해 주십시오.");
-        this.password = '';
-      });
-
+      authApi
+        .login(this.email, this.password)
+        .then((response) => {
+          console.log(response.data);
+          this.$router.push({ name: 'Main', params: { member: response.data.data } });
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('일치하는 계정을 찾을 수 없습니다.\n이메일, 비밀번호를 확인해 주십시오.');
+          this.password = '';
+        });
 
       /* 스켈레톤 통신
       if (this.isSubmit) {
@@ -177,30 +166,29 @@ export default {
         );
       }
         */
-    }
+    },
   },
   data: () => {
     return {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       passwordSchema: new PV(),
       error: {
         email: false,
-        password: false
+        password: false,
       },
       isSubmit: false,
-      component: this
+      component: this,
     };
-  }
+  },
 };
 </script>
 
-
 <style scoped>
-h1{
+h1 {
   margin-top: 15px;
 }
-button{
+button {
   transition: 0.3s background-color ease-in-out;
 }
 .disabled {
