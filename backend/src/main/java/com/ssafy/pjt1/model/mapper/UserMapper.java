@@ -11,16 +11,17 @@ public interface UserMapper {
     public UserDto login(UserDto userDto);
 
     public int join(UserDto userDto);
-    
+
     public UserDto emailCheck(String user_email);
 
-	public void updateAuthKey(Map<String, String> map);
+    public void updateAuthKey(Map<String, String> map);
 
     public void updateAuthStatus(Map<String, String> map);
-    
-    public UserDto userInfo(String user_email); 
-    
+
+    public UserDto userInfo(String user_email);
+
     public void updatePw(Map<String, String> map);
 
-}
+    public int user_modify(UserDto userDto);
 
+}

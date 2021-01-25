@@ -17,9 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,21 +50,21 @@ public class UserServiceImpl implements UserService {
 		StringBuffer buffer = new StringBuffer();
 
 		for (int i = 0; i < 13; i++) {
-		    int rIndex = random.nextInt(3);
-		    switch (rIndex) {
-		    case 0:
-		        // a-z
-		        buffer.append((char) ((int) (random.nextInt(26)) + 97));
-		        break;
-		    case 1:
-		        // A-Z
-		        buffer.append((char) ((int) (random.nextInt(26)) + 65));
-		        break;
-		    case 2:
-		        // 0-9
-		        buffer.append((random.nextInt(10)));
-		        break;
-		    }
+			int rIndex = random.nextInt(3);
+			switch (rIndex) {
+				case 0:
+					// a-z
+					buffer.append((char) ((int) (random.nextInt(26)) + 97));
+					break;
+				case 1:
+					// A-Z
+					buffer.append((char) ((int) (random.nextInt(26)) + 65));
+					break;
+				case 2:
+					// 0-9
+					buffer.append((random.nextInt(10)));
+					break;
+			}
 		}
 		return buffer.toString();
 	}
@@ -88,6 +88,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updatePw(Map<String, String> map) {
 		sqlSession.getMapper(UserMapper.class).updatePw(map);
+	}
+
+	@Override
+	public int user_modify(UserDto userDto) {
+		return sqlSession.getMapper(UserMapper.class).user_modify(userDto);
 	}
 
 }

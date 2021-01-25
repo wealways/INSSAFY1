@@ -76,8 +76,7 @@ public class UserController {
                 logger.info("로그인 토큰정보 : {}", token);
                 // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
                 resultMap.put("auth-token", token);
-                resultMap.put("user-email", loginUser.getUser_email());
-                resultMap.put("user-nickname", loginUser.getUser_nickname());
+                resultMap.put("userDto", userDto);
                 resultMap.put("message", "SUCCESS");
                 status = HttpStatus.ACCEPTED;
             } else {
@@ -227,12 +226,12 @@ public class UserController {
      * 
      * @return ResultMap
      */
-    @GetMapping("/userInfo/{user_email}")
+    @GetMapping("/user/{user_email}")
     public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_email") String user_email,
             HttpServletResponse response, HttpSession session, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("/userInfo/user_email 호출성공");
+        logger.info("/user/user_email 호출성공");
         logger.info("저장된 토큰: " + request.getHeader("auth-token"));
         if (jwtService.isUsable(request.getHeader("auth-token"))) {
             try {
@@ -250,10 +249,51 @@ public class UserController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
-    // 내 정보 수정
+    /*
+     * 기능: 내 정보 수정(이미지, 닉네임, 지역, 기수)
+     * 
+     * developer: 문진환
+     * 
+     * @param :
+     * 
+     * @return
+     */
+    @PostMapping("/user/modify")
+    public ResponseEntity<Map<String, Object>> user_modify(@RequestBody UserDto userDto, HttpServletResponse response,
+            HttpSession session, HttpServletRequest request) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("/modify 호출 성공");
+        try {
+            if (userService.user_modify(userDto) == 1) {
+                resultMap.put("message", "SUCCESS");
+            } else {
+                resultMap.put("message", "FAIL");
+            }
+        } catch (Exception e) {
+            resultMap.put("message", "FAIL");
+            logger.error("수정 실패", e);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+    /*
+     * 기능: 패스워드 변경
+     * 
+     * developer: 문진환
+     * 
+     * @param :
+     * 
+     * @return
+     */
 
-    // 비번 변경
-
-    // 회원 탈퇴
+    /*
+     * 기능: 회원 탈퇴
+     * 
+     * developer: 문진환
+     * 
+     * @param :
+     * 
+     * @return
+     */
 
 }
