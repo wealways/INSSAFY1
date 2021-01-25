@@ -60,8 +60,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateAuthStatus(String email) {
-		sqlSession.getMapper(UserMapper.class).updateAuthStatus(email);
+	public void updateAuthStatus(Map<String, String> map) {
+		sqlSession.getMapper(UserMapper.class).updateAuthStatus(map);
 	}
 	
 

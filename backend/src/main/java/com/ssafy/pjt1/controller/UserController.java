@@ -123,9 +123,9 @@ public class UserController {
     }
     
     @GetMapping("/joinConfirm")
-    public ResponseEntity<Map<String, Object>> signUpConfirm(@RequestBody UserDto userDto){
-    	String email = userDto.getUser_email();
-       userService.updateAuthStatus(email);
+    public ResponseEntity<Map<String, Object>> signUpConfirm(@RequestParam Map<String, String> map){
+       userService.updateAuthStatus(map);
+       logger.info("authentication");
        
        Map<String, Object> resultMap = new HashMap<>();
        HttpStatus status = HttpStatus.ACCEPTED;

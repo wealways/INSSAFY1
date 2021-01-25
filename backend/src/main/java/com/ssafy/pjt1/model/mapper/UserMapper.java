@@ -16,5 +16,5 @@ public interface UserMapper {
 
 	public void updateAuthKey(Map<String, String> map);
 
-	public void updateAuthStatus(String email);
+	public void updateAuthStatus(Map<String, String> map);
 }
