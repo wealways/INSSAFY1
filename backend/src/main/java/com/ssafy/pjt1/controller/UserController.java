@@ -122,7 +122,7 @@ public class UserController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
     
-    @GetMapping("/user/joinConfirm")
+    @GetMapping("/joinConfirm")
     public ResponseEntity<Map<String, Object>> signUpConfirm(@RequestBody UserDto userDto){
     	String email = userDto.getUser_email();
        userService.updateAuthStatus(email);

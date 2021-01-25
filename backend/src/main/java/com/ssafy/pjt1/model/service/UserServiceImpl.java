@@ -2,7 +2,6 @@ package com.ssafy.pjt1.model.service;
 
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.mapper.UserMapper;
-import com.ssafy.pjt1.util.MailUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
