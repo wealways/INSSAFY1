@@ -6,7 +6,7 @@
 	<select id="login" parameterType="UserDto" resultType="UserDto">
 		select * 
 		from user 
-		where user_email=#{user_email} and user_password = #{user_password};	
+		where user_email=#{user_email};	
 	</select>
 
 	<insert id="join" parameterType="UserDto">
@@ -33,8 +33,8 @@
         user_auth = 1
         where user_email = #{email}
     </update>
-    
-    <update id="updatePw" parameterType="map">
+
+	<update id="updatePw" parameterType="map">
         update user set
         user_password = #{pw}
         where user_email = #{email}
