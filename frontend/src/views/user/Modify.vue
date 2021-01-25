@@ -91,19 +91,5 @@ input {
   transition: .2s;
   outline: none;
 }
-.etc-options {
-  display: flex;
-  flex-direction: column;
-}
-.etc-option-item {
-  display: flex;
-  justify-content: space-between;
-}
-.etc-option-item p {
-  margin-bottom: 0;
-}
-.etc_option_item a {
-  margin: auto 0;
-  margin-bottom: 0;
-}
+
 </style>

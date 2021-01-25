@@ -5,9 +5,9 @@
     </nav>
     <div class="join">
       <h1>회원가입</h1>
-      <div class="join__form">
-        <div class="join__input">
-          <div class="input_with_label">
+      <div class="join-form">
+        <div class="join-input">
+          <div class="input-with-label">
             <label for="email">이메일</label>
             <input
               id="email"
@@ -16,7 +16,7 @@
             />
             <div class="error-text">에러메시지</div>
           </div>
-          <div class="input_with_label">
+          <div class="input-with-label">
             <label for="email">비밀번호</label>
             <input
               id="email"
@@ -25,7 +25,7 @@
             />
             <div class="error-text">에러메시지</div>
           </div>
-          <div class="input_with_label">
+          <div class="input-with-label">
             <label for="email">비밀번호확인</label>
             <input
               id="email"
@@ -34,7 +34,7 @@
             />
             <div class="error-text">에러메시지</div>
           </div>
-          <div class="input_with_label">
+          <div class="input-with-label">
             <label for="email">닉네임</label>
             <input
               id="email"
@@ -56,7 +56,7 @@
             </select>
           </div>
 
-          <div class="input_with_label">
+          <div class="input-with-label">
             <label for="email">반</label>
             <input
               id="email"
@@ -87,11 +87,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   /* align-items: center; */
-  max-width: 812px;
+  max-width: 580px;
   width: 100%;
   margin: 0 auto;
 }
-.join__form {
+.join-form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -99,7 +99,7 @@ export default {
   height: 40vh;
   width: 100%;
 }
-.join__input {
+.join-input {
   width: 100%;
   float: left;
   position: relative;
@@ -123,25 +123,16 @@ input, select {
   font-size: 0.8rem;
   color: #ff0404;
 }
-.etc_options {
-  display: flex;
-  flex-direction: column;
-}
-.etc_option_item {
-  display: flex;
-  justify-content: space-between;
-}
-.etc_option_item p {
-  margin-bottom: 0;
-}
-.etc_option_item a {
-  margin: auto 0;
-  margin-bottom: 0;
-}
+
 .btn-join{
   position: fixed;
   bottom: 17px;
   
   text-align: center;
+}
+@media screen and (max-width:576px) {
+  .btn-join{
+    width: 100%;
+  }
 }
 </style>

@@ -3,6 +3,10 @@ import Join from './views/user/Join.vue'
 import FeedMain from './views/feed/IndexFeed.vue'
 import Components from './views/Components.vue'
 
+//board
+import Board from './views/boards/Board.vue'
+import PostDetail from './views/boards/PostDetail.vue'
+
 //redirect vue
 import PageNotFound from './views/redirect/PageNotFound'
 import Errors from './views/redirect/Errors'
@@ -33,6 +37,17 @@ export default [
         path : '/components',
         name : 'Components',
         component : Components
+    },
+    //board
+    {
+        path : '/boards',
+        name : 'Baord',
+        component : Board
+    },
+    {
+        path: '/boards/post',
+        name : 'Post',
+        component : PostDetail
     },
 
     //redirect 영역
