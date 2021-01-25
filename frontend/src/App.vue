@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import './components/css/style.scss';
+// import './components/css/style.scss';
 import './components/css/static/style.css';
 
 import Nav from './components/header/Nav.vue';
