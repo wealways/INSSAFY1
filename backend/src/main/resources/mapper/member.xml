@@ -6,7 +6,7 @@
 	<select id="login" parameterType="UserDto" resultType="UserDto">
 		select * 
 		from user 
-		where user_email=#{user_email};	
+		where user_email=#{user_email} and user_password = #{user_password};	
 	</select>
 
 	<insert id="join" parameterType="UserDto">
@@ -34,29 +34,9 @@
         where user_email = #{email}
     </update>
 
-	<update id="updatePw" parameterType="map">
-        update user set
-        user_password = #{pw}
-        where user_email = #{email}
-    </update>
-
-	<select id="userInfo" parameterType="string" resultType="UserDto">
+	<select id="userInfo" parameterType="userDto" resultType="UserDto">
 		select *
 		from user
-		where user_id=#{user_id};
+		where user_email=#{user_email};
 	</select>
-
-	<update id="userModify" parameterType="userDto">
-		update user
-		set user_image = #{user_image}, user_nickname=#{user_nickname}, user_location=#{user_location}, user_generation=#{user_generation}
-		where user_email = #{user_email}
-	</update>
-
-	<delete id="userDelete" parameterType="string">
-		delete
-		from user
-		where user_id=#{user_id}
-	</delete>
-
-	<select id="getSubBoards"></select>
 </mapper>

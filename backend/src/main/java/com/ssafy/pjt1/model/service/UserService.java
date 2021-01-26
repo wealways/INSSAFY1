@@ -8,21 +8,15 @@ public interface UserService {
     public UserDto login(UserDto userDto);
 
     public boolean join(UserDto userDto);
-
+    
     public UserDto emailCheck(String user_email);
+	
+	public String getId();
+	
+	public void updateAuthKey(Map<String, String> map);
 
-    public String getId();
-
-    public void updateAuthKey(Map<String, String> map);
-
-    public void updateAuthStatus(Map<String, String> map);
-
-    public UserDto userInfo(String user_id);
-    // public String sendAuthMail(String email);
-
-    public void updatePw(Map<String, String> map);
-
-    public int userModify(UserDto userDto);
-
-    public int userDelete(String user_id);
+	public void updateAuthStatus(Map<String, String> map);
+    
+    public UserDto userInfo(String user_email);
+//	public String sendAuthMail(String email);
 }
