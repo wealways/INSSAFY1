@@ -5,13 +5,18 @@ import Main from './views/main/Main.vue'
 //로그인 영역
 import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
-import FeedMain from './views/feed/IndexFeed.vue'
-import Components from './views/Components.vue'
 import Mypage from '@/views/user/Mypage.vue'
 
 //board
 import Board from './views/boards/Board.vue'
 import PostDetail from './views/boards/PostDetail.vue'
+
+//search
+import SearchPost from './views/search/SearchPost.vue'
+import SearchBoard from './views/search/SearchBoard.vue'
+
+// Chat
+import ChatPage from './views/openchat/ChatPage.vue'
 
 //redirect vue
 import PageNotFound from './views/redirect/PageNotFound'
@@ -28,9 +33,9 @@ export default [
         path : '/main',
         name : 'Main',
         component : Main
-    },    
-
-
+    },
+    
+    // 사용자 관련 영역    
     {
         path : '/',
         name : 'Login',
@@ -46,6 +51,7 @@ export default [
         name : 'Mypage',
         component : Mypage
     },
+    
     //board
     {
         path : '/boards',
@@ -56,6 +62,25 @@ export default [
         path: '/boards/post',
         name : 'Post',
         component : PostDetail
+    },
+
+    // 검색 관련 영역
+    {
+        path : '/post/search',
+        name : 'SearchPost',
+        component : SearchPost
+    },
+    {
+        path : '/board/search',
+        name : 'SearchBoard',
+        component : SearchBoard
+    },
+
+    // 채팅 관련 영역
+    {
+        path : '/chat',
+        name : 'ChatPage',
+        component : ChatPage,
     },
 
     //redirect 영역
