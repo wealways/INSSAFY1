@@ -32,5 +32,11 @@
 		delete from subscription 
 		where board_id = #{board_id} and user_id = #{user_id} and user_role != 1;
 	</delete>
+
+	<select id="getUser" parameterType="string" resultType="UserDto">
+		select *
+		from user
+		where user_email like concat('%',#{user_name} ,'%');
+	</select>
 	
 </mapper>
