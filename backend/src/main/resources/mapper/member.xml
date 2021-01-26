@@ -40,10 +40,10 @@
         where user_email = #{email}
     </update>
 
-	<select id="userInfo" parameterType="userDto" resultType="UserDto">
+	<select id="userInfo" parameterType="string" resultType="UserDto">
 		select *
 		from user
-		where user_email=#{user_email};
+		where user_id=#{user_id};
 	</select>
 
 	<update id="userModify" parameterType="userDto">
@@ -51,4 +51,10 @@
 		set user_image = #{user_image}, user_nickname=#{user_nickname}, user_location=#{user_location}, user_generation=#{user_generation}
 		where user_email = #{user_email}
 	</update>
+
+	<delete id="userDelete" parameterType="string">
+		delete
+		from user
+		where user_id=#{user_id}
+	</delete>
 </mapper>

@@ -12,6 +12,7 @@ import com.ssafy.pjt1.model.service.JwtService;
 import com.ssafy.pjt1.model.service.MailSendService;
 import com.ssafy.pjt1.model.service.UserService;
 
+import org.apache.ibatis.annotations.ResultMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -67,16 +70,13 @@ public class UserController {
             UserDto loginUser = userService.login(userDto);
             logger.info("로그인 객체 : " + loginUser.getUser_email());
             if (loginUser != null
-                    && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {// inpt값과 암호화
-                                                                                                           // 패스워드 비교->
-                                                                                                           // true/false
-                                                                                                           // 반환
+                    && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {
                 String token = jwtService.create("userid", loginUser.getUser_email(), "auth-token");// key, data,
                                                                                                     // subject
                 logger.info("로그인 토큰정보 : {}", token);
                 // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
                 resultMap.put("auth-token", token);
-                resultMap.put("userDto", userDto);
+                resultMap.put("user", loginUser);
                 resultMap.put("message", "SUCCESS");
                 status = HttpStatus.ACCEPTED;
             } else {
@@ -227,25 +227,21 @@ public class UserController {
      * 
      * @return ResultMap
      */
-    @GetMapping("/user/{user_email}")
-    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_email") String user_email,
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_id") String user_id,
             HttpServletResponse response, HttpSession session, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/user/user_email 호출성공");
         logger.info("저장된 토큰: " + request.getHeader("auth-token"));
-        if (jwtService.isUsable(request.getHeader("auth-token"))) {
-            try {
-                UserDto userDto = userService.userInfo(user_email);
-                if (userDto != null) {
-                    resultMap.put("userDto", userDto);
-                    resultMap.put("message", "SUCCESS");
-                }
-            } catch (Exception e) {
-                resultMap.put("message", "FAIL");
+        try {
+            UserDto userDto = userService.userInfo(user_id);
+            if (userDto != null) {
+                resultMap.put("user", userDto);
+                resultMap.put("message", "SUCCESS");
             }
-        } else {
-            logger.info("토큰 인증 실패");
+        } catch (Exception e) {
+            resultMap.put("message", "FAIL");
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -259,7 +255,7 @@ public class UserController {
      * 
      * @return
      */
-    @PostMapping("/user/modify")
+    @PutMapping("/user")
     public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto, HttpServletResponse response,
             HttpSession session, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -268,15 +264,24 @@ public class UserController {
         try {
             if (userService.userModify(userDto) == 1) {
                 resultMap.put("message", "SUCCESS");
-            } else {
-                resultMap.put("message", "FAIL");
             }
         } catch (Exception e) {
             resultMap.put("message", "FAIL");
             logger.error("수정 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+    /*
+     * 기능: 패스워드 변경시 기존 패스워드 한번더 체크
+     * 
+     * developer: 문진환
+     * 
+     * @param :
+     * 
+     * @return :
+     */
+    
     /*
      * 기능: 패스워드 변경
      * 
@@ -284,7 +289,7 @@ public class UserController {
      * 
      * @param :
      * 
-     * @return
+     * @return :
      */
 
     /*
@@ -292,9 +297,24 @@ public class UserController {
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : user_id
      * 
-     * @return
+     * @return : SUCCESS
      */
-
+    @DeleteMapping("/user/{user_id}")
+    public ResponseEntity<Map<String, Object>> userDelete(@PathVariable("user_id") String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("@delte /user 호출성공");
+        logger.info("user_id :" + user_id);
+        try {
+            if (userService.userDelete(user_id) == 1) {
+                resultMap.put("message", "SUCCESS");
+            }
+        } catch (Exception e) {
+            resultMap.put("message", "FAIL");
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 }
