@@ -33,10 +33,23 @@
 		where board_id = #{board_id} and user_id = #{user_id} and user_role != 1;
 	</delete>
 
-	<select id="getUser" parameterType="string" resultType="UserDto">
+	<select id="searchUser" parameterType="string" resultType="UserDto">
 		select *
 		from user
 		where user_email like concat('%',#{user_name} ,'%');
 	</select>
 	
+	<update id="updateManager" parameterType="map">
+		update subscription
+		set user_role = 1
+		where board_id = #{board_id} and user_id = #{user_id};
+	</update>
+
+	<update id="modifyBoard" parameterType="BoardDto">
+		update board
+		set board_name = #{board_name}, board_description = #{board_description}, board_image=#{board_image}, 
+		board_igmyeong=#{board_igmyeong}, board_location=#{board_location}, board_hash=#{board_hash}
+		where board_id = #{board_id}
+	</update>
+
 </mapper>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ import com.ssafy.pjt1.model.service.BoardService;
 @RequestMapping("/board")
 public class BoardController {
 
-    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    public static final Logger logger = LoggerFactory.getLogger(BoardController.class);
     private static final String SUCCESS = "success";
     private static final String FAIL = "fail";
 
@@ -38,6 +39,7 @@ public class BoardController {
     public ResponseEntity<Map<String, Object>> join(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("board/create 호출성공");
         try {
             BoardDto boardDto = new BoardDto();
             boardDto.setBoard_name((String) param.get("board_name"));
@@ -74,7 +76,7 @@ public class BoardController {
     public ResponseEntity<Map<String, Object>> subscribe(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("board/subscribe");
+        logger.info("board/subscribe 호출성공");
         try {
             Map<String, Object> map = new HashMap<>();
             map.put("user_id", (String) param.get("user_id"));
@@ -100,14 +102,14 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
-    @GetMapping("/searchMember/{keyword}")
-    public ResponseEntity<Map<String, Object>> getComments(@PathVariable("keyword") String keyword) {
+    @GetMapping("/searchUser/{keyword}")
+    public ResponseEntity<Map<String, Object>> searchUser(@PathVariable("keyword") String keyword) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("board/searchMember 호출성공");
+        logger.info("board/searchUser 호출성공");
         try {
             resultMap.put("message", SUCCESS);
-            List<UserDto> userList = boardService.getUserList(keyword);
+            List<UserDto> userList = boardService.searchUser(keyword);
             resultMap.put("userList", userList);
             
         } catch (Exception e) {
@@ -116,5 +118,50 @@ public class BoardController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    @PostMapping("/updateManager")
+    public ResponseEntity<Map<String, Object>> updateManager(@RequestBody Map<String, Object> param){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("board/updateManager 호출성공");
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("user_id", (String) param.get("user_id"));
+            map.put("board_id", (String) param.get("board_id"));
+            int count = boardService.isSubscribed(map);
+            if (count == 0) {
+                logger.info("구독 설정 + 관리자 추가");
+                map.put("user_role",1);
+                boardService.subscribe(map);
+            } else {
+                logger.info("관리자 추가");
+                boardService.updateManager(map);
+            }
+
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Map<String, Object>> modifyBoard(@RequestBody BoardDto boardDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("/modify 호출 성공");
+        try {
+            if (boardService.modifyBoard(boardDto) == 1) {
+                resultMap.put("message", SUCCESS);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("수정 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
 
 }

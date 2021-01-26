@@ -21,6 +21,10 @@ public interface BoardMapper {
 
 	public void unsubscribe(Map<String, Object> map);
 
-	public List<UserDto> getUser(String keyword);
+	public List<UserDto> searchUser(String keyword);
+
+	public void updateManager(Map<String, Object> map);
+
+	public int modifyBoard(BoardDto boardDto);
 
 }
