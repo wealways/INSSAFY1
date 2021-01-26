@@ -4,7 +4,7 @@ import store from '../vuex/store';
 
 // axios 인스턴스를 만들 때 구성 기본 값 설정
 const instance = axios.create({
-  baseURL: 'http://localhost:8080/',
+  baseURL: 'http://localhost:8000/',
 });
 
 //request 요청 전에 header에 토큰값을 넣기 위한 interceptor

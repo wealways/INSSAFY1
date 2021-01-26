@@ -46,27 +46,34 @@
         </svg>
       </div>
     </div>
-    <SearchBar searchBar="searchBar"/>
+    <SearchBar searchBar="searchBar" />
+    <h1>token:{{ getToken }}</h1>
   </div>
 </template>
 
 <script>
 import SearchBar from './SearchBar';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Nav',
-  components:{
+  components: {
     SearchBar,
   },
   data() {
     return {
-      getToken: '추후 getters로 토큰 가져오기',
       searchBar: {
-        active:false,
-        filters:[],
+        active: false,
+        filters: [],
       },
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['getUser', 'getToken']),
+  },
+  mounted() {
+    console.log(this.$store.state.auth.user.token);
+  },
   methods: {
     clickLogo: function() {
       alert('router.push => Main');

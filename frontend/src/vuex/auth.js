@@ -3,24 +3,36 @@ import * as authApi from '../api/auth';
 export default {
   namespaced: true,
   state: {
-    token: null,
-    email: '',
+    user: {
+      token: '',
+      userId: '',
+      email: '',
+      nickname: '',
+    },
   },
   mutations: {
     setToken(state, token) {
-      state.token = token;
+      state.user.token = token;
+    },
+    setId(state, id) {
+      state.user.userId = id;
+    },
+    setNickname(state, nickname) {
+      state.user.nickname = nickname;
     },
     setEmail(state, email) {
-      state.email = email;
+      state.user.email = email;
     },
   },
   actions: {
     async login(context, { email, password }) {
       try {
         const response = await authApi.login(email, password);
-        if (response.status === 200) {
-          context.commit('setToken', response.data.data);
-          context.commit('setEmail', email);
+        if (response.data.message === 'success') {
+          context.commit('setToken', response.data.auth_token);
+          context.commit('setId', response.data.user.user_id);
+          context.commit('setEmail', response.data.user.user_email);
+          context.commit('setNickname', response.data.user.user_nickname);
         }
         return response;
       } catch (error) {
