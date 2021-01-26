@@ -5,8 +5,8 @@
 
 	<select id="login" parameterType="UserDto" resultType="UserDto">
 		select * 
-		from user
-		where user_email=#{user_email};
+		from user 
+		where user_email=#{user_email};	
 	</select>
 
 	<insert id="join" parameterType="UserDto">
