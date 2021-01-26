@@ -74,6 +74,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void updatePw(Map<String, String> map) {
+		sqlSession.getMapper(UserMapper.class).updatePw(map);
+	}
+
+	@Override
 	public int userModify(UserDto userDto) {
 		return sqlSession.getMapper(UserMapper.class).userModify(userDto);
 	}
@@ -85,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Subscription> getSubBoards(String user_id) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
