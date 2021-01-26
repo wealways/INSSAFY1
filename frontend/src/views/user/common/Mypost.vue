@@ -3,12 +3,14 @@
     <div class="name">소속보드</div>
     <div class="title">
       <div class="first-line">
-        <h4>작성한 게시글 제목</h4>
-        <button>삭제</button>
+        <p>작성한 게시글 제목</p>
+        <button>X</button>
       </div>
       <div class="first-line">
-        <div>2021-01-25</div>
-        <div>좋아요: 10 댓글: 5</div>
+        <div>
+          <p>2021-01-25</p>
+        </div>
+        <div style="flex-wrap: no-wrap;">10 5</div>
       </div>
     </div>
   </div>
@@ -16,11 +18,15 @@
 
 <script>
 export default {
-  name: "mypost",
+  name: "MyPost",
 }
 </script>
 
 <style scoped>
+div,
+p {
+  font-size: 1rem;
+}
 .post {
   display: flex;
   flex-direction: row;
@@ -32,7 +38,7 @@ export default {
   width: 1fr;
   height: 1fr;
   text-align: center;
-  padding-top: 10%;
+  padding-top: 5%;
   background-color: #797979;
   box-sizing: border-box;
 }

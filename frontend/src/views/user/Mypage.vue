@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-box">
     <div id="left-sidebar" class="box">
       <!-- 사용자 정보 보여주는 부분 -->
       <div class="user-profile">
@@ -36,54 +36,59 @@
     </div>
     <div class="box">
       <!-- 내가 작성한 글 컴포넌트 -->
-      <h1 style="margin: 0;">내 작성글</h1>
-      <Mypost />
-      <Mypost />
-      <Mypost />
-      <Mypost />
+      <h2 style="margin: 0;">내 작성글</h2>
+      <MyPost />
+      <MyPost />
+      <MyPost />
+      <MyPost />
     </div>
     <div class="box">
       <!-- 내가 작성한 댓글 컴포넌트 -->
-      <h1 style="margin: 0;">내 댓글</h1>
-      <Mypost />
-      <Mypost />
-      <Mypost />
+      <h2 style="margin: 0;">내 댓글</h2>
+      <MyPost />
+      <MyPost />
+      <MyPost />
     </div>
     <div class="box">
       <!-- 내가 스크랩한 글 컴포넌트 -->
-      <h1 style="margin: 0;">스크랩</h1>
+      <h2 style="margin: 0;">스크랩</h2>
       <ScrapPost />
       <ScrapPost />
       <ScrapPost />
       <ScrapPost />
       <ScrapPost />
-    </div>
+    </div> 
   </div>
 </template>
 
 <script>
 import Subscription from "../user/common/Subscription.vue"
-import Mypost from "../user/common/Mypost.vue"
+import MyPost from "../user/common/MyPost.vue"
 import ScrapPost from "../user/common/ScrapPost.vue"
 
 export default {
   name: "mypage",
   components: {
     Subscription,
-    Mypost,
+    MyPost,
     ScrapPost,
-  }
+  },
 }
 </script>
 <style scoped>
 /* 마이페이지 전체 컨테이너 속성 */
-.container {
-	height: 100vh;
+.container-box {
   display: flex;
   flex-direction: row;
-  justify-content: column;
-  margin: 0 10rem 0 10rem;
+  justify-content: space-evenly;
+  flex-flow: nowrap;
+  margin: 0 5% 0 5%;
+  height: 100vh;
   }
+/* 각 컬럼들 - 내정보&구독 / 작성글 / 작성 댓글/ 스크랩한 글 */
+div > div {
+  padding-top: 0;
+}
 /* 내 정보 보여줄 부분 */
 #left-sidebar {
   display: flex;
@@ -158,8 +163,8 @@ export default {
 /* 모바일 웹 반응형 사이즈 */
 @media (max-width: 425px) {
   /* 마이페이지 전체 컨테이너 속성 */
-  .container {
-    height: 100vh;
+  .container-box {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: column;

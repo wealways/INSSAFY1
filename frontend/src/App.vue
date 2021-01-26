@@ -9,6 +9,7 @@
 import './assets/css/static/style.css';
 
 import Nav from './components/header/Nav.vue';
+
 export default {
   name: 'app',
   components: {

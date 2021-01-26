@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "subscription",
+  name: "Subscription",
 }
 </script>
 
