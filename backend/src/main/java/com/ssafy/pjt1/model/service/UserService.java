@@ -10,7 +10,7 @@ public interface UserService {
     public UserDto login(UserDto userDto);
 
     public boolean join(UserDto userDto);
-
+    
     public UserDto emailCheck(String user_email);
 
     public String getId();

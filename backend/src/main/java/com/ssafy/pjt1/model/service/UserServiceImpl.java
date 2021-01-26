@@ -17,10 +17,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,24 +47,13 @@ public class UserServiceImpl implements UserService {
 	public String getId() {
 		Random random = new Random();
 		StringBuffer buffer = new StringBuffer();
+		int num = 0;
 
-		for (int i = 0; i < 13; i++) {
-			int rIndex = random.nextInt(3);
-			switch (rIndex) {
-				case 0:
-					// a-z
-					buffer.append((char) ((int) (random.nextInt(26)) + 97));
-					break;
-				case 1:
-					// A-Z
-					buffer.append((char) ((int) (random.nextInt(26)) + 65));
-					break;
-				case 2:
-					// 0-9
-					buffer.append((random.nextInt(10)));
-					break;
-			}
+		while (buffer.length() < 13) {
+			num = random.nextInt(10);
+			buffer.append(num);
 		}
+
 		return buffer.toString();
 	}
 
@@ -82,13 +69,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userInfo(String user_id) {
-		return sqlSession.getMapper(UserMapper.class).userInfo(user_id);
-	}
-
-	@Override
-	public void updatePw(Map<String, String> map) {
-		sqlSession.getMapper(UserMapper.class).updatePw(map);
+	public UserDto userInfo(String user_email) {
+		return sqlSession.getMapper(UserMapper.class).userInfo(user_email);
 	}
 
 	@Override

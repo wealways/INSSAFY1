@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.pjt1.model.mapper.BoardMapper">
+
+	<insert id="createBoard" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="board_id">
+		insert into board (board_name, board_description, board_image, board_igmyeong,
+		board_location,board_hash,board_date,user_id)
+		values ( #{board_name}, #{board_description}, #{board_image}, #{board_igmyeong} ,
+		#{board_location}, #{board_hash}, now(), #{user_id})
+	</insert>
+	
+	<insert id="subscribe" parameterType="map">
+		insert into subscription values (
+		#{board_id}, #{user_id}, 0, 0, #{user_role}
+		)
+	</insert>
+	
+	<insert id="addFunction" parameterType="map">
+		insert into add_function values (
+		#{board_id}, #{checklist_flag}, #{calendar_flag}, #{vote_flag}
+		)
+	</insert>
+	
+	<select id="isSubscribed" parameterType="map" resultType="int">
+		select count(*)
+		from subscription 
+		where board_id = #{board_id} and user_id = #{user_id};	
+	</select>
+	
+	<delete id="unsubscribe"> 
+		delete from subscription 
+		where board_id = #{board_id} and user_id = #{user_id} and user_role != 1;
+	</delete>
+	
+</mapper>
