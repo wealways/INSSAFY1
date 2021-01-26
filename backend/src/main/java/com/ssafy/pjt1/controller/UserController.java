@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.qos.logback.core.status.Status;
+
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/account")
@@ -187,7 +189,7 @@ public class UserController {
     }
 
     /*
-     * 기능: 패스워드 찾기
+     * 기능: 패스워드 찾기, 임의의 토큰 값으로 패스워드 변경
      * 
      * developer: 윤수민
      * 
@@ -272,25 +274,62 @@ public class UserController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
     /*
      * 기능: 패스워드 변경시 기존 패스워드 한번더 체크
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : 아이디, 비밀번호
      * 
      * @return :
      */
-    
+    @PostMapping("/user/password")
+    public ResponseEntity<Map<String, Object>> passwordCheck(@RequestBody Map<String, String> map) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        try {
+            UserDto encodedUser = userService.userInfo(map.get("user_id"));
+            if (passwordEncoder.matches(map.get("user_password"), encodedUser.getUser_password())) {
+                resultMap.put("message", "SUCCESS");
+            } else {
+                resultMap.put("message", "FAIL");
+            }
+        } catch (Exception e) {
+            resultMap.put("message", "FAIL");
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            logger.error("error", e);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
     /*
      * 기능: 패스워드 변경
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : user_email, user_password
      * 
      * @return :
      */
+    @PutMapping("/user/password")
+    public ResponseEntity<Map<String, Object>> passwordModify(@RequestBody Map<String, String> map) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("@put /user/password 호출 성공");
+        try {
+            // 패스워드 암호화해서 저장
+            String encoded_password = passwordEncoder.encode(map.get("user_password"));
+            map.put("pw", encoded_password);
+            map.put("email", map.get("user_email"));
+            userService.updatePw(map);
+            resultMap.put("message", "SUCCESS");
+        } catch (Exception e) {
+            resultMap.put("message", "FAIL");
+            logger.error("실패", e);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
     /*
      * 기능: 회원 탈퇴
