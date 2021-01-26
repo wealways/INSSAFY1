@@ -58,5 +58,15 @@
 		where user_id=#{user_id}
 	</delete>
 
-	<select id="getSubBoards"></select>
+	<select id="getSubBoards" parameterType="string" resultType="Subscription">
+		select *
+		from subscription
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getComments" parameterType="string" resultType="Comments">
+		select *
+		from comments
+		where user_id = #{user_id}
+	</select>
 </mapper>

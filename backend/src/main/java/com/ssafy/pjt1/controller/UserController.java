@@ -1,12 +1,15 @@
 package com.ssafy.pjt1.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ssafy.pjt1.model.dto.comments.Comments;
+import com.ssafy.pjt1.model.dto.subscription.Subscription;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.service.JwtService;
 import com.ssafy.pjt1.model.service.MailSendService;
@@ -35,8 +38,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/account")
 public class UserController {
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
+    private static final String SUCCESS = "SUCCESS";
+    private static final String FAIL = "FAIL";
     @Autowired
     private UserService userService;
 
@@ -134,7 +137,7 @@ public class UserController {
     }
 
     /*
-     * 기능: 이메일 두번 중복체크
+     * 기능: 이메일 중복체크
      * 
      * developer: 윤수민
      * 
@@ -150,9 +153,8 @@ public class UserController {
         try {
             UserDto existUser = userService.emailCheck(user_email);
             if (existUser != null) {
-
-                resultMap.put("message", SUCCESS);
-                status = HttpStatus.ACCEPTED;
+                resultMap.put("message", FAIL);
+                status = HttpStatus.NO_CONTENT;
             } else {
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
@@ -356,9 +358,9 @@ public class UserController {
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : user_id
      * 
-     * @return :
+     * @return : List<Subscription>
      */
     @GetMapping("user/getSubBoards/{user_id}")
     public ResponseEntity<Map<String, Object>> getSubBoards(@PathVariable String user_id) {
@@ -366,7 +368,8 @@ public class UserController {
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("user/getSubBoards/user_id 호출성공");
         try {
-
+            List<Subscription> boards = userService.getSubBoards(user_id);
+            resultMap.put("boards", boards);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
@@ -375,4 +378,28 @@ public class UserController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 작성글 가져오기
+     * 
+     * developer: 문진환
+     * 
+     * @param : user_id
+     * 
+     * @return : List<Subscription>
+     */
+    @GetMapping("user/getComments/{user_id}")
+    public ResponseEntity<Map<String, Object>> getComments(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getComents/user_id 호출성공");
+        try {
+            resultMap.put("message", SUCCESS);
+            List<Comments> comments = userService.getComments(user_id);
+            resultMap.put("comments", comments);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 }

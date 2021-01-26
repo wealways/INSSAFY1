@@ -1,5 +1,6 @@
 package com.ssafy.pjt1.model.service;
 
+import com.ssafy.pjt1.model.dto.comments.Comments;
 import com.ssafy.pjt1.model.dto.subscription.Subscription;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.mapper.UserMapper;
@@ -90,8 +91,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Subscription> getSubBoards(String user_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.getMapper(UserMapper.class).getSubBoards(user_id);
+	}
+
+	@Override
+	public List<Comments> getComments(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getComments(user_id);
 	}
 
 }
