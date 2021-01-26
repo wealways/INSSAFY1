@@ -82,5 +82,5 @@ public class UserDto {
 	public void setUser_authKey(String user_authKey) {
 		this.user_authKey = user_authKey;
 	}
-  
+
 }

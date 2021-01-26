@@ -1,18 +1,20 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import getters from './getters'
-import actions from './actions'
-import mutations from './mutations'
+//기본 셋팅
+import Vue from 'vue';
+import Vuex from 'vuex';
+//
+import getters from './getters';
+import actions from './actions';
+import mutations from './mutations';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
-    isUser: false,
-}
+  isUser: false,
+};
 
 export default new Vuex.Store({
-    state,
-    mutations,
-    getters,
-    actions
-})
+  state,
+  mutations,
+  getters,
+  actions,
+});
