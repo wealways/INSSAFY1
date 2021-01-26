@@ -1,17 +1,50 @@
 @import 'reset.css';
+@import 'color.css';
 
-/* @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+/* Noto Sans KR */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+/* Bodoni Moda */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&display=swap');
+/* Nunito Sans */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
 
+/* ------------------------ */
+/* 공통 적용 활용 */
+/* ------------------------ */
+.m-top {
+  margin-top: 30px;
+}
+.m-top-s {
+  margin-top: 10px;
+}
 .icon-btn {
   width: 40px;
   height: 40px;
-  border-radius: 10px;
-  background-color: #21b0f5;
+  border: none;
 }
-
-.mobile-only {
-  display: none;
+button {
+  border: var(--basic-color-key) 1px solid;
+}
+.anim-btn {
+  animation: anim-btn 0.8s cubic-bezier(0.35, -0.01, 0.45, 1.2);
+  animation-fill-mode: both;
+}
+@keyframes anim-btn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.delay1 {
+  animation-delay: 0.1s;
+}
+.delay2 {
+  animation-delay: 0.2s;
+}
+.delay3 {
+  animation-delay: 0.3s;
 }
 
 .real-shadow-box {
@@ -22,6 +55,10 @@
   text-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.05), 0 16px 16px rgba(0, 0, 0, 0.1),
     0 32px 32px rgba(0, 0, 0, 0.1);
 }
+
+.mobile-only {
+  display: none;
+}
 @media (max-width: 426px) {
   .pc-only {
     display: none;
@@ -31,6 +68,9 @@
   }
 }
 
+/* ------------------------ */
+/* 웹폰트 */
+/* ------------------------ */
 .b-title {
   font-family: 'Bodoni Moda', serif;
   font-weight: 900;
@@ -43,6 +83,16 @@
   font-family: 'Bodoni Moda', serif;
   font-weight: 400;
 }
+
+.b-desc-e {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 900;
+}
+.t-desc-e {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 200;
+}
+
 .b-desc {
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
