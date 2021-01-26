@@ -1,0 +1,27 @@
+@import 'reset.css';
+
+:root {
+  --basic-color-bg: #ebebe9;
+  --basic-color-bg2: #f9f9f9;
+  --basic-color-key: #0b2945;
+  --basic-color-new: #aa2610;
+  --basic-color-fill: #695c4c;
+  --basic-color-fill2: #5c5c64;
+  --basic-color-fill3: #949590;
+
+  --basic-shadow-s: 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.1);
+  --basic-shadow-m: 0 2px 2px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.05), 0 16px 16px rgba(0, 0, 0, 0.1),
+    0 32px 32px rgba(0, 0, 0, 0.1);
+  --basic-shadow-b: 0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px 16px rgba(0, 0, 0, 0.1), 0 32px 32px rgba(0, 0, 0, 0.15),
+    0 64px 64px rgba(0, 0, 0, 0.15);
+}
+
+.navigation,
+#nav-logo,
+button {
+  background-color: inherit !important;
+}
+body {
+  background-color: var(--basic-color-bg) !important;
+}
