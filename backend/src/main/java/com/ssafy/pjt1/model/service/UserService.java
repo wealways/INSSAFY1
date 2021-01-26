@@ -17,10 +17,12 @@ public interface UserService {
 
     public void updateAuthStatus(Map<String, String> map);
 
-    public UserDto userInfo(String user_email);
+    public UserDto userInfo(String user_id);
     // public String sendAuthMail(String email);
 
     public void updatePw(Map<String, String> map);
 
     public int userModify(UserDto userDto);
+
+    public int userDelete(String user_id);
 }

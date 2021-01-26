@@ -19,9 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -67,21 +69,18 @@ public class UserController {
             UserDto loginUser = userService.login(userDto);
             logger.info("로그인 객체 : " + loginUser.getUser_email());
             if (loginUser != null
-                    && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {// inpt값과 암호화
-                                                                                                           // 패스워드 비교->
-                                                                                                           // true/false
-                                                                                                           // 반환
+                    && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {
                 String token = jwtService.create("userid", loginUser.getUser_email(), "auth-token");// key, data,
                                                                                                     // subject
                 logger.info("로그인 토큰정보 : {}", token);
                 // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
                 resultMap.put("auth-token", token);
-                resultMap.put("userDto", userDto);
-                resultMap.put("message", "SUCCESS");
+                resultMap.put("user", loginUser);
+                resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } else {
                 logger.info("로그인 FAIL");
-                resultMap.put("message", "FAIL");
+                resultMap.put("message", FAIL);
                 status = HttpStatus.ACCEPTED;
             }
         } catch (Exception e) {
@@ -126,10 +125,10 @@ public class UserController {
 
             // DB에 authKey 업데이트
             userService.updateAuthKey(map);
-            resultMap.put("message", "SUCCESS");
+            resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             logger.error("실패", e);
-            resultMap.put("message", "FAIL");
+            resultMap.put("message", FAIL);
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -152,22 +151,22 @@ public class UserController {
             UserDto existUser = userService.emailCheck(user_email);
             if (existUser != null) {
 
-                resultMap.put("message", "SUCCESS");
+                resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } else {
-                resultMap.put("message", "SUCCESS");
+                resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             }
         } catch (Exception e) {
             logger.error("실패", e);
-            resultMap.put("message", "FAIL");
+            resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
     /*
-     * 기능: 메일에서 링크를 누른 경우 인증하기
+     * 기능: 메일에서 링크를 누른 경우 인증 페이지 이동
      * 
      * developer: 윤수민
      * 
@@ -179,15 +178,12 @@ public class UserController {
     public String joinConfirm(@RequestParam Map<String, String> map) {
         userService.updateAuthStatus(map);
         logger.info("이메일 버튼 눌림");
-
-        Map<String, Object> resultMap = new HashMap<>();
-        HttpStatus status = HttpStatus.ACCEPTED;
         String msg = "이메일 인증이 완료되었습니다.";
         return msg;
     }
 
     /*
-     * 기능: 패스워드 찾기
+     * 기능: 패스워드 찾기, 임의의 토큰 값으로 패스워드 변경
      * 
      * developer: 윤수민
      * 
@@ -209,9 +205,9 @@ public class UserController {
             map.put("pw", encoded_password);
             map.put("email", email);
             userService.updatePw(map);
-            resultMap.put("message", "SUCCESS");
+            resultMap.put("message", SUCCESS);
         } catch (Exception e) {
-            resultMap.put("message", "FAIL");
+            resultMap.put("message", FAIL);
             logger.error(" 실패", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -227,25 +223,21 @@ public class UserController {
      * 
      * @return ResultMap
      */
-    @GetMapping("/user/{user_email}")
-    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_email") String user_email,
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_id") String user_id,
             HttpServletResponse response, HttpSession session, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/user/user_email 호출성공");
         logger.info("저장된 토큰: " + request.getHeader("auth-token"));
-        if (jwtService.isUsable(request.getHeader("auth-token"))) {
-            try {
-                UserDto userDto = userService.userInfo(user_email);
-                if (userDto != null) {
-                    resultMap.put("userDto", userDto);
-                    resultMap.put("message", "SUCCESS");
-                }
-            } catch (Exception e) {
-                resultMap.put("message", "FAIL");
+        try {
+            UserDto userDto = userService.userInfo(user_id);
+            if (userDto != null) {
+                resultMap.put("user", userDto);
+                resultMap.put("message", SUCCESS);
             }
-        } else {
-            logger.info("토큰 인증 실패");
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -255,11 +247,11 @@ public class UserController {
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : user_img, user_nickname, user_location, user_generation
      * 
      * @return
      */
-    @PostMapping("/user/modify")
+    @PutMapping("/user")
     public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto, HttpServletResponse response,
             HttpSession session, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -267,34 +259,120 @@ public class UserController {
         logger.info("/modify 호출 성공");
         try {
             if (userService.userModify(userDto) == 1) {
-                resultMap.put("message", "SUCCESS");
-            } else {
-                resultMap.put("message", "FAIL");
+                resultMap.put("message", SUCCESS);
             }
         } catch (Exception e) {
-            resultMap.put("message", "FAIL");
+            resultMap.put("message", FAIL);
             logger.error("수정 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    /*
+     * 기능: 패스워드 변경시 기존 패스워드 한번더 체크
+     * 
+     * developer: 문진환
+     * 
+     * @param : 아이디, 비밀번호
+     * 
+     * @return :
+     */
+    @PostMapping("/user/password")
+    public ResponseEntity<Map<String, Object>> passwordCheck(@RequestBody Map<String, String> map) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        try {
+            UserDto encodedUser = userService.userInfo(map.get("user_id"));
+            if (passwordEncoder.matches(map.get("user_password"), encodedUser.getUser_password())) {
+                resultMap.put("message", SUCCESS);
+            } else {
+                resultMap.put("message", FAIL);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", "FAIL");
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            logger.error("error", e);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
     /*
      * 기능: 패스워드 변경
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : user_email, user_password
      * 
-     * @return
+     * @return :
      */
+    @PutMapping("/user/password")
+    public ResponseEntity<Map<String, Object>> passwordModify(@RequestBody Map<String, String> map) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("@put /user/password 호출 성공");
+        try {
+            // 패스워드 암호화해서 저장
+            String encoded_password = passwordEncoder.encode(map.get("user_password"));
+            map.put("pw", encoded_password);
+            map.put("email", map.get("user_email"));
+            userService.updatePw(map);
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("실패", e);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
     /*
      * 기능: 회원 탈퇴
      * 
      * developer: 문진환
      * 
+     * @param : user_id
+     * 
+     * @return : SUCCESS
+     */
+    @DeleteMapping("/user/{user_id}")
+    public ResponseEntity<Map<String, Object>> userDelete(@PathVariable("user_id") String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("@delte /user 호출성공");
+        logger.info("user_id :" + user_id);
+        try {
+            if (userService.userDelete(user_id) == 1) {
+                resultMap.put("message", SUCCESS);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 구독 보드 리스트 출력
+     * 
+     * developer: 문진환
+     * 
      * @param :
      * 
-     * @return
+     * @return :
      */
+    @GetMapping("user/getSubBoards/{user_id}")
+    public ResponseEntity<Map<String, Object>> getSubBoards(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getSubBoards/user_id 호출성공");
+        try {
+
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
 }

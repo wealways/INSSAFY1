@@ -81,8 +81,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userInfo(String user_email) {
-		return sqlSession.getMapper(UserMapper.class).userInfo(user_email);
+	public UserDto userInfo(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).userInfo(user_id);
 	}
 
 	@Override
@@ -93,6 +93,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int userModify(UserDto userDto) {
 		return sqlSession.getMapper(UserMapper.class).userModify(userDto);
+	}
+
+	@Override
+	public int userDelete(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).userDelete(user_id);
 	}
 
 }

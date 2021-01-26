@@ -24,4 +24,5 @@ public interface UserMapper {
 
     public int userModify(UserDto userDto);
 
+    public int userDelete(String user_id);
 }
