@@ -16,8 +16,8 @@
 		)
 	</insert>
 
-	<select id="emailCheck" parameterType="String" resultType="UserDto">
-		select * 
+	<select id="emailCheck" parameterType="String" resultType="integer">
+		select count(*)
 		from user
 		where user_email=#{user_email};
 	</select>

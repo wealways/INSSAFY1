@@ -15,7 +15,7 @@ public interface UserMapper {
 
     public int join(UserDto userDto);
 
-    public UserDto emailCheck(String user_email);
+    public int emailCheck(String user_email);
 
     public void updateAuthKey(Map<String, String> map);
 

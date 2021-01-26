@@ -77,7 +77,7 @@ public class UserController {
                                                                                                     // subject
                 logger.info("로그인 토큰정보 : {}", token);
                 // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
-                resultMap.put("auth-token", token);
+                resultMap.put("auth_token", token);
                 resultMap.put("user", loginUser);
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
@@ -145,22 +145,24 @@ public class UserController {
      * 
      * @return time:
      */
-    @PostMapping("/confirm/emailCheck")
-    public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody String user_email) {
+    @GetMapping("/confirm/emailCheck/{user_email}")
+    public ResponseEntity<Map<String, Object>> emailCheck(@PathVariable String user_email) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("comfirm/emailcheck 호출 성공");
+        logger.info(user_email);
         try {
-            UserDto existUser = userService.emailCheck(user_email);
-            if (existUser != null) {
-                resultMap.put("message", FAIL);
-                status = HttpStatus.NO_CONTENT;
-            } else {
+            int num = userService.emailCheck(user_email);
+            logger.info("중복된 email 수: " + num);
+            if (num == 0) {
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
+            } else {
+                resultMap.put("message", FAIL);
+                status = HttpStatus.NOT_ACCEPTABLE;
             }
         } catch (Exception e) {
-            logger.error("실패", e);
+            logger.error("error", e);
             resultMap.put("message", FAIL);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }

@@ -12,7 +12,7 @@ public interface UserService {
 
     public boolean join(UserDto userDto);
 
-    public UserDto emailCheck(String user_email);
+    public int emailCheck(String user_email);
 
     public String getId();
 
