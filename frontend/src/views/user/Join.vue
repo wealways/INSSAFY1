@@ -47,12 +47,18 @@
             <label for="location">지역*</label>
             <select ref="select0" class="join-style" name="location" id="location">
               <option value="" disabled selected>지역을 선택하세요.</option>
+              <option v-for="location in options.location" :key="location" :value="location">
+                {{ location }}
+              </option>
             </select>
           </div>
           <div class="input-with-label">
             <label for="location">기수*</label>
             <select ref="select1" class="join-style" name="location" id="location">
               <option value="" disabled selected>기수를 선택하세요.</option>
+              <option v-for="generation in options.generation" :key="generation" :value="generation">
+                {{ generation }}
+              </option>
             </select>
           </div>
 
@@ -77,6 +83,15 @@
 <script>
 
 export default {
+  name:'Join',
+  data(){
+    return {
+      options: {
+        location: ['서울', '대전', '구미', '광주'],
+        generation: [4, 3, 2, 1],
+      },
+    }
+  }
   
 };
 </script>

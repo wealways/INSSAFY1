@@ -10,6 +10,7 @@ import Mypage from '@/views/user/Mypage.vue'
 //board
 import Board from './views/boards/Board.vue'
 import PostDetail from './views/boards/PostDetail.vue'
+import BoardForm from './views/boards/BoardForm.vue'
 
 //search
 import SearchPost from './views/search/SearchPost.vue'
@@ -55,13 +56,18 @@ export default [
     //board
     {
         path : '/boards',
-        name : 'Baord',
+        name : 'Board',
         component : Board
     },
     {
         path: '/boards/post',
         name : 'Post',
         component : PostDetail
+    },
+    {
+        path:'/boards/create',
+        name:'BoardForm',
+        component: BoardForm
     },
 
     // 검색 관련 영역
