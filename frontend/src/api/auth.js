@@ -9,11 +9,17 @@ export function login(email, password) {
 
 //member 객체로 매개변수 받음
 export function join(member) {
-  return http.post('/account/signup', member);
+  return http.post('/account/confirm/join', member);
 }
 
+// export function duplicate(email) {
+//   return http.post('/account/confirm/emailCheck/',{
+//     user_email: email,
+//   });
+// }
+
 export function duplicate(email) {
-  return http.get('/account/duplicate/' + email);
+  return http.post(`/account/confirm/emailCheck/${email}`);
 }
 
 export function modify(email, password) {

@@ -142,8 +142,8 @@ public class UserController {
      * 
      * @return time:
      */
-    @PostMapping("/confirm/emailCheck")
-    public ResponseEntity<Map<String, Object>> emailCheck(@RequestBody String user_email) {
+    @PostMapping("/confirm/emailCheck/{user_email}")
+    public ResponseEntity<Map<String, Object>> emailCheck(@PathVariable String user_email) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("comfirm/emailcheck 호출 성공");
@@ -151,8 +151,8 @@ public class UserController {
             UserDto existUser = userService.emailCheck(user_email);
             if (existUser != null) {
 
-                resultMap.put("message", SUCCESS);
-                status = HttpStatus.ACCEPTED;
+                resultMap.put("message", FAIL);
+                status = HttpStatus.NO_CONTENT;
             } else {
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
