@@ -1,9 +1,9 @@
 import http from './http';
 
 export function login(email, password) {
-  return http.post('/account/login', {
-    email: email,
-    password: password,
+  return http.post('/account/confirm/login', {
+    user_email: email,
+    user_password: password,
   });
 }
 
