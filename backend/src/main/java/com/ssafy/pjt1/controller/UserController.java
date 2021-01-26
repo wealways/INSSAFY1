@@ -167,7 +167,7 @@ public class UserController {
     }
 
     /*
-     * 기능: 메일에서 링크를 누른 경우
+     * 기능: 메일에서 링크를 누른 경우 인증하기
      * 
      * developer: 윤수민
      * 
@@ -175,14 +175,15 @@ public class UserController {
      * 
      * @return:
      */
-    @GetMapping("/joinConfirm")
-    public ResponseEntity<Map<String, Object>> joinConfirm(@RequestParam Map<String, String> map) {
+    @GetMapping("/confirm/joinConfirm")
+    public String joinConfirm(@RequestParam Map<String, String> map) {
         userService.updateAuthStatus(map);
         logger.info("이메일 버튼 눌림");
 
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+        String msg = "이메일 인증이 완료되었습니다.";
+        return msg;
     }
 
     /*
@@ -259,13 +260,13 @@ public class UserController {
      * @return
      */
     @PostMapping("/user/modify")
-    public ResponseEntity<Map<String, Object>> user_modify(@RequestBody UserDto userDto, HttpServletResponse response,
+    public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto, HttpServletResponse response,
             HttpSession session, HttpServletRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/modify 호출 성공");
         try {
-            if (userService.user_modify(userDto) == 1) {
+            if (userService.userModify(userDto) == 1) {
                 resultMap.put("message", "SUCCESS");
             } else {
                 resultMap.put("message", "FAIL");

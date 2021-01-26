@@ -22,6 +22,6 @@ public interface UserMapper {
 
     public void updatePw(Map<String, String> map);
 
-    public int user_modify(UserDto userDto);
+    public int userModify(UserDto userDto);
 
 }

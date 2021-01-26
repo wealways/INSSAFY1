@@ -46,7 +46,7 @@
 		where user_email=#{user_email};
 	</select>
 
-	<update id="user_modify" parameterType="userDto">
+	<update id="userModify" parameterType="userDto">
 		update user
 		set user_image = #{user_image}, user_nickname=#{user_nickname}, user_location=#{user_location}, user_generation=#{user_generation}
 		where user_email = #{user_email}

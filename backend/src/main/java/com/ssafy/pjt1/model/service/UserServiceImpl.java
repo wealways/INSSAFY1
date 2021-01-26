@@ -91,8 +91,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int user_modify(UserDto userDto) {
-		return sqlSession.getMapper(UserMapper.class).user_modify(userDto);
+	public int userModify(UserDto userDto) {
+		return sqlSession.getMapper(UserMapper.class).userModify(userDto);
 	}
 
 }
