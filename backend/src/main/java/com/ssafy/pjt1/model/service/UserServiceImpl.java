@@ -1,9 +1,13 @@
 package com.ssafy.pjt1.model.service;
 
+import com.ssafy.pjt1.model.dto.subscription.Subscription;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.mapper.UserMapper;
 
 import java.io.UnsupportedEncodingException;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -68,4 +72,20 @@ public class UserServiceImpl implements UserService {
 	public UserDto userInfo(String user_email) {
 		return sqlSession.getMapper(UserMapper.class).userInfo(user_email);
 	}
+
+	@Override
+	public int userModify(UserDto userDto) {
+		return sqlSession.getMapper(UserMapper.class).userModify(userDto);
+	}
+
+	@Override
+	public int userDelete(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).userDelete(user_id);
+	}
+
+	@Override
+	public List<Subscription> getSubBoards(String user_id) {
+		return null;
+	}
+
 }
