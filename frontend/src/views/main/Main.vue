@@ -4,21 +4,24 @@
  -->
 <template>
   <div id="main-container">
-    <div id="favorite-container" class="m-top">
-      <p class="main-title pc-only">즐겨찾기</p>
+    <div id="favorite-container" class="m-top-s">
+      <p id="" class="main-title pc-only">FAVORITE</p>
       <svg id="f-star" class="mobile-only" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
         <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z" />
       </svg>
       <swiper id="f-swiper" class="swiper" :options="swiperOption" @clickSlide="clickFavorite">
         <swiper-slide v-for="item in list()" v-bind:key="item.id">
-          <div class="inner">
-            <p id="f-title">{{ item.type }}</p>
-            <p id="f-title">{{ item.title }}</p>
-            <p id="f-title">{{ item.description }}</p>
-            <p id="f-hashtag" class="text-hashtag">
-              #싸피 #싸피 #싸피
-            </p>
-            <div id="f-option">
+          <div class="frame">
+            <p id="f-type" class="r-title">{{ item.type }}</p>
+            <div class="bg-image"></div>
+            <div class="inner">
+              <div id="f-title" class="f-text b-desc">{{ item.title }}</div>
+              <p id="f-desc" class="f-text r-desc">{{ item.description }}</p>
+              <p id="f-hashtag" class="f-text hashtag l-desc">
+                {{ item.hashtag }}
+              </p>
+            </div>
+            <div id="f-option" class="t-desc-e">
               <p>new</p>
               <p>{{ item.count }}</p>
             </div>
@@ -30,8 +33,8 @@
       </swiper>
     </div>
     <div id="curation-container">
-      <p id="c-title" class="b-title real-shadow-text">Curation</p>
-      <div id="c-list">
+      <p id="c-title" class="b-title">Curation</p>
+      <div id="c-list" class="l-desc">
         <button class="c-btn real-shadow-box" @click="clickCBtn1">스터디</button>
         <button class="c-btn real-shadow-box" @click="clickCBtn2">학습공유</button>
         <button class="c-btn real-shadow-box" @click="clickCBtn3">채용일정</button>
@@ -40,23 +43,25 @@
       </div>
     </div>
     <div id="popular-container" class="m-top">
-      <p class="main-title">인기보드</p>
+      <p class="main-title">POPULAR</p>
     </div>
+    <SearchBar />
   </div>
 </template>
 
 <script>
 // import "../../components/css/user.scss";
 // import * as authApi from '@/api/auth';
-
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
+import SearchBar from '../../components/header/SearchBar';
 
 export default {
   name: 'Main',
   components: {
     Swiper,
     SwiperSlide,
+    SearchBar,
   },
   data() {
     return {
@@ -67,7 +72,8 @@ export default {
             id: index,
             type: 'curation',
             title: '보드명',
-            description: '보드 설명',
+            description: '보드 설명 보드 설명 보드 설명 보드 설명 보드 설명 보드 설명',
+            hashtag: '#싸피 #여행 #바다 #싸피 #여행 #바다 #싸피 #여행 #바다 #싸피 #여행 #바다',
             count: 100,
           };
           list.push(item);
@@ -140,11 +146,20 @@ export default {
 /*-------------------------------------------------- */
 /* 공통 영역 */
 /*-------------------------------------------------- */
+p {
+  margin: 0;
+}
 .main-title {
-  margin: 0 20px;
-  font-family: 'Noto Sans KR', sans-serif;
+  margin: 0 80px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: italic;
   font-size: 24px;
-  font-weight: 300;
+  font-weight: 200;
+}
+@media (max-width: 1535px) {
+  .main-title {
+    margin: 0 40px;
+  }
 }
 @media (max-width: 768px) {
   .main-title {
@@ -155,10 +170,6 @@ export default {
   .main-title {
     margin: 0 10px;
   }
-}
-
-.m-top {
-  margin-top: 30px;
 }
 
 @media (max-width: 426px) {
@@ -176,10 +187,16 @@ export default {
   position: absolute;
   z-index: 1;
   margin: 12px;
-  fill: #fff;
+  fill: var(--basic-color-new);
 }
 #f-swiper {
+  margin-top: -10px;
   z-index: 0;
+}
+@media (max-width: 426px) {
+  #f-swiper {
+    margin-top: 0px;
+  }
 }
 .swiper-slide {
   position: relative;
@@ -187,38 +204,98 @@ export default {
 .swiper-slide:after {
   content: '';
   display: block;
-  padding-bottom: 100%;
+  padding-bottom: 130%;
 }
-.inner {
+.frame {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #ff7d5d;
+  background-color: var(--basic-color-fill);
 }
-#f-title {
-  padding: 10px;
+.bg-image {
+  position: absolute;
+  z-index: 0;
+  width: 90%;
+  height: calc(100% - 80px);
+  margin: 0 5%;
+  color: #fff;
+  background-image: url('../../assets/images/slide.jpg');
+  background-size: cover;
+  /* box-shadow: var(--basic-shadow-s); */
+  /* filter: brightness(0.9); */
+}
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  height: calc(100% - 80px);
+  margin: 0 auto;
+  background: #00000033;
 }
 
-.text-hashtag {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: box;
-  margin: 10px 20px;
-  max-height: 80px;
-  overflow: hidden;
-  vertical-align: top;
+#f-type {
+  color: var(--basic-color-fill3);
   text-align: center;
-  text-overflow: ellipsis;
+  padding: 11px 0 11px;
+  width: 100%;
+  font-size: 13px;
+}
+#f-title {
+  font-size: 20px;
+  text-align: center;
+  /* position: absolute;
+  z-index: 0 !important; */
+  display: inline-block;
+  width: auto;
+  padding: 4px 30px;
+  margin-top: 15%;
+  margin-left: calc(-5% - 1px);
+  box-shadow: var(--basic-shadow-b);
+  background-color: var(--basic-color-new);
+}
+#f-desc {
+  margin: 5% 20px 10%;
+  font-size: 14px;
+  line-height: 20px;
+  max-height: 40px;
+  overflow: hidden;
+  display: -webkit-box;
   word-break: break-all;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+}
+#f-hashtag {
+  font-size: 12px;
+  line-height: 14px;
+  margin: 15px 20px 0px;
+  max-height: 28px;
+  text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.f-text {
+  color: #fff;
+}
+.hashtag {
 }
 #f-option {
-  margin-left: -10px;
+  font-size: 13px;
+  color: var(--basic-color-bg);
+  margin-top: 8px;
+  margin-left: -15px;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
+}
+#f-option p:first-child {
+  transform: translate(10px, -8px);
+  letter-spacing: -1px;
+  font-weight: 900;
+  color: #ff0000cc;
 }
 
 /*-------------------------------------------------- */
@@ -226,22 +303,22 @@ export default {
 /*-------------------------------------------------- */
 #curation-container {
   margin: 0 auto;
-  max-width: 780px;
+  max-width: 820px;
   padding: 0 30px;
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
 }
-@media (max-width: 1023px) {
+/* @media (max-width: 1023px) {
   #curation-container {
     margin-top: 20px;
     padding: 0px 15px;
   }
-}
+} */
 #c-title {
   position: absolute;
   font-size: 20px;
-  padding-top: 30px;
+  padding-top: 48px;
   margin-top: 15px;
   width: 200px;
   text-align: center;
@@ -251,29 +328,30 @@ export default {
   #c-title {
     display: block;
     margin-left: calc(50% - 115px);
-    margin-top: -34px;
-    margin-bottom: 5px;
+    font-size: 16px;
+    padding-top: 0;
     z-index: 2;
   }
 }
 #c-list {
   position: relative;
   display: inline-block;
-  padding-top: 30px;
+  padding-top: 50px;
   padding-bottom: 30px;
   margin-right: auto;
   margin-left: 0;
   z-index: 1;
-  background: #fff; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #ffffff00 150px, #ffffffff 200px); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #ffffff00 150px, #ffffffff 200px); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: var(--basic-color-bg); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #ebebe900 150px, #ebebe9ff 200px); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #ebebe900 150px, #ebebe9ff 200px); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 #c-list button:first-child {
   margin-left: 200px;
 }
 @media (max-width: 426px) {
   #c-list {
-    background: #fff;
+    padding-top: 40px;
+    padding-bottom: 30px;
   }
   #c-list button:first-child {
     margin-left: 0;
@@ -282,9 +360,20 @@ export default {
 .c-btn {
   width: 100px;
   height: 50px;
+  font-weight: 700;
+  color: var(--basic-color-fill3);
+  text-shadow: 0 0px 1px var(--basic-color-fill3);
   margin-left: 15px;
-  border-radius: 10px;
-  background-color: rgb(152, 205, 236);
+  border: none;
+  border-radius: 30px;
+  background: #ebebe9;
+  box-shadow: 10px 10px 20px #bcbcba, -10px -10px 20px #ffffff;
+  transition: 0.3s all ease;
+}
+.c-btn:hover,
+c-btn:active {
+  background: linear-gradient(145deg, #d4d4d2, #fbfbf9);
+  box-shadow: 10px 10px 20px #b3b3b1, -10px -10px 20px #ffffff;
 }
 
 /*-------------------------------------------------- */
