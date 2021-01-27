@@ -1,6 +1,6 @@
-package com.ssafy.pjt1.model.dto.bookmarks;
+package com.ssafy.pjt1.model.dto.scrap;
 
-public class Bookmarks {
+public class ScrapDto {
     private int bookmark_id;
     private int post_id;
     private String user_id;

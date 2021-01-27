@@ -1,6 +1,6 @@
-package com.ssafy.pjt1.model.dto.comments;
+package com.ssafy.pjt1.model.dto.comment;
 
-public class Comments {
+public class CommentDto {
     private int comment_id;
     private int post_id;
     private String user_id;

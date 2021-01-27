@@ -1,6 +1,6 @@
 package com.ssafy.pjt1.model.dto.subscription;
 
-public class Subscription {
+public class SubscriptionDto {
     private int board_id;
     private String user_id;
     private int favorite_flag;

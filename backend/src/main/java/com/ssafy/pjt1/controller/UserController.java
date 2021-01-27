@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.ssafy.pjt1.model.dto.comments.Comments;
-import com.ssafy.pjt1.model.dto.post.Post;
-import com.ssafy.pjt1.model.dto.subscription.Subscription;
+import com.ssafy.pjt1.model.dto.comment.CommentDto;
+import com.ssafy.pjt1.model.dto.post.PostDto;
+import com.ssafy.pjt1.model.dto.subscription.SubscriptionDto;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.service.JwtService;
 import com.ssafy.pjt1.model.service.MailSendService;
@@ -380,7 +380,7 @@ public class UserController {
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("user/getSubBoards/user_id 호출성공");
         try {
-            List<Subscription> boards = userService.getSubBoards(user_id);
+            List<SubscriptionDto> boards = userService.getSubBoards(user_id);
             resultMap.put("boards", boards);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
@@ -407,7 +407,7 @@ public class UserController {
         logger.info("user/getComents/user_id 호출성공");
         try {
             resultMap.put("message", SUCCESS);
-            List<Comments> comments = userService.getComments(user_id);
+            List<CommentDto> comments = userService.getComments(user_id);
             resultMap.put("comments", comments);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
@@ -433,7 +433,7 @@ public class UserController {
         logger.info("user/getPosts/user_id 호출성공");
         try {
             resultMap.put("message", SUCCESS);
-            List<Post> posts = userService.getPosts(user_id);
+            List<PostDto> posts = userService.getPosts(user_id);
             logger.info("posts", posts);
             resultMap.put("posts", posts);
             status = HttpStatus.ACCEPTED;
@@ -454,16 +454,16 @@ public class UserController {
      * 
      * @return : List<Post>
      */
-    @GetMapping("user/getBookmarks/{user_id}")
-    public ResponseEntity<Map<String, Object>> getBookmmarks(@PathVariable String user_id) {
+    @GetMapping("user/getScraps/{user_id}")
+    public ResponseEntity<Map<String, Object>> getScraps(@PathVariable String user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("user/getPosts/user_id 호출성공");
+        logger.info("user/getScraps/user_id 호출성공");
         try {
             resultMap.put("message", SUCCESS);
-            List<Post> bookmarks = userService.getBookmarks(user_id);
-            logger.info("bookmark", bookmarks);
-            resultMap.put("bookmark", bookmarks);
+            List<PostDto> scraps = userService.getScraps(user_id);
+            logger.info("scraps", scraps);
+            resultMap.put("scraps", scraps);
             status = HttpStatus.ACCEPTED;
         } catch (Exception e) {
             resultMap.put("message", FAIL);
