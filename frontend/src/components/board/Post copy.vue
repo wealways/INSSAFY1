@@ -5,26 +5,20 @@
         <b-avatar src="https://placekitten.com/300/300" size="4rem">유저프로필</b-avatar>
       </div>
       <div class="user-name-date">
-        <div>
-          <b-dropdown id="dropdown-left" class="user-name" text="이름" variant="link" toggle-class="text-decoration-none" no-caret>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">메시지 보내기</b-dropdown-item>
-            <!-- <b-dropdown-item href="#">Something else here</b-dropdown-item> -->
-          </b-dropdown>
-        </div>
+        <div class="user-name">이름</div>
         <div class="post-date">글쓴시간</div>
       </div>
     </div>
-    <div class="post-body" @click="goToDetail">
+    <div class="post-body">
       <div class="title">포스트제목포스트제목포스트제목포스트제목</div>
       <div class="description">포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용</div>
     </div>
     <div class="post-footer">
-      <div class="post-like" @click="postLike" v-if="flagLike"><b-icon icon="emoji-smile-fill" aria-hidden="true" color="#AA2610"></b-icon> 10</div>
-      <div class="post-like" @click="postLike" v-if="!flagLike"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> 10</div>
+      <div class="post-like" @click="postLike" v-if="!flagLike"><b-icon icon="emoji-smile-fill" aria-hidden="true" color="red"></b-icon> 10</div>
+      <div class="post-like" @click="postLike" v-if="flagLike"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> 10</div>
       <div class="post-comment"><b-icon icon="chat" aria-hidden="true"></b-icon> 2</div>
-      <div class="post-bookmark" @click="postBookmark" v-if="flagBookmark"><b-icon icon="bookmark-fill" aria-hidden="true"></b-icon></div>
-      <div class="post-bookmark" @click="postBookmark" v-if="!flagBookmark"><b-icon icon="bookmark" aria-hidden="true"></b-icon></div>
+      <div class="post-bookmark" @click="postBookmark" v-if="!flagBookmark"><b-icon icon="bookmark-fill" aria-hidden="true"></b-icon></div>
+      <div class="post-bookmark" @click="postBookmark" v-if="flagBookmark"><b-icon icon="bookmark" aria-hidden="true"></b-icon></div>
     </div>
   </div>
 </template>
@@ -34,14 +28,11 @@ export default {
   name:"Post",
   data() {
     return {
-      flagLike:false,
-      flagBookmark:false
+      flagLike:"false",
+      flagBookmark:"false"
     }
   },
   methods:{
-    goToDetail() {
-      this.$router.push({ name: 'Post' });
-    },
     postLike(e){
       this.flagLike = !this.flagLike
       console.log(this.flagLike)
@@ -90,17 +81,6 @@ export default {
 }
 .user-profile-img{
   margin-right: 0.5rem;
-}
-.user-name button{
-  padding:0;
-  color:black;
-}
-.user-name button:hover{
-  color:black;
-  text-decoration: none;
-}
-.dropdown-item{
-  padding:0 0.3rem !important;
 }
 .user-name-date{
   display: flex;

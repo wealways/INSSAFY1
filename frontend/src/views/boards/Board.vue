@@ -5,6 +5,10 @@
         <b-col sm="3" class="board-aside">
           <a class="board-modify">설정</a>
           <BoardDescription/>
+          <button
+            class="btn-subscribe b-title"
+            @click="onSubscribe"
+          >Subscribe</button>
           <hr>
           <div class="board-function">보드특수기능들</div>
           <div class="add-board-function">보드기능 추가</div>
@@ -46,8 +50,11 @@ export default {
 <style scoped>
 
 .board{
-  max-width: 1024px !important;
+  max-width: 1200px !important;
   margin: 0 auto;
+  /* width:80%;
+  margin-left:10%;
+  margin-right:10%; */
 }
 
 .post-write {
@@ -58,8 +65,28 @@ export default {
   display: flex;
   justify-content: flex-end;
 }
+.btn-subscribe{
+  /* position: inherit;  */
+  height: 50px;
+  width:100%;
+  font-size: 24px;
+  margin-top: 10px; 
+  margin-bottom: 10px;
+  text-align: center;
+}
+.btn-subscribe:hover,
+.btn-subscribe:active {
+  background-color: #000 !important;
+  color: #fff;
+}
 
 @media screen and (max-width:576px){
+  .btn-subscribe{
+    width: 100%;
+    background-color: #000 !important;
+    color: #fff;
+  }
+
   .board-modify{
     display:none;
   }

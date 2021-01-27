@@ -1,13 +1,17 @@
 <template>
   <b-container>
     <b-row class="comment">
-      <b-col sm="2" class="header">
+      <b-col sm="2" class="comment-header">
         <div class="user-profile-img">
           <b-avatar src="https://placekitten.com/300/300" size="3rem">유저프로필</b-avatar>
         </div>
         <div class="header-detail">
           <div class="user-name-date">
-            <div class="user-name">이름</div>
+            <b-dropdown id="dropdown-left" class="user-name" text="이름" variant="link" toggle-class="text-decoration-none" no-caret>
+              <b-dropdown-item href="#">Profile</b-dropdown-item>
+              <b-dropdown-item href="#">메시지 보내기</b-dropdown-item>
+              <!-- <b-dropdown-item href="#">Something else here</b-dropdown-item> -->
+            </b-dropdown>
             <div class="post-date">글쓴시간</div>
           </div>
           <div @click="btnComment" id="btnCommentMobile">
@@ -42,12 +46,16 @@ export default {
 <style scoped>
 .comment{
   display:flex;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
+  padding:0.8rem;
 }
-.comment .header{
+.comment .comment-header{
   display: flex;
+  /* margin-bottom: 0.5rem; */
+  padding-left:0;
+  padding-right:0;
 }
-.comment .header .header-detail{
+.comment .comment-header .header-detail{
   display:flex;
   justify-content:space-between;
   width: 100%;
