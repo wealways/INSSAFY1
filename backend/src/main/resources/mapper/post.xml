@@ -28,5 +28,22 @@
 		from post
 		where post_id=#{post_id}
 	</delete>
+	
+	<select id="isScrapped" parameterType="map" resultType="int">
+		select count(*)
+		from scrap
+		where post_id = #{post_id} and user_id = #{user_id};	
+	</select>
+
+	<insert id="scrap" parameterType="map" useGeneratedKeys="true" keyProperty="scrap_id">
+		insert into scrap (post_id, user_id) values (
+		#{post_id}, #{user_id}
+		)
+	</insert>
+		
+	<delete id="deleteScrap" parameterType="map"> 
+		delete from scrap 
+		where post_id = #{post_id} and user_id = #{user_id};
+	</delete>
 
 </mapper>

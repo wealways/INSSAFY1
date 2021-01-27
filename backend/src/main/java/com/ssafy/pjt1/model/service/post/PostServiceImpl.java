@@ -1,5 +1,7 @@
 package com.ssafy.pjt1.model.service.post;
 
+import java.util.Map;
+
 import com.ssafy.pjt1.model.dto.post.PostDto;
 import com.ssafy.pjt1.model.mapper.PostMapper;
 
@@ -35,5 +37,22 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public int postDelete(int post_id) {
 		return sqlSession.getMapper(PostMapper.class).postDelete(post_id);
+	}
+
+	@Override
+	public int isScrapped(Map<String, Object> map) {
+		return sqlSession.getMapper(PostMapper.class).isScrapped(map);
+	}
+
+	@Override
+	public void scrap(Map<String, Object> map) {
+		sqlSession.getMapper(PostMapper.class).scrap(map);
+
+	}
+
+	@Override
+	public void deleteScrap(Map<String, Object> map) {
+		sqlSession.getMapper(PostMapper.class).deleteScrap(map);
+
 	}
 }

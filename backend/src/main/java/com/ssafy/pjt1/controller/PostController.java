@@ -108,4 +108,31 @@ public class PostController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    @PostMapping("/scrap")
+    public ResponseEntity<Map<String, Object>> subscribe(@RequestBody Map<String, Object> param) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("post/scrap 호출성공");
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("user_id", (String) param.get("user_id"));
+            map.put("post_id", (String) param.get("post_id"));
+
+            int count = postService.isScrapped(map);
+            if (count == 0) {
+                logger.info("스크랩 추가");
+                postService.scrap(map);
+            } else {
+                logger.info("스크랩 삭제");
+                postService.deleteScrap(map);
+            }
+
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 }
