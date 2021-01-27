@@ -11,4 +11,8 @@ public interface PostMapper {
 
 	public PostDto getPostById(String post_id);
 
+	public int postModify(PostDto postDto);
+
+	public int postDelete(int post_id);
+
 }

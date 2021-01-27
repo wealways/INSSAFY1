@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,6 +70,41 @@ public class PostController {
         } catch (Exception e) {
             logger.error("실패", e);
             resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<Map<String, Object>> userModify(@RequestBody PostDto postDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("post/modify 호출 성공");
+        try {
+            if (postService.postModify(postDto) == 1) {
+                resultMap.put("message", SUCCESS);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @DeleteMapping("/delete/{post_id}")
+    public ResponseEntity<Map<String, Object>> userDelete(@PathVariable("post_id") int post_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("post/delete 호출성공");
+        try {
+            if (postService.postDelete(post_id) == 1) {
+                resultMap.put("message", SUCCESS);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
