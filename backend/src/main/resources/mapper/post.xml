@@ -9,5 +9,11 @@
 		values ( #{board_id}, #{user_id}, #{post_title}, #{post_description} ,
 		#{post_image}, #{post_iframe}, #{post_header}, #{post_state},now(),0)
 	</insert>
+
+	<select id="getPostById" parameterType="string" resultType="PostDto">
+		select * 
+		from post
+		where post_id = #{post_id};
+	</select>
 	
 </mapper>

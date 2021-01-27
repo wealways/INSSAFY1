@@ -21,4 +21,9 @@ public class PostServiceImpl implements PostService {
 	public void createPost(PostDto postDto) {
 		sqlSession.getMapper(PostMapper.class).createPost(postDto);
 	}
+
+	@Override
+	public PostDto getPostById(String post_id) {
+		return sqlSession.getMapper(PostMapper.class).getPostById(post_id);
+	}
 }

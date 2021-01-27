@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,22 @@ public class PostController {
             postDto.setPost_state((int) param.get("post_state"));
             postService.createPost(postDto);
 
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @GetMapping("/getPostById/{post_id}")
+    public ResponseEntity<Map<String, Object>> getPostById(@PathVariable("post_id") String post_id){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("post/getPostById/{post_id} 호출성공");
+        try {
+            PostDto postDto = postService.getPostById(post_id);
+            resultMap.put("post", postDto);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             logger.error("실패", e);

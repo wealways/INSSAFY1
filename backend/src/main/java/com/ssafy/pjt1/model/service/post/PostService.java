@@ -6,4 +6,6 @@ public interface PostService {
 
 	public void createPost(PostDto postDto);
 
+	public PostDto getPostById(String post_id);
+
 }

@@ -9,4 +9,6 @@ public interface PostMapper {
 
 	public void createPost(PostDto postDto);
 
+	public PostDto getPostById(String post_id);
+
 }
