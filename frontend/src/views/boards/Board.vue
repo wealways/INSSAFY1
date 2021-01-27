@@ -18,6 +18,9 @@
             <PostWrite/>
           </div>
           <Post/>
+          <Post/>
+          <Post/>
+          <Post/>
         </b-col>
       </b-row>
     </b-container>
@@ -47,9 +50,10 @@ export default {
   margin: 0 auto;
 }
 
-/* .post-write button {
-  width:100%;
-} */
+.post-write {
+  /* display: inline-block; */
+  /* position:sticky; */
+}
 .post-search{
   display: flex;
   justify-content: flex-end;

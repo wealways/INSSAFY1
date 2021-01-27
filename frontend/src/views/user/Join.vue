@@ -1,10 +1,7 @@
 <template>
   <div>
-    <nav>
-      네브바
-    </nav>
     <div class="join">
-      <h1>회원가입</h1>
+      <h2>회원가입</h2>
       <div class="join-form">
         <div class="join-input">
           <div class="input-with-label">
@@ -19,7 +16,7 @@
             <div class="error-text" v-if="error.emailDuplicate">{{error.emailDuplicate}}</div>
           </div>
           <div class="input-with-label">
-            <label for="email">비밀번호</label>
+            <label for="password">비밀번호</label>
              <input v-model="password" id="password" :type="passwordType" placeholder="비밀번호를 입력하세요." 
             :class="{error : error.password&&password.length!==0, complete:!error.password&&password.length!==0}"
             />
@@ -27,7 +24,6 @@
             <div class="error-text" v-if="error.password&&password.length!==0">{{error.password}}</div>
           </div>
           <div class="input-with-label">
-            <label for="email">비밀번호확인</label>
             <input v-model="passwordConfirm" :type="passwordConfirmType" id="password-confirm" placeholder="비밀번호를 다시한번 입력하세요."
             :class="{error : error.passwordConfirm&&passwordConfirm.length!==0, complete : !error.password&&passwordConfirm.length!==0}"
             />
@@ -65,11 +61,11 @@
         </div>
         <!-- <button class="btn-join">로그인</button> -->
         <button
-        class="btn-join"
+        class="btn-join b-title"
         @click="onJoin"
         :disabled="!isSubmit"
         :class="{disabled : !isSubmit}"
-        >가입하기</button>
+        >Join</button>
       </div>
       
       
@@ -231,13 +227,19 @@ export default {
   max-width: 580px;
   width: 100%;
   margin: 0 auto;
+  padding: 0 15px;
 }
+
+h2{
+  margin-bottom: 30px;
+}
+
 .join-form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   /* align-items: center; */
-  height: 40vh;
+  /* height: 40vh; */
   width: 100%;
 }
 .join-input {
@@ -266,14 +268,138 @@ input, select {
 }
 
 .btn-join{
-  position: fixed;
-  bottom: 17px;
-  
+  /* position: inherit;  */
+  height: 50px;
+  margin-top: 30px; 
+  margin-bottom: 20px;
   text-align: center;
 }
+.btn-join:hover,
+.btn-join:active {
+  background-color: #000 !important;
+  color: #fff;
+}
+
 @media screen and (max-width:576px) {
   .btn-join{
     width: 100%;
+    background-color: #000 !important;
+    color: #fff;
   }
+}
+
+/* 스켈레톤에서 가져온거 */
+.input-with-label {
+  width: 100%;
+  float: left;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.input-with-label input[type="text"],
+.input-with-label select,
+.input-with-label input[type="password"] {
+  width: 100%;
+  float: left;
+  height: 50px;
+  line-height: 1;
+  padding: 2px 15px 0 105px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #000;
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+
+.input-with-label input[type="text"]:hover, 
+.input-with-label input[type="text"]:focus,
+.input-with-label select:hover, 
+.input-with-label select:focus,
+.input-with-label input[type="password"]:hover,
+.input-with-label input[type="password"]:focus {
+  border: 2px solid #000;
+}
+
+.input-with-label input[type="text"].error,
+.input-with-label input[type="password"].error {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #EE4B55;
+}
+
+.input-with-label input[type="text"].complete,
+.input-with-label input[type="password"].complete {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #3893A8;
+}
+
+.input-with-label input[type="text"].disabled,
+.input-with-label input[type="password"].disabled {
+  background: #eee;
+  color: #333;
+  font-weight: 600;
+}
+
+.input-with-label input[type="text"].disabled:hover, .input-with-label input[type="text"].disabled:focus,
+.input-with-label input[type="password"].disabled:hover,
+.input-with-label input[type="password"].disabled:focus {
+  border: 1px solid #000;
+}
+
+.input-with-label label {
+  position: absolute;
+  left: 15px;
+  top: 19px;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.857em;
+}
+
+.input-with-label h4 {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-wrap: normal;
+}
+
+.input-with-label .error-text {
+  width: 100%;
+  float: left;
+  color: #EE4B55;
+  margin-top: 3px;
+}
+
+.label-with-input {
+  width: 100%;
+  float: left;
+  margin-bottom: 15px;
+}
+
+.label-with-input label {
+  font-size: 1em;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.label-with-input input[type="text"] {
+  width: 100%;
+  float: left;
+}
+
+.label-with-input input[type="text"].error {
+  border-color: #EE4B55;
+}
+
+.label-with-input:last-of-type {
+  margin-bottom: 0;
+}
+
+.label-with-input .error-text {
+  width: 100%;
+  float: left;
+  color: #EE4B55;
+  margin-top: 3px;
 }
 </style>
