@@ -50,8 +50,7 @@
       </div>
     </div>
     <SearchBar searchBar="searchBar" />
-    <Toast id="toast" style="display:none;" />
-    <h1>token:{{ getToken }}</h1>
+    <!-- <Toast id="toast" /> -->
   </div>
 </template>
 
@@ -64,7 +63,7 @@ export default {
   name: 'Nav',
   components: {
     SearchBar,
-    Toast,
+    // Toast,
   },
   data() {
     return {

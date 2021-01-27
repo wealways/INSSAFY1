@@ -31,7 +31,6 @@ import PageNotFound from './views/redirect/PageNotFound';
 import Errors from './views/redirect/Errors';
 import JoinSuccess from './views/redirect/JoinSuccess';
 
-import Temp from './views/Main';
 import Modify from './views/user/Modify';
 
 //토큰 없이(비회원) About 외 페이지 접근 시 리다이렉트
@@ -178,12 +177,6 @@ export default [
     component: JoinSuccess,
   },
 
-  {
-    path: '/temp',
-    name: 'Temp',
-    component: Temp,
-    props: true,
-  },
   {
     path: '/user/modify',
     name: 'Modify',
