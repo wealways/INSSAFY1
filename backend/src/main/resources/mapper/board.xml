@@ -32,5 +32,54 @@
 		delete from subscription 
 		where board_id = #{board_id} and user_id = #{user_id} and user_role != 1;
 	</delete>
+
+	<select id="searchUser" parameterType="string" resultType="UserDto">
+		select *
+		from user
+		where user_email like concat('%',#{user_name} ,'%');
+	</select>
 	
+	<update id="updateManager" parameterType="map">
+		update subscription
+		set user_role = 1
+		where board_id = #{board_id} and user_id = #{user_id};
+	</update>
+
+	<update id="modifyBoard" parameterType="BoardDto">
+		update board
+		set board_name = #{board_name}, board_description = #{board_description}, board_image=#{board_image}, 
+		board_igmyeong=#{board_igmyeong}, board_location=#{board_location}, board_hash=#{board_hash}
+		where board_id = #{board_id}
+	</update>
+
+	<select id="getBoardsNew" resultType="BoardDto">
+		select *
+		from board
+		order by board_date desc;
+	</select>
+
+	<select id="getBoardsPopular" resultType="BoardDto">
+		select *
+		from board as b join (select count(board_id) as board_count, board_id from subscription group by board_id) as c 
+		on b.board_id = c.board_id
+		order by c.board_count desc;
+	</select>
+
+	<select id="searchBoardNew" parameterType="string" resultType="BoardDto">
+		select *
+		from board
+		where board_name like concat('%',#{keyword} ,'%') or board_description like concat('%',#{keyword} ,'%')
+		or board_hash like concat('%',#{keyword} ,'%')
+		order by board_date desc;
+	</select>
+
+	<select id="searchBoardPopular" parameterType="string" resultType="BoardDto">
+		select *
+		from board as b join (select count(board_id) as board_count, board_id from subscription group by board_id) as c 
+		on b.board_id = c.board_id
+		where b.board_name like concat('%',#{keyword} ,'%') or b.board_description like concat('%',#{keyword} ,'%')
+		or b.board_hash like concat('%',#{keyword} ,'%')
+		order by c.board_count desc;
+	</select>
+
 </mapper>
