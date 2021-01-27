@@ -36,7 +36,7 @@
 import ChatMessageRight from "./ChatMessageRight.vue"
 import ChatMessageLeft from "./ChatMessageLeft.vue"
 // 마이페이지내 스크랩한 포스트 컴포넌트가 채팅목록과 정보 유사 - 이를 사용
-import ScrapPost from "../user/common/ScrapPost.vue"
+import ScrapPost from "@/components/mypage/ScrapPost.vue"
 
 export default {
   name: "ChatPage",

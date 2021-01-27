@@ -62,9 +62,9 @@
 </template>
 
 <script>
-import Subscription from "../user/common/Subscription.vue"
-import MyPost from "../user/common/MyPost.vue"
-import ScrapPost from "../user/common/ScrapPost.vue"
+import Subscription from "@/components/mypage/Subscription.vue"
+import MyPost from "@/components/mypage/MyPost.vue"
+import ScrapPost from "@/components/mypage/ScrapPost.vue"
 
 export default {
   name: "mypage",
