@@ -47,12 +47,35 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void scrap(Map<String, Object> map) {
 		sqlSession.getMapper(PostMapper.class).scrap(map);
-
 	}
 
 	@Override
 	public void deleteScrap(Map<String, Object> map) {
 		sqlSession.getMapper(PostMapper.class).deleteScrap(map);
+	}
 
+	@Override
+	public int isLiked(Map<String, Object> map) {
+		return sqlSession.getMapper(PostMapper.class).isLiked(map);
+	}
+
+	@Override
+	public void like(Map<String, Object> map) {
+		sqlSession.getMapper(PostMapper.class).like(map);
+	}
+
+	@Override
+	public void plusCount(int post_id) {
+		sqlSession.getMapper(PostMapper.class).plusCount(post_id);
+	}
+
+	@Override
+	public void unlike(Map<String, Object> map) {
+		sqlSession.getMapper(PostMapper.class).unlike(map);
+	}
+
+	@Override
+	public void minusCount(int post_id) {
+		sqlSession.getMapper(PostMapper.class).minusCount(post_id);
 	}
 }

@@ -110,14 +110,14 @@ public class PostController {
     }
 
     @PostMapping("/scrap")
-    public ResponseEntity<Map<String, Object>> subscribe(@RequestBody Map<String, Object> param) {
+    public ResponseEntity<Map<String, Object>> scrap(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("post/scrap 호출성공");
         try {
             Map<String, Object> map = new HashMap<>();
             map.put("user_id", (String) param.get("user_id"));
-            map.put("post_id", (String) param.get("post_id"));
+            map.put("post_id", (int) param.get("post_id"));
 
             int count = postService.isScrapped(map);
             if (count == 0) {
@@ -126,6 +126,38 @@ public class PostController {
             } else {
                 logger.info("스크랩 삭제");
                 postService.deleteScrap(map);
+            }
+
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @PostMapping("/like")
+    public ResponseEntity<Map<String, Object>> likePost(@RequestBody Map<String, Object> param) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("post/like 호출성공");
+        try {
+            Map<String, Object> map = new HashMap<>();
+            String user_id = (String) param.get("user_id");
+            int post_id = (int) param.get("post_id"); 
+            map.put("user_id", user_id);
+            map.put("post_id",post_id);
+            logger.info("map: "+map);
+            int count = postService.isLiked(map);
+            logger.info("count: "+count);
+            if (count == 0) {
+                logger.info("좋아요 클릭");
+                postService.like(map);
+                postService.plusCount(post_id);
+            } else {
+                logger.info("좋아요 삭제");
+                postService.unlike(map);
+                postService.minusCount(post_id);
             }
 
             resultMap.put("message", SUCCESS);

@@ -20,4 +20,14 @@ public interface PostService {
 
 	public void deleteScrap(Map<String, Object> map);
 
+	public int isLiked(Map<String, Object> map);
+
+	public void like(Map<String, Object> map);
+
+	public void plusCount(int post_id);
+
+	public void unlike(Map<String, Object> map);
+
+	public void minusCount(int post_id);
+
 }

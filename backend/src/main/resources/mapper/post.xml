@@ -46,4 +46,33 @@
 		where post_id = #{post_id} and user_id = #{user_id};
 	</delete>
 
+	<select id="isLiked" parameterType="map" resultType="int">
+		select count(*)
+		from postLike
+		where post_id = #{post_id} and user_id = #{user_id};	
+	</select>
+
+	<insert id="like" parameterType="map" >
+		insert into postLike values (
+		#{post_id}, #{user_id}
+		)
+	</insert>
+
+	<update id="plusCount" parameterType="map" >
+		update post 
+		set post_like = post_like + 1
+		where post_id = #{post_id};
+	</update>
+		
+	<delete id="unlike" parameterType="map"> 
+		delete from postLike 
+		where post_id = #{post_id} and user_id = #{user_id};
+	</delete>
+
+	<update id="minusCount" parameterType="map" >
+		update post 
+		set post_like = post_like - 1
+		where post_id = #{post_id};
+	</update>
+
 </mapper>
