@@ -10,7 +10,7 @@ public class PostDto {
     private int post_like;
     private String post_image;
     private String post_iframe;
-    private String psot_header;
+    private String post_header;
     private int post_state;
 
     public int getPost_id() {
@@ -85,12 +85,12 @@ public class PostDto {
         this.post_iframe = post_iframe;
     }
 
-    public String getPsot_header() {
-        return this.psot_header;
+    public String getPost_header() {
+        return this.post_header;
     }
 
-    public void setPsot_header(String psot_header) {
-        this.psot_header = psot_header;
+    public void setPost_header(String post_header) {
+        this.post_header = post_header;
     }
 
     public int getPost_state() {
