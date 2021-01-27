@@ -45,7 +45,6 @@
     <div id="popular-container" class="m-top">
       <p class="main-title">POPULAR</p>
     </div>
-    <SearchBar />
   </div>
 </template>
 
@@ -54,14 +53,12 @@
 // import * as authApi from '@/api/auth';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
-import SearchBar from '../../components/header/SearchBar';
 
 export default {
   name: 'Main',
   components: {
     Swiper,
     SwiperSlide,
-    SearchBar,
   },
   data() {
     return {

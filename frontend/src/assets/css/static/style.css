@@ -22,9 +22,22 @@
   height: 40px;
   border: none;
 }
-button {
+/* button {
   border: var(--basic-color-key) 1px solid;
+} */
+.newmorphism {
+  color: var(--basic-color-fill3);
+  text-shadow: 0 0px 1px var(--basic-color-fill3);
+  background: #ebebe9;
+  box-shadow: 10px 10px 20px #bcbcba, -10px -10px 20px #ffffff;
+  transition: 0.3s all ease;
 }
+.newmorphism-active {
+  background: #ebebe9;
+  background: linear-gradient(145deg, #d4d4d2, #fbfbf9);
+  box-shadow: 10px 10px 20px #b3b3b1, -10px -10px 20px #ffffff;
+}
+
 .anim-btn {
   animation: anim-btn 0.8s cubic-bezier(0.35, -0.01, 0.45, 1.2);
   animation-fill-mode: both;

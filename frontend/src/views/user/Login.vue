@@ -53,10 +53,27 @@
 <script>
 import PV from 'password-validator';
 import * as EmailValidator from 'email-validator';
-import * as authApi from '@/api/auth';
 export default {
   components: {},
-  computed: {},
+  data: () => {
+    return {
+      email: '',
+      password: '',
+      passwordSchema: new PV(),
+      error: {
+        email: false,
+        password: false,
+      },
+      isSubmit: false,
+      component: this,
+    };
+  },
+  computed: {
+    nextRoute() {
+      // return this.$route.params.nextRoute ? this.$route.params.nextRoute : '';
+      return '';
+    },
+  },
   created() {
     this.component = this;
 
@@ -70,12 +87,7 @@ export default {
       .has()
       .letters();
   },
-  mounted() {
-    let tempEmail = this.$route.params.email;
-    if (tempEmail) {
-      this.email = tempEmail;
-    }
-  },
+  mounted() {},
   watch: {
     password: function(v) {
       this.checkForm();
@@ -111,25 +123,13 @@ export default {
             alert('이메일 또는 비밀번호를 다시 확인하여 주십시오.');
             this.password = '';
           } else {
-            this.$router.push({ name: 'Main' });
-            console.log(this.$store.state.auth.token);
-            console.log(this.$store.state.auth.email);
+            this.$router.replace(`/${this.nextRoute}`);
+            // this.$router.push({ name: 'Main' });
+            // console.log(this.$store.state.auth.token);
+            // console.log(this.$store.state.auth.email);
           }
         });
     },
-  },
-  data: () => {
-    return {
-      email: '',
-      password: '',
-      passwordSchema: new PV(),
-      error: {
-        email: false,
-        password: false,
-      },
-      isSubmit: false,
-      component: this,
-    };
   },
 };
 </script>
