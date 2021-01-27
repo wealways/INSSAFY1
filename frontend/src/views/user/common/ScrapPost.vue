@@ -42,10 +42,6 @@ p {
 }
 .post .writer {
   border: 2px solid;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
   border: 1px solid;
   border-radius: 50%;

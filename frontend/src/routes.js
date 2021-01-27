@@ -6,17 +6,29 @@ import Login from './views/user/Login.vue';
 import Join from './views/user/Join.vue';
 import Mypage from '@/views/user/Mypage.vue';
 
+
+// curation board
+import BambooForest from '@/views/curation/bamboo/BambooForest'
+import LearnShare from '@/views/curation/learningshare/LearnShare'
+import StudyMain from '@/views/curation/study/StudyMain'
+import Study from '@/views/curation/study/Study'
+import Market from '@/views/curation/market/Market'
+import Recruitment from '@/views/curation/recruitment/Recruitment'
+
 //board
 import Board from './views/boards/Board.vue';
 import PostDetail from './views/boards/PostDetail.vue';
 import BoardForm from './views/boards/BoardForm.vue';
 
+
 //search
 import SearchPost from './views/search/SearchPost.vue';
 import SearchBoard from './views/search/SearchBoard.vue';
 
+
 // Chat
 import ChatPage from './views/openchat/ChatPage.vue';
+
 
 //redirect vue
 import PageNotFound from './views/redirect/PageNotFound';
@@ -25,6 +37,7 @@ import JoinSuccess from './views/redirect/JoinSuccess';
 
 import Temp from './views/Main';
 import Modify from './views/user/Modify';
+
 
 //토큰 없이(비회원) About 외 페이지 접근 시 리다이렉트
 // https://router.vuejs.org/kr/guide/advanced/navigation-guards.html
@@ -45,15 +58,77 @@ const redirectBefore = () => (to, from, next) => {
   }
 };
 
-export default [
-  //main 영역
-  {
-    path: '/',
-    name: 'Main',
-    component: Main,
-  },
 
-  // 사용자 관련 영역
+export default [
+
+    //main 영역
+    {
+        path : '/main',
+        name : 'Main',
+        component : Main
+    },
+
+    {
+        path : '/user/join',
+        name : 'Join',
+        component : Join
+    },
+    {
+        path : '/user/mypage',
+        name : 'Mypage',
+        component : Mypage
+    },
+    
+    // Curation board
+    {
+        path: '/curation/bamboo',
+        name: 'BambooForest',
+        component: BambooForest
+    },
+    {
+        path: '/curation/learningshare',
+        name: 'LearnShare',
+        component: LearnShare
+    },
+    {
+        path: '/curation/main/study',
+        name: 'StudyMain',
+        component: StudyMain
+    },
+    {
+        path: '/curation/study/part',
+        name: 'Study',
+        component: Study
+    },
+    {
+        path: '/curation/market',
+        name: 'Market',
+        component: Market
+    },
+    {
+        path: '/curation/recruitment',
+        name: 'Recruitment',
+        component: Recruitment
+    },
+
+    // board
+    {
+        path : '/boards',
+        name : 'Board',
+        component : Board
+    },
+    {
+        path: '/boards/post',
+        name : 'Post',
+        component : PostDetail
+    },
+    {
+        path:'/boards/create',
+        name:'BoardForm',
+        component: BoardForm
+    },
+    
+      // 사용자 관련 영역
   {
     path: '/login',
     name: 'Login',
@@ -80,6 +155,7 @@ export default [
     component: Mypage,
     beforeEnter: requireAuth(), //토큰 정보 없을 때, 로그인 페이지로 redirect
   },
+
 
   //board
   {
