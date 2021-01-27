@@ -16,8 +16,8 @@
 		)
 	</insert>
 
-	<select id="emailCheck" parameterType="String" resultType="UserDto">
-		select * 
+	<select id="emailCheck" parameterType="String" resultType="integer">
+		select count(*)
 		from user
 		where user_email=#{user_email};
 	</select>
@@ -58,5 +58,32 @@
 		where user_id=#{user_id}
 	</delete>
 
-	<select id="getSubBoards"></select>
+	<select id="getSubBoards" parameterType="string" resultType="Subscription">
+		select *
+		from subscription
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getComments" parameterType="string" resultType="Comments">
+		select *
+		from comments
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getPosts" parameterType="string" resultType="Post">
+		select *
+		from post
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getBookmarks" parameterType="string" resultType="Post">
+		select *
+		from post
+		where post_id in (
+			select post_id
+			from bookmarks
+			where user_id = #{user_id}
+		)
+
+	</select>
 </mapper>

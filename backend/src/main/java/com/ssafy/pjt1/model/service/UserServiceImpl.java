@@ -1,25 +1,20 @@
 package com.ssafy.pjt1.model.service;
 
+import com.ssafy.pjt1.model.dto.comments.Comments;
+import com.ssafy.pjt1.model.dto.post.Post;
+import com.ssafy.pjt1.model.dto.subscription.Subscription;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.mapper.UserMapper;
 
-import java.io.UnsupportedEncodingException;
-
-import java.util.HashMap;
-
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import javax.mail.MessagingException;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto emailCheck(String user_email) {
+	public int emailCheck(String user_email) {
 		return sqlSession.getMapper(UserMapper.class).emailCheck(user_email);
 	}
 
@@ -48,24 +43,13 @@ public class UserServiceImpl implements UserService {
 	public String getId() {
 		Random random = new Random();
 		StringBuffer buffer = new StringBuffer();
+		int num = 0;
 
-		for (int i = 0; i < 13; i++) {
-			int rIndex = random.nextInt(3);
-			switch (rIndex) {
-				case 0:
-					// a-z
-					buffer.append((char) ((int) (random.nextInt(26)) + 97));
-					break;
-				case 1:
-					// A-Z
-					buffer.append((char) ((int) (random.nextInt(26)) + 65));
-					break;
-				case 2:
-					// 0-9
-					buffer.append((random.nextInt(10)));
-					break;
-			}
+		while (buffer.length() < 13) {
+			num = random.nextInt(10);
+			buffer.append(num);
 		}
+
 		return buffer.toString();
 	}
 
@@ -81,8 +65,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userInfo(String user_id) {
-		return sqlSession.getMapper(UserMapper.class).userInfo(user_id);
+	public UserDto userInfo(String user_email) {
+		return sqlSession.getMapper(UserMapper.class).userInfo(user_email);
 	}
 
 	@Override
@@ -98,6 +82,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int userDelete(String user_id) {
 		return sqlSession.getMapper(UserMapper.class).userDelete(user_id);
+	}
+
+	@Override
+	public List<Subscription> getSubBoards(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getSubBoards(user_id);
+	}
+
+	@Override
+	public List<Comments> getComments(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getComments(user_id);
+	}
+
+	@Override
+	public List<Post> getPosts(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getPosts(user_id);
+	}
+
+	@Override
+	public List<Post> getBookmarks(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getBookmarks(user_id);
 	}
 
 }

@@ -7,14 +7,13 @@ import com.ssafy.pjt1.common.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableCaching 
+@EnableCaching
 public class Pjt1Application implements WebMvcConfigurer {
 
 	@Autowired
@@ -36,6 +35,6 @@ public class Pjt1Application implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**").allowedOrigins("*").allowedMethods("*").allowedHeaders("*")
-				.exposedHeaders("auth-token");
+				.exposedHeaders("auth_token");
 	}
 }
