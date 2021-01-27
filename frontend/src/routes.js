@@ -7,25 +7,39 @@ import Login from './views/user/Login.vue'
 import Join from './views/user/Join.vue'
 import Mypage from '@/views/user/Mypage.vue'
 
+
+// curation board
+import BambooForest from '@/views/curation/bamboo/BambooForest'
+import LearnShare from '@/views/curation/learningshare/LearnShare'
+import StudyMain from '@/views/curation/study/StudyMain'
+import Study from '@/views/curation/study/Study'
+import Market from '@/views/curation/market/Market'
+import Recruitment from '@/views/curation/recruitment/Recruitment'
+
 //board
 import Board from './views/boards/Board.vue'
 import PostDetail from './views/boards/PostDetail.vue'
 import BoardForm from './views/boards/BoardForm.vue'
 
+
 //search
 import SearchPost from './views/search/SearchPost.vue'
 import SearchBoard from './views/search/SearchBoard.vue'
 
+
 // Chat
 import ChatPage from './views/openchat/ChatPage.vue'
+
 
 //redirect vue
 import PageNotFound from './views/redirect/PageNotFound'
 import Errors from './views/redirect/Errors'
 import JoinSuccess from './views/redirect/JoinSuccess'
 
+
 import Temp from './views/Main'
 import Modify from './views/user/Modify'
+
 
 export default [
 
@@ -53,7 +67,39 @@ export default [
         component : Mypage
     },
     
-    //board
+    // Curation board
+    {
+        path: '/curation/bamboo',
+        name: 'BambooForest',
+        component: BambooForest
+    },
+    {
+        path: '/curation/learningshare',
+        name: 'LearnShare',
+        component: LearnShare
+    },
+    {
+        path: '/curation/main/study',
+        name: 'StudyMain',
+        component: StudyMain
+    },
+    {
+        path: '/curation/study/part',
+        name: 'Study',
+        component: Study
+    },
+    {
+        path: '/curation/market',
+        name: 'Market',
+        component: Market
+    },
+    {
+        path: '/curation/recruitment',
+        name: 'Recruitment',
+        component: Recruitment
+    },
+
+    // board
     {
         path : '/boards',
         name : 'Board',
