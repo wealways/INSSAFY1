@@ -4,7 +4,7 @@
       <b-row>
         <b-col cols="6" class="banner">
           <div>
-            <img src="./img.jpg" alt="" width="100%">
+            <img src="@/assets/images/login-img.jpg" alt="" width="100%">
           </div>
           <!-- <h2 class="b-title">for SSAFY</h2> -->
           
@@ -45,7 +45,7 @@
           <div class="etc-options">
             <div class="etc-option-item">
               <!-- <p>아직 회원이 아니신가요?</p> -->
-              <router-link to="/user/join" class="btn-text">회원가입</router-link>
+              <router-link to="/join" class="btn-text">회원가입</router-link>
             </div>
             <div class="etc-option-item">
               <!-- <p>비밀번호 잊으셨나요?</p> -->
