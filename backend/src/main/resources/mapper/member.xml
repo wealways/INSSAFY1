@@ -69,4 +69,21 @@
 		from comments
 		where user_id = #{user_id}
 	</select>
+
+	<select id="getPosts" parameterType="string" resultType="Post">
+		select *
+		from post
+		where user_id = #{user_id}
+	</select>
+
+	<select id="getBookmarks" parameterType="string" resultType="Post">
+		select *
+		from post
+		where post_id in (
+			select post_id
+			from bookmarks
+			where user_id = #{user_id}
+		)
+
+	</select>
 </mapper>

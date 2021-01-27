@@ -1,24 +1,19 @@
 package com.ssafy.pjt1.model.service;
 
 import com.ssafy.pjt1.model.dto.comments.Comments;
+import com.ssafy.pjt1.model.dto.post.Post;
 import com.ssafy.pjt1.model.dto.subscription.Subscription;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.mapper.UserMapper;
 
-import java.io.UnsupportedEncodingException;
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import javax.mail.MessagingException;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -97,6 +92,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<Comments> getComments(String user_id) {
 		return sqlSession.getMapper(UserMapper.class).getComments(user_id);
+	}
+
+	@Override
+	public List<Post> getPosts(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getPosts(user_id);
+	}
+
+	@Override
+	public List<Post> getBookmarks(String user_id) {
+		return sqlSession.getMapper(UserMapper.class).getBookmarks(user_id);
 	}
 
 }

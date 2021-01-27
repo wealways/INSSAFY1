@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ssafy.pjt1.model.dto.comments.Comments;
+import com.ssafy.pjt1.model.dto.post.Post;
 import com.ssafy.pjt1.model.dto.subscription.Subscription;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.service.JwtService;
@@ -73,13 +74,16 @@ public class UserController {
             logger.info("로그인 객체 : " + loginUser.getUser_email());
             if (loginUser != null
                     && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {
-                String token = jwtService.create("userid", loginUser.getUser_email(), "auth-token");// key, data,
-                                                                                                    // subject
+                // 토큰 생성
+                String token = jwtService.create("userid", loginUser.getUser_email(), "auth_token");
                 logger.info("로그인 토큰정보 : {}", token);
-                // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
+                if (loginUser.getUser_auth() == 0) {// 메일 인증 안 받음
+                    resultMap.put("message", "NO_AUTH");
+                } else if (loginUser.getUser_auth() == 1) {// 메일 인증 안 받음
+                    resultMap.put("message", SUCCESS);
+                }
                 resultMap.put("auth_token", token);
                 resultMap.put("user", loginUser);
-                resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } else {
                 logger.info("로그인 FAIL");
@@ -87,7 +91,8 @@ public class UserController {
                 status = HttpStatus.ACCEPTED;
             }
         } catch (Exception e) {
-            logger.error("로그인 실패 : {}", e);
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -130,8 +135,9 @@ public class UserController {
             userService.updateAuthKey(map);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
-            logger.error("실패", e);
             resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -162,8 +168,8 @@ public class UserController {
                 status = HttpStatus.NOT_ACCEPTABLE;
             }
         } catch (Exception e) {
-            logger.error("error", e);
             resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -212,7 +218,7 @@ public class UserController {
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
-            logger.error(" 실패", e);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -242,6 +248,8 @@ public class UserController {
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -267,7 +275,7 @@ public class UserController {
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
-            logger.error("수정 실패", e);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -294,9 +302,9 @@ public class UserController {
                 resultMap.put("message", FAIL);
             }
         } catch (Exception e) {
-            resultMap.put("message", "FAIL");
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message", FAIL);
             logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -324,7 +332,8 @@ public class UserController {
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
-            logger.error("실패", e);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -350,13 +359,14 @@ public class UserController {
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
     /*
-     * 기능: 구독 보드 리스트 출력
+     * 기능: 구독 보드(subscription) 리스트 출력
      * 
      * developer: 문진환
      * 
@@ -375,19 +385,20 @@ public class UserController {
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
     /*
-     * 기능: 작성글 가져오기
+     * 기능: 댓글(comments) 가져오기
      * 
      * developer: 문진환
      * 
      * @param : user_id
      * 
-     * @return : List<Subscription>
+     * @return : List<Comments>
      */
     @GetMapping("user/getComments/{user_id}")
     public ResponseEntity<Map<String, Object>> getComments(@PathVariable String user_id) {
@@ -400,6 +411,63 @@ public class UserController {
             resultMap.put("comments", comments);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 작성글(post) 가져오기
+     * 
+     * developer: 문진환
+     * 
+     * @param : user_id
+     * 
+     * @return : List<Post>
+     */
+    @GetMapping("user/getPosts/{user_id}")
+    public ResponseEntity<Map<String, Object>> getPost(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getPosts/user_id 호출성공");
+        try {
+            resultMap.put("message", SUCCESS);
+            List<Post> posts = userService.getPosts(user_id);
+            logger.info("posts", posts);
+            resultMap.put("posts", posts);
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 북마크(BookMark) 가져오기
+     * 
+     * developer: 문진환
+     * 
+     * @param : user_id
+     * 
+     * @return : List<Post>
+     */
+    @GetMapping("user/getBookmarks/{user_id}")
+    public ResponseEntity<Map<String, Object>> getBookmmarks(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getPosts/user_id 호출성공");
+        try {
+            resultMap.put("message", SUCCESS);
+            List<Post> bookmarks = userService.getBookmarks(user_id);
+            logger.info("bookmark", bookmarks);
+            resultMap.put("bookmark", bookmarks);
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
