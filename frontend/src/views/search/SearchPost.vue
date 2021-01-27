@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import MyPost from "@/views/user/common/MyPost.vue"
+import MyPost from "@/components/mypage/MyPost.vue"
 
 
 export default {
