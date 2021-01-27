@@ -74,13 +74,16 @@ public class UserController {
             logger.info("로그인 객체 : " + loginUser.getUser_email());
             if (loginUser != null
                     && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {
-                String token = jwtService.create("userid", loginUser.getUser_email(), "auth_token");// key, data,
-                                                                                                    // subject
+                // 토큰 생성
+                String token = jwtService.create("userid", loginUser.getUser_email(), "auth_token");
                 logger.info("로그인 토큰정보 : {}", token);
-                // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
+                if (loginUser.getUser_auth() == 0) {// 메일 인증 안 받음
+                    resultMap.put("message", "NO_AUTH");
+                } else if (loginUser.getUser_auth() == 1) {// 메일 인증 안 받음
+                    resultMap.put("message", SUCCESS);
+                }
                 resultMap.put("auth_token", token);
                 resultMap.put("user", loginUser);
-                resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } else {
                 logger.info("로그인 FAIL");
