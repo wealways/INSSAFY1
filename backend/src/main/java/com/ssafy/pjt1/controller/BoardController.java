@@ -168,13 +168,20 @@ public class BoardController {
     }
 
     @GetMapping("/getBoards")
-    public ResponseEntity<Map<String, Object>> getBoards(){
+    public ResponseEntity<Map<String, Object>> getBoards(@RequestParam(value = "sort")String sort){
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/board/getBoards 호출 성공");
 
         try {
-            List<BoardDto> boardList = boardService.getBoards();
+            List<BoardDto> boardList;
+            if(sort.equals("new")){
+                logger.info("최신순 전체 보드 검색");
+                boardList = boardService.getBoardsNew();
+            }else{
+                logger.info("구독순 전체 보드 검색");
+                boardList = boardService.getBoardsPopular();
+            }
             resultMap.put("boardList",boardList);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {

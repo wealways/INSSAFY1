@@ -52,9 +52,17 @@
 		where board_id = #{board_id}
 	</update>
 
-	<select id="getBoards" resultType="BoardDto">
+	<select id="getBoardsNew" resultType="BoardDto">
 		select *
-		from board;
+		from board
+		order by board_date desc;
+	</select>
+
+	<select id="getBoardsPopular" resultType="BoardDto">
+		select *
+		from board as b join (select count(board_id) as board_count, board_id from subscription group by board_id) as c 
+		on b.board_id = c.board_id
+		order by c.board_count desc;
 	</select>
 
 	<select id="searchBoardNew" parameterType="string" resultType="BoardDto">

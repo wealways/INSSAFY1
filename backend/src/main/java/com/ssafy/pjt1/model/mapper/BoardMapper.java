@@ -27,7 +27,9 @@ public interface BoardMapper {
 
 	public int modifyBoard(BoardDto boardDto);
 
-	public List<BoardDto> getBoards();
+	public List<BoardDto> getBoardsNew();
+
+	public List<BoardDto> getBoardsPopular();
 
 	public List<BoardDto> searchBoardNew(String keyword);
 
