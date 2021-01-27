@@ -23,4 +23,10 @@ public interface BoardService {
 	public void updateManager(Map<String, Object> map);
 
 	public int modifyBoard(BoardDto boardDto);
+
+	public List<BoardDto> getBoards();
+
+	public List<BoardDto> searchBoardNew(String keyword);
+
+	public List<BoardDto> searchBoardPopular(String keyword);
 }

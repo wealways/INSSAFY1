@@ -63,4 +63,19 @@ public class BoardServiceImpl implements BoardService {
 		return sqlSession.getMapper(BoardMapper.class).modifyBoard(boardDto);
 	}
 
+	@Override
+	public List<BoardDto> getBoards() {
+		return sqlSession.getMapper(BoardMapper.class).getBoards();
+	}
+
+	@Override
+	public List<BoardDto> searchBoardNew(String keyword) {
+		return sqlSession.getMapper(BoardMapper.class).searchBoardNew(keyword);
+	}
+
+	@Override
+	public List<BoardDto> searchBoardPopular(String keyword) {
+		return sqlSession.getMapper(BoardMapper.class).searchBoardPopular(keyword);
+	}
+
 }

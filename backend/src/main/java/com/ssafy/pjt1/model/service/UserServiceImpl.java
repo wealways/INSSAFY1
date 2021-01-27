@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto emailCheck(String user_email) {
+	public int emailCheck(String user_email) {
 		return sqlSession.getMapper(UserMapper.class).emailCheck(user_email);
 	}
 

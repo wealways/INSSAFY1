@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.pjt1.model.dto.board.BoardDto;
@@ -142,6 +143,7 @@ public class BoardController {
         } catch (Exception e) {
             logger.error("실패", e);
             resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -154,6 +156,8 @@ public class BoardController {
         try {
             if (boardService.modifyBoard(boardDto) == 1) {
                 resultMap.put("message", SUCCESS);
+            }else{
+                resultMap.put("message", FAIL);
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
@@ -163,5 +167,48 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    @GetMapping("/getBoards")
+    public ResponseEntity<Map<String, Object>> getBoards(){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("/board/getBoards 호출 성공");
+
+        try {
+            List<BoardDto> boardList = boardService.getBoards();
+            resultMap.put("boardList",boardList);
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("목록 호출 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    @GetMapping("/searchBoard")
+    public ResponseEntity<Map<String, Object>> searchBoard(@RequestParam(value = "sort")String sort, 
+    @RequestParam(value = "keyword")String keyword){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("/board/searchBoard 호출 성공");
+        try {
+            List<BoardDto> boardList;
+            if(sort.equals("new")){
+                logger.info("최신순 보드 검색");
+                boardList = boardService.searchBoardNew(keyword);
+            }else{
+                logger.info("구독순 보드 검색");
+                boardList = boardService.searchBoardPopular(keyword);
+            }
+            resultMap.put("boardList",boardList);
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("검색 호출 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
 }

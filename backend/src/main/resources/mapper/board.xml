@@ -52,4 +52,26 @@
 		where board_id = #{board_id}
 	</update>
 
+	<select id="getBoards" resultType="BoardDto">
+		select *
+		from board;
+	</select>
+
+	<select id="searchBoardNew" parameterType="string" resultType="BoardDto">
+		select *
+		from board
+		where board_name like concat('%',#{keyword} ,'%') or board_description like concat('%',#{keyword} ,'%')
+		or board_hash like concat('%',#{keyword} ,'%')
+		order by board_date desc;
+	</select>
+
+	<select id="searchBoardPopular" parameterType="string" resultType="BoardDto">
+		select *
+		from board as b join (select count(board_id) as board_count, board_id from subscription group by board_id) as c 
+		on b.board_id = c.board_id
+		where b.board_name like concat('%',#{keyword} ,'%') or b.board_description like concat('%',#{keyword} ,'%')
+		or b.board_hash like concat('%',#{keyword} ,'%')
+		order by c.board_count desc;
+	</select>
+
 </mapper>
