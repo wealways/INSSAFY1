@@ -1,8 +1,8 @@
 package com.ssafy.pjt1.model.mapper;
 
-import com.ssafy.pjt1.model.dto.comments.Comments;
-import com.ssafy.pjt1.model.dto.post.Post;
-import com.ssafy.pjt1.model.dto.subscription.Subscription;
+import com.ssafy.pjt1.model.dto.comment.CommentDto;
+import com.ssafy.pjt1.model.dto.post.PostDto;
+import com.ssafy.pjt1.model.dto.subscription.SubscriptionDto;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 
 import java.util.List;
@@ -30,11 +30,11 @@ public interface UserMapper {
 
     public int userDelete(String user_id);
 
-    public List<Subscription> getSubBoards(String user_id);
+    public List<SubscriptionDto> getSubBoards(String user_id);
 
-    public List<Comments> getComments(String user_id);
+    public List<CommentDto> getComments(String user_id);
 
-    public List<Post> getPosts(String user_id);
+    public List<PostDto> getPosts(String user_id);
 
-    public List<Post> getBookmarks(String user_id);
+    public List<PostDto> getScraps(String user_id);
 }

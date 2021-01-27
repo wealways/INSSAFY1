@@ -1,6 +1,6 @@
 package com.ssafy.pjt1.model.dto.post;
 
-public class Post {
+public class PostDto {
     private int post_id;
     private String user_id;
     private int board_id;
@@ -101,4 +101,7 @@ public class Post {
         this.post_state = post_state;
     }
 
+    public PostDto() {
+        super();
+    }
 }

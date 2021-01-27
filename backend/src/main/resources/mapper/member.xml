@@ -58,32 +58,31 @@
 		where user_id=#{user_id}
 	</delete>
 
-	<select id="getSubBoards" parameterType="string" resultType="Subscription">
+	<select id="getSubBoards" parameterType="string" resultType="SubscriptionDto">
 		select *
 		from subscription
 		where user_id = #{user_id}
 	</select>
 
-	<select id="getComments" parameterType="string" resultType="Comments">
+	<select id="getComments" parameterType="string" resultType="CommentDto">
 		select *
 		from comments
 		where user_id = #{user_id}
 	</select>
 
-	<select id="getPosts" parameterType="string" resultType="Post">
+	<select id="getPosts" parameterType="string" resultType="PostDto">
 		select *
 		from post
 		where user_id = #{user_id}
 	</select>
 
-	<select id="getBookmarks" parameterType="string" resultType="Post">
+	<select id="getScraps" parameterType="string" resultType="PostDto">
 		select *
 		from post
 		where post_id in (
 			select post_id
-			from bookmarks
+			from scrap
 			where user_id = #{user_id}
 		)
-
 	</select>
 </mapper>
