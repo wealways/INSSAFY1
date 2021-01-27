@@ -11,6 +11,12 @@
 /* ------------------------ */
 /* 공통 적용 활용 */
 /* ------------------------ */
+.toast_hide {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  z-index: -10;
+}
 .m-top {
   margin-top: 30px;
 }

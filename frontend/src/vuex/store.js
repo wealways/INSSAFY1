@@ -15,14 +15,14 @@ Vue.use(Vuex);
 //initialized
 const SEARCH_STATE = () => {
   return {
-    filter: [],
+    filters: [],
     keyword: '',
-    visible: false,
   };
 };
 
 const state = {
   searchState: SEARCH_STATE(),
+  toastActive: false,
 };
 
 export default new Vuex.Store({

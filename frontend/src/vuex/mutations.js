@@ -6,10 +6,15 @@ export default {
   setSearchFilters(state, filters) {
     state.searchState.filters = filters;
   },
-  setSearchVisible(state, visible) {
-    state.searchState.visible = visible;
+  // setSearchVisible(state, visible) {
+  //   state.searchState.visible = visible;
+  // },
+  setSearchState(state, payload) {
+    state.searchState = payload;
   },
-  getSearchState(state, searchState) {
-    state.searchState = searchState;
+
+  //set Toast
+  setToastTogle(state) {
+    state.toastActive = !state.toastActive;
   },
 };

@@ -49,32 +49,27 @@
         </svg>
       </div>
     </div>
-    <SearchBar searchBar="searchBar" />
-    <!-- <Toast id="toast" /> -->
+    <div id="toast-container">
+      <Toast id="toast" :class="{ toast_hide: !getToastActive }" />
+      <div id="toast-bg" :class="{ toast_hide: !getToastActive }" @click="clickOutsideTheToast" />
+    </div>
   </div>
 </template>
 
 <script>
-import SearchBar from './SearchBar';
 import Toast from './Toast';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Nav',
   components: {
-    SearchBar,
-    // Toast,
+    Toast,
   },
   data() {
-    return {
-      searchBar: {
-        active: false,
-        filters: [],
-      },
-    };
+    return {};
   },
   computed: {
-    ...mapGetters(['getUser', 'getToken']),
+    ...mapGetters(['getUser', 'getToken', 'getToastActive']),
     isLoginRoute: function() {
       return this.$route.name == 'Login';
     },
@@ -87,8 +82,8 @@ export default {
       this.$router.push({ name: 'Main' });
     },
     clickNBtn1: function() {
-      alert('clicked Btn1');
-      this.searchBar.active = true;
+      this.$store.commit('setSearchFilters', ['보드명', '글제목']);
+      this.$store.commit('setToastTogle');
     },
     clickNBtn2: function() {
       alert('clicked Btn2');
@@ -101,7 +96,7 @@ export default {
       alert('clicked hamberger');
     },
     clickSearch: function() {
-      alert('click Search');
+      this.$store.commit('setToastTogle');
     },
     clickLoginBtn: function() {
       this.$router.push({ name: 'Login' });
@@ -110,6 +105,9 @@ export default {
       // this.$store.dispatch('auth/logout');
       this.$store.commit('auth/setLogoutState');
     },
+    clickOutsideTheToast: function() {
+      this.$store.commit('setToastTogle');
+    },
   },
 };
 </script>
@@ -117,11 +115,22 @@ export default {
 <style scoped>
 /* 로그인 페이지 일 때 로그인 버튼 숨기기 위해 */
 #toast {
-  position: absolute;
-  z-index: 10;
+  position: fixed;
+  z-index: 20;
   top: 0;
   background-color: var(--basic-color-bg);
-  padding: 10px;
+  padding: 20px 0;
+  transition: visibility 0.6s, opacity 0.6s, transform 0.6s ease;
+}
+#toast-bg {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  background-color: #00000066;
+  transition: visibility 0.6s, opacity 0.6s, transform 0.6s ease;
 }
 .hidden {
   visibility: hidden;
