@@ -34,11 +34,10 @@ const state = {
   toastType: {
     search: false,
     myinfo: false,
+    email: false,
   },
   searchState: SEARCH_STATE(),
-  comments:[
-    {user:'이름',comment:'댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',date:"2021-01-28"}
-  ],
+  comments: [{ user: '이름', comment: '댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글', date: '2021-01-28' }],
 
   //가입하기 인증 문제
   problems: PROBLEMS(),

@@ -9,6 +9,13 @@ export default {
   getUser: function(state) {
     return state.auth.user;
   },
+  getDomain: function(state) {
+    let email = state.auth.user.email;
+    if (email == null) return null;
+    let domain = email.substring(email.indexOf('@') + 1, email.length);
+    console.log(domain);
+    return domain;
+  },
 
   //searchState
   getSearchStateFilters: function(state) {

@@ -7,13 +7,6 @@
     <button v-for="(item, index) in linkList" :key="`link${index}`" class="b-desc-e filter-btn" @click="clickLinkBtn(index)">
       {{ item }}
     </button>
-    <button id="closer" @click="clickCloser">
-      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-        <path
-          d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
-        />
-      </svg>
-    </button>
   </div>
 </template>
 
@@ -29,9 +22,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getSearchStateFilters']),
-    isLoginRoute: function() {
-      return this.$route.name == 'Login';
-    },
   },
   methods: {
     clickCloser: function() {

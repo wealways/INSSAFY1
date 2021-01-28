@@ -15,10 +15,12 @@
       </div>
     </div>
     <div id="posts">
-      <swiper class="swiper" :options="swiperOption">
-        <swiper-slide>Slide 1</swiper-slide>
-        <swiper-slide>Slide 2</swiper-slide>
-      </swiper>
+      <div class="inner">
+        <swiper v-once class="swiper" :options="swiperOption">
+          <swiper-slide>Slide 1</swiper-slide>
+          <swiper-slide>Slide 2</swiper-slide>
+        </swiper>
+      </div>
     </div>
   </div>
 </template>
@@ -51,9 +53,7 @@ export default {
       },
     };
   },
-  mounted() {
-    console.log(this.item);
-  },
+  mounted() {},
   computed: {},
   methods: {},
 };
@@ -113,7 +113,6 @@ export default {
 }
 
 #posts {
-  align-items: inherit;
   width: 72%;
   height: 10%;
   background-color: var(--basic-color-fill2);

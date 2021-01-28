@@ -56,7 +56,9 @@ export default {
     async login(context, { email, password }) {
       try {
         const response = await authApi.login(email, password);
-        if (response.data.message === 'success') {
+        console.log(response);
+        //로그인 성공 && 인증 완료
+        if (response.data.message === 'SUCCESS') {
           // context.commit('setToken', response.data.auth_token);
           // context.commit('setId', response.data.user.user_id);
           // context.commit('setEmail', response.data.user.user_email);
@@ -67,6 +69,10 @@ export default {
             email: response.data.user_email,
             nickname: response.data.user_nickname,
           });
+
+          //이메일 인증을 완료하지 않은 유저의 경우 email 활용하여 링크생성
+        } else if (response.data.message === 'NO_AUTH') {
+          context.commit('setEmail', response.data.user.user_email);
         }
         return response;
       } catch (error) {

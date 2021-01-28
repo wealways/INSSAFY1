@@ -3,6 +3,14 @@
     <div id="decoration"></div>
     <Myinfo :class="{ none: !getToastType.myinfo }" />
     <Search :class="{ none: !getToastType.search }" />
+    <Email :class="{ none: !getToastType.email }" />
+    <button id="closer" @click="clickCloser">
+      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+        <path
+          d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
+        />
+      </svg>
+    </button>
   </div>
 </template>
 
@@ -10,11 +18,13 @@
 import { mapGetters } from 'vuex';
 import Search from './toast_sub/Search';
 import Myinfo from './toast_sub/Myinfo';
+import Email from './toast_sub/Email';
 export default {
   name: 'Toast',
   components: {
     Search,
     Myinfo,
+    Email,
   },
   data() {
     return {
