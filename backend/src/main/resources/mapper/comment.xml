@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.pjt1.model.mapper.PostMapper">
+<mapper namespace="com.ssafy.pjt1.model.mapper.CommentMapper">
 
-	<insert id="createPost" parameterType="PostDto" useGeneratedKeys="true" keyProperty="post_id">
-		insert into post (user_id, board_id, post_title, post_description,
-		post_image,post_iframe,post_header,post_state,post_date,post_like)
-		values ( #{user_id}, #{board_id}, #{post_title}, #{post_description} ,
-		#{post_image}, #{post_iframe}, #{post_header}, #{post_state},now(),0)
+	<insert id="createComment" parameterType="CommentDto" useGeneratedKeys="true" keyProperty="comment_id">
+		insert into comment (user_id, post_id, comment_description,
+		comment_date)
+		values ( #{user_id}, #{post_id}, #{comment_description}, now())
 	</insert>
 
-	<select id="getPostById" parameterType="string" resultType="PostDto">
+	<update id="commentModify" parameterType="CommentDto">
+		update comment
+		set  comment_description=#{comment_description}
+		where comment_id = #{comment_id}
+	</update>
+
+	<delete id="commentDelete" parameterType="int">
+		delete
+		from comment
+		where comment_id=#{comment_id}
+	</delete>
+
+	<!-- <select id="getPostById" parameterType="string" resultType="PostDto">
 		select * 
 		from post
 		where post_id = #{post_id};
 	</select>
-
-	<update id="postModify" parameterType="PostDto">
-		update post
-		set  post_title=#{post_title}, post_description=#{post_description},
-		post_image=#{post_image}, post_iframe=#{post_iframe}, post_header=#{post_header}, post_state=#{post_state}
-		where post_id = #{post_id}
-	</update>
-	
-	<delete id="postDelete" parameterType="int">
-		delete
-		from post
-		where post_id=#{post_id}
-	</delete>
-	
+		
 	<select id="isScrapped" parameterType="map" resultType="int">
 		select count(*)
 		from scrap
@@ -73,6 +71,6 @@
 		update post 
 		set post_like = post_like - 1
 		where post_id = #{post_id};
-	</update>
+	</update> -->
 
 </mapper>

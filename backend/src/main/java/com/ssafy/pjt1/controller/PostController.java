@@ -149,7 +149,6 @@ public class PostController {
             map.put("post_id",post_id);
             logger.info("map: "+map);
             int count = postService.isLiked(map);
-            logger.info("count: "+count);
             if (count == 0) {
                 logger.info("좋아요 클릭");
                 postService.like(map);

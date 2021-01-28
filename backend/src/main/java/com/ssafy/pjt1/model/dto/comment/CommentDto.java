@@ -46,4 +46,8 @@ public class CommentDto {
     public void setComment_date(String comment_date) {
         this.comment_date = comment_date;
     }
+
+    public CommentDto() {
+        super();
+    }
 }
