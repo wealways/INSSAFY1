@@ -15,9 +15,9 @@ import Market from '@/views/curation/market/Market';
 import Recruitment from '@/views/curation/recruitment/Recruitment';
 
 //board
-import Board from './views/boards/Board.vue';
-import PostDetail from './views/boards/PostDetail.vue';
-import BoardForm from './views/boards/BoardForm.vue';
+import Board from './views/board/Board.vue';
+import PostDetail from './views/board/PostDetail.vue';
+import BoardForm from './views/board/BoardForm.vue';
 
 //search
 import SearchPost from './views/search/SearchPost.vue';
@@ -122,17 +122,17 @@ export default [
 
   // board
   {
-    path: '/boards',
+    path: '/board',
     name: 'Board',
     component: Board,
   },
   {
-    path: '/boards/post',
+    path: '/board/post',
     name: 'Post',
     component: PostDetail,
   },
   {
-    path: '/boards/create',
+    path: '/board/create',
     name: 'BoardForm',
     component: BoardForm,
   },

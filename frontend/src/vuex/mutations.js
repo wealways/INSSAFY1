@@ -12,4 +12,9 @@ export default {
   getSearchState(state, searchState) {
     state.searchState = searchState;
   },
+
+  //comment
+  CREATE_COMMENT(state,commentItem) {
+    state.comments.push(commentItem)
+  },
 };

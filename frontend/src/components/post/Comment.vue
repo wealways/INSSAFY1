@@ -7,12 +7,15 @@
         </div>
         <div class="header-detail">
           <div class="user-name-date">
-            <b-dropdown id="dropdown-left" class="user-name" text="이름" variant="link" toggle-class="text-decoration-none" no-caret>
+            <b-dropdown id="dropdown-left" class="user-name" variant="link" toggle-class="text-decoration-none" no-caret>
+              <template #button-content>
+                {{comment.user}}
+              </template>
               <b-dropdown-item href="#">Profile</b-dropdown-item>
               <b-dropdown-item href="#">메시지 보내기</b-dropdown-item>
               <!-- <b-dropdown-item href="#">Something else here</b-dropdown-item> -->
             </b-dropdown>
-            <div class="post-date">글쓴시간</div>
+            <div class="post-date">{{comment.date}}</div>
           </div>
           <div @click="btnComment" id="btnCommentMobile">
             <b-icon icon="three-dots-vertical" aria-hidden="true"></b-icon>
@@ -21,8 +24,7 @@
       </b-col>
       <b-col class="main">
         <div>
-        댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓댓글댓글댓글댓글댓글댓글댓글댓글
-        댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글글댓글댓글댓글
+          {{comment.comment}}
         </div>
         <div @click="btnComment" id="btnComment">
           <b-icon icon="three-dots-vertical" aria-hidden="true"></b-icon>
@@ -34,7 +36,10 @@
 
 <script>
 export default {
-  name:"CommentItem",
+  name:"Comment",
+  props:{
+    comment:Object
+  },
   methods:{
     btnComment() {
       alert(`comment ! `);
@@ -69,6 +74,7 @@ export default {
 }
 .main{
   display: flex;
+  justify-content: space-between;
   padding: 0;
   /* width:100%; */
 }

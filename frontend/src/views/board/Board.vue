@@ -32,17 +32,22 @@
 </template>
 
 <script>
+import BoardDescription from '@/components/board/BoardDescription.vue'
 import Post from '@/components/board/Post.vue'
 import PostWrite from '@/components/board/PostWrite.vue'
-import BoardDescription from '@/components/board/BoardDescription.vue'
 
 
 export default {
   name:'Board',
   components: {
+    BoardDescription,
     Post,
     PostWrite,
-    BoardDescription
+  },
+  methods:{
+    onSubscribe(){
+      return
+    }
   }
 }
 </script>
@@ -57,10 +62,10 @@ export default {
   margin-right:10%; */
 }
 
-.post-write {
-  /* display: inline-block; */
-  /* position:sticky; */
-}
+/* .post-write {
+  display: inline-block;
+  position:sticky;
+} */
 .post-search{
   display: flex;
   justify-content: flex-end;

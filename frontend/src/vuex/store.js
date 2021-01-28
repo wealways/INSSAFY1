@@ -23,6 +23,9 @@ const SEARCH_STATE = () => {
 
 const state = {
   searchState: SEARCH_STATE(),
+  comments:[
+    {user:'이름',comment:'댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글',date:"2021-01-28"}
+  ]
 };
 
 export default new Vuex.Store({
