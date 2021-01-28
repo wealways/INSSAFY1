@@ -22,4 +22,9 @@
         where calendar_item_id = #{calendar_item_id}
     </update>
 
+    <delete id="deleteCalendar" parameterType="string">
+        delete
+        from calendar_item
+        where calendar_item_id=#{calendar_item_id}
+    </delete>
 </mapper>

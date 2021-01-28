@@ -30,4 +30,8 @@ public class CalendarItemServiceImpl implements CalendarItemService {
         return sqlSession.getMapper(CalendarItemMapper.class).updateCalendar(item);
     }
 
+    @Override
+    public int deleteCalendar(String calendar_item_id) {
+        return sqlSession.getMapper(CalendarItemMapper.class).deleteCalendar(calendar_item_id);
+    }
 }

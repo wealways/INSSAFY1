@@ -15,6 +15,7 @@ public interface CalendarItemService {
     public int updateCalendar(CalendarItemDto item);
     // 일정 삭제
 
+    public int deleteCalendar(String calendar_item_id);
     // 달력숨기기?
     // 모든일정 삭제?
 }

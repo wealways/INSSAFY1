@@ -13,4 +13,6 @@ public interface CalendarItemMapper {
     public List<CalendarItemDto> readCalendar(String board_id);
 
     public int updateCalendar(CalendarItemDto item);
+
+    public int deleteCalendar(String calendar_item_id);
 }

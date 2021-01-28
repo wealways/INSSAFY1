@@ -46,8 +46,7 @@ public class SwaggerConfiguration {
 
 	private Predicate<String> postPaths() {
 		return PathSelectors.any();
-		// return or(regex("/admin/.*"), regex("/user/.*"));
-		// return regex("/admin/.*");
+		// return or(regex("/board/.*"), regex("/account/.*"));
 	}
 
 	private ApiInfo apiInfo() {
