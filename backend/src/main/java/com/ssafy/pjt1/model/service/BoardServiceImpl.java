@@ -83,4 +83,9 @@ public class BoardServiceImpl implements BoardService {
 		return sqlSession.getMapper(BoardMapper.class).searchBoardPopular(keyword);
 	}
 
+	@Override
+	public int boardDelete(int board_id) {
+		return sqlSession.getMapper(BoardMapper.class).boardDelete(board_id);
+	}
+
 }

@@ -31,4 +31,6 @@ public interface BoardService {
 	public List<BoardDto> searchBoardNew(String keyword);
 
 	public List<BoardDto> searchBoardPopular(String keyword);
+
+	public int boardDelete(int board_id);
 }

@@ -42,7 +42,7 @@ public class CommentController {
      * @return : message
      */
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> create(@RequestBody Map<String, Object> param) {
+    public ResponseEntity<Map<String, Object>> commentCreate(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("comment/create 호출성공");
@@ -74,7 +74,7 @@ public class CommentController {
      * @return : message
      */
     @PutMapping("/modify")
-    public ResponseEntity<Map<String, Object>> userModify(@RequestBody CommentDto commentDto) {
+    public ResponseEntity<Map<String, Object>> commentModify(@RequestBody CommentDto commentDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("comment/modify 호출 성공");
@@ -100,7 +100,7 @@ public class CommentController {
      * @return : message
      */
     @DeleteMapping("/delete/{comment_id}")
-    public ResponseEntity<Map<String, Object>> userDelete(@PathVariable("comment_id") int comment_id) {
+    public ResponseEntity<Map<String, Object>> commentDelete(@PathVariable("comment_id") int comment_id) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("comment/delete 호출성공");
