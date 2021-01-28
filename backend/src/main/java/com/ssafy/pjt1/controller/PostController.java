@@ -265,6 +265,41 @@ public class PostController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
-    
+    /*
+     * 기능: 전체 보드 포스트 검색 (최신순, 인기순)
+     * 
+     * developer: 윤수민
+     * 
+     * @param : sort, keyword
+     * 
+     * @return : postList, message
+     */
+    @GetMapping("/searchPost")
+    public ResponseEntity<Map<String, Object>> searchPost(@RequestParam(value = "sort")String sort, 
+    @RequestParam(value = "keyword")String keyword){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("/post/searchBoard 호출 성공");
+        try {
+            List<PostDto> postList;
+            if(sort.equals("new")){
+                logger.info("최신순 포스트 검색");
+                postList = postService.searchPostNew(keyword);
+            }else{
+                logger.info("좋아요순 포스트 검색");
+                postList = postService.searchPostPopular(keyword);
+            }
+            resultMap.put("postList",postList);
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("검색 호출 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+   
 
 }

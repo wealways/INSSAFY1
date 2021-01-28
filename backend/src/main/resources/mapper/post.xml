@@ -103,4 +103,19 @@
 		where p.board_id = #{board_id};
 	</select>
 
+	<select id="searchPostNew" parameterType="string" resultType="PostDto">
+		select *
+		from post
+		where post_title like concat('%',#{keyword} ,'%') or post_description like concat('%',#{keyword} ,'%')
+		order by post_date desc;
+	</select>
+
+	<select id="searchPostPopular" parameterType="string" resultType="PostDto">
+		select *
+		from post as p join (select count(post_id) as like_count, post_id from postLike group by post_id) as c 
+		on p.post_id = c.post_id
+		where post_title like concat('%',#{keyword} ,'%') or post_description like concat('%',#{keyword} ,'%')
+		order by c.like_count desc;
+	</select>
+
 </mapper>
