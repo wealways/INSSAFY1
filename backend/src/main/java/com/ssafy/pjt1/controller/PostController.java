@@ -300,6 +300,42 @@ public class PostController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
-   
+    /*
+     * 기능: 보드 내 포스트 검색 (최신순, 인기순)
+     * 
+     * developer: 윤수민
+     * 
+     * @param : sort, keyword, board_id
+     * 
+     * @return : postList, message
+     */
+    @GetMapping("/board/searchPost")
+    public ResponseEntity<Map<String, Object>> searchBoardPost(@RequestParam(value = "sort")String sort, 
+    @RequestParam(value = "keyword")String keyword, @RequestParam(value = "board_id")String board_id){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("/post/board/searchBoard 호출 성공");
+        try {
+            List<PostDto> postList;
+            Map<String, Object> map = new HashMap<>();
+            map.put("keyword", keyword);
+            map.put("board_id", board_id);
+            if(sort.equals("new")){
+                logger.info("최신순 포스트 검색");
+                postList = postService.boardPostNew(map);
+            }else{
+                logger.info("좋아요순 포스트 검색");
+                postList = postService.boardPostPopular(map);
+            }
+            resultMap.put("postList",postList);
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("검색 호출 실패", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 
 }

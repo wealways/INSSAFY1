@@ -105,4 +105,14 @@ public class PostServiceImpl implements PostService {
 	public List<PostDto> searchPostPopular(String keyword) {
 		return sqlSession.getMapper(PostMapper.class).searchPostPopular(keyword);
 	}
+
+	@Override
+	public List<PostDto> boardPostNew(Map<String, Object> map) {
+		return sqlSession.getMapper(PostMapper.class).boardPostNew(map);
+	}
+
+	@Override
+	public List<PostDto> boardPostPopular(Map<String, Object> map) {
+		return sqlSession.getMapper(PostMapper.class).boardPostPopular(map);
+	}
 }

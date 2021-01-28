@@ -118,4 +118,21 @@
 		order by c.like_count desc;
 	</select>
 
+	<select id="boardPostNew" parameterType="string" resultType="PostDto">
+		select *
+		from post
+		where post_title like concat('%',#{keyword} ,'%') or post_description like concat('%',#{keyword} ,'%')
+		and board_id = #{board_id}
+		order by post_date desc;
+	</select>
+
+	<select id="boardPostPopular" parameterType="string" resultType="PostDto">
+		select *
+		from post as p join (select count(post_id) as like_count, post_id from postLike group by post_id) as c 
+		on p.post_id = c.post_id
+		where post_title like concat('%',#{keyword} ,'%') or post_description like concat('%',#{keyword} ,'%')
+		and p.board_id = #{board_id}
+		order by c.like_count desc;
+	</select>
+
 </mapper>

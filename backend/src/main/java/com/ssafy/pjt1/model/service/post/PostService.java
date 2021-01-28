@@ -42,4 +42,8 @@ public interface PostService {
 
 	public List<PostDto> searchPostPopular(String keyword);
 
+	public List<PostDto> boardPostNew(Map<String, Object> map);
+
+	public List<PostDto> boardPostPopular(Map<String, Object> map);
+
 }
