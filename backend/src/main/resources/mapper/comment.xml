@@ -9,6 +9,11 @@
 		values ( #{user_id}, #{post_id}, #{comment_description}, now())
 	</insert>
 
+	<insert id="createNotification" parameterType="CommentDto" useGeneratedKeys="true" keyProperty="comment_id">
+		insert into comment_notification
+		values ( #{comment_id})
+	</insert>
+
 	<update id="commentModify" parameterType="CommentDto">
 		update comment
 		set  comment_description=#{comment_description}

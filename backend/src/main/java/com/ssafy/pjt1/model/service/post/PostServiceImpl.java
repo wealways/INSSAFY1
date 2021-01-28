@@ -1,7 +1,9 @@
 package com.ssafy.pjt1.model.service.post;
 
+import java.util.List;
 import java.util.Map;
 
+import com.ssafy.pjt1.model.dto.comment.CommentDto;
 import com.ssafy.pjt1.model.dto.post.PostDto;
 import com.ssafy.pjt1.model.mapper.PostMapper;
 
@@ -25,7 +27,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostDto getPostById(String post_id) {
+	public PostDto getPostById(int post_id) {
 		return sqlSession.getMapper(PostMapper.class).getPostById(post_id);
 	}
 
@@ -77,5 +79,15 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public void minusCount(int post_id) {
 		sqlSession.getMapper(PostMapper.class).minusCount(post_id);
+	}
+
+	@Override
+	public int getLikeCount(int post_id) {
+		return sqlSession.getMapper(PostMapper.class).getLikeCount(post_id);
+	}
+
+	@Override
+	public List<CommentDto> getComment(int post_id) {
+		return sqlSession.getMapper(PostMapper.class).getComment(post_id);
 	}
 }

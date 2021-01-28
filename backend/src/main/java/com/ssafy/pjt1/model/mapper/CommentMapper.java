@@ -17,4 +17,6 @@ public interface CommentMapper {
 
 	public int commentDelete(int comment_id);
 
+	public void createNotification(int comment_id);
+
 }

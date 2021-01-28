@@ -343,7 +343,7 @@ public class UserController {
      * 
      * developer: 문진환
      * 
-     * @param : user_id
+     * @param : user_id7
      * 
      * @return : SUCCESS
      */

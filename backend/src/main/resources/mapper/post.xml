@@ -10,7 +10,7 @@
 		#{post_image}, #{post_iframe}, #{post_header}, #{post_state},now(),0)
 	</insert>
 
-	<select id="getPostById" parameterType="string" resultType="PostDto">
+	<select id="getPostById" parameterType="int" resultType="PostDto">
 		select * 
 		from post
 		where post_id = #{post_id};
@@ -74,5 +74,18 @@
 		set post_like = post_like - 1
 		where post_id = #{post_id};
 	</update>
+
+	<select id="getLikeCount" parameterType="int" resultType="int">
+		select count(*)
+		from postLike
+		where post_id = #{post_id};	
+	</select>
+
+	<select id="getComment" parameterType="int" resultType="CommentDto">
+		select *
+		from comment
+		where post_id = #{post_id}
+		order by comment_date desc;	
+	</select>
 
 </mapper>

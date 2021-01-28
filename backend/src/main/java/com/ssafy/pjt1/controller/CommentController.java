@@ -44,6 +44,9 @@ public class CommentController {
             commentDto.setComment_description((String) param.get("comment_description"));
             commentService.createComment(commentDto);
 
+            int comment_id = commentDto.getComment_id();
+            commentService.createNotification(comment_id);
+
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             logger.error("실패", e);
