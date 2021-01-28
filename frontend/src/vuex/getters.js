@@ -11,7 +11,15 @@ export default {
   },
 
   //searchState
-  getSearchState: function(state) {
-    return state.searchState;
+  getSearchStateFilters: function(state) {
+    return state.searchState.filters;
+  },
+
+  //Toast
+  getToastActive: function(state) {
+    return state.toastActive;
+  },
+  getToastType: function(state) {
+    return state.toastType;
   },
 };

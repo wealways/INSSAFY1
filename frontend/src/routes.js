@@ -72,7 +72,7 @@ export default [
     //보류중인 기능(로그인하지 않으면 about 페이지만 보여줄 예정이라 필요성 낮음)
     //Login.vue 내 computed 주석으로 구현 되어있음
     path: '/login/:nextRoute',
-    name: 'Login',
+    name: 'LoginNextRoute',
     component: Login,
   },
   {
