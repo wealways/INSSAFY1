@@ -1,12 +1,12 @@
 package com.ssafy.pjt1.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.ssafy.pjt1.model.dto.comment.CommentDto;
+import com.ssafy.pjt1.model.dto.post.PostDto;
+import com.ssafy.pjt1.model.dto.subscription.SubscriptionDto;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.service.JwtService;
 import com.ssafy.pjt1.model.service.MailSendService;
@@ -30,13 +30,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
 @RequestMapping("/account")
 public class UserController {
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    private static final String SUCCESS = "success";
-    private static final String FAIL = "fail";
+    private static final String SUCCESS = "SUCCESS";
+    private static final String FAIL = "FAIL";
+
     @Autowired
     private UserService userService;
 
@@ -60,23 +63,27 @@ public class UserController {
      * 
      * time: 2021/01/23
      */
+    @ApiOperation(value = "로그인", notes = "email, password를 입력해서 로그인 가능")
     @PostMapping("/confirm/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("/confirm/login 잘 들어옴");
+        logger.info("/confirm/login 호출 성공");
         try {
             UserDto loginUser = userService.login(userDto);
             logger.info("로그인 객체 : " + loginUser.getUser_email());
             if (loginUser != null
                     && passwordEncoder.matches(userDto.getUser_password(), loginUser.getUser_password())) {
-                String token = jwtService.create("userid", loginUser.getUser_email(), "auth-token");// key, data,
-                                                                                                    // subject
+                // 토큰 생성
+                String token = jwtService.create("userid", loginUser.getUser_email(), "auth_token");
                 logger.info("로그인 토큰정보 : {}", token);
-                // 토큰 정보는 response의 헤더로 보내고 나머지는 Map에 담는다.
+                if (loginUser.getUser_auth() == 0) {// 메일 인증 안 받음
+                    resultMap.put("message", "NO_AUTH");
+                } else if (loginUser.getUser_auth() == 1) {// 메일 인증 안 받음
+                    resultMap.put("message", SUCCESS);
+                }
                 resultMap.put("auth_token", token);
                 resultMap.put("user", loginUser);
-                resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
             } else {
                 logger.info("로그인 FAIL");
@@ -84,7 +91,8 @@ public class UserController {
                 status = HttpStatus.ACCEPTED;
             }
         } catch (Exception e) {
-            logger.error("로그인 실패 : {}", e);
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -99,6 +107,7 @@ public class UserController {
      * 
      * @return ResultMap * time:
      */
+    @ApiOperation(value = "회원가입", notes = "form 입력해서 회원가입")
     @PostMapping("/confirm/join")
     public ResponseEntity<Map<String, Object>> join(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -127,14 +136,15 @@ public class UserController {
             userService.updateAuthKey(map);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
-            logger.error("실패", e);
             resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
     /*
-     * 기능: 이메일 두번 중복체크
+     * 기능: 이메일 중복체크
      * 
      * developer: 윤수민
      * 
@@ -142,24 +152,25 @@ public class UserController {
      * 
      * @return time:
      */
-    @PostMapping("/confirm/emailCheck/{user_email}")
+    @GetMapping("/confirm/emailCheck/{user_email}")
     public ResponseEntity<Map<String, Object>> emailCheck(@PathVariable String user_email) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("comfirm/emailcheck 호출 성공");
+        logger.info(user_email);
         try {
-            UserDto existUser = userService.emailCheck(user_email);
-            if (existUser != null) {
-
-                resultMap.put("message", FAIL);
-                status = HttpStatus.NO_CONTENT;
-            } else {
+            int num = userService.emailCheck(user_email);
+            logger.info("중복된 email 수: " + num);
+            if (num == 0) {
                 resultMap.put("message", SUCCESS);
                 status = HttpStatus.ACCEPTED;
+            } else {
+                resultMap.put("message", FAIL);
+                status = HttpStatus.NOT_ACCEPTABLE;
             }
         } catch (Exception e) {
-            logger.error("실패", e);
             resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -208,7 +219,7 @@ public class UserController {
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
-            logger.error(" 실패", e);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -224,12 +235,10 @@ public class UserController {
      * @return ResultMap
      */
     @GetMapping("/user/{user_id}")
-    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_id") String user_id,
-            HttpServletResponse response, HttpSession session, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_id") String user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/user/user_email 호출성공");
-        logger.info("저장된 토큰: " + request.getHeader("auth-token"));
         try {
             UserDto userDto = userService.userInfo(user_id);
             if (userDto != null) {
@@ -238,6 +247,8 @@ public class UserController {
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -252,8 +263,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/user")
-    public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto, HttpServletResponse response,
-            HttpSession session, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/modify 호출 성공");
@@ -263,7 +273,7 @@ public class UserController {
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
-            logger.error("수정 실패", e);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -290,9 +300,9 @@ public class UserController {
                 resultMap.put("message", FAIL);
             }
         } catch (Exception e) {
-            resultMap.put("message", "FAIL");
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message", FAIL);
             logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -320,7 +330,8 @@ public class UserController {
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
-            logger.error("실패", e);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
@@ -346,19 +357,20 @@ public class UserController {
             }
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
     /*
-     * 기능: 구독 보드 리스트 출력
+     * 기능: 구독 보드(subscription) 리스트 출력
      * 
      * developer: 문진환
      * 
-     * @param :
+     * @param : user_id
      * 
-     * @return :
+     * @return : List<Subscription>
      */
     @GetMapping("user/getSubBoards/{user_id}")
     public ResponseEntity<Map<String, Object>> getSubBoards(@PathVariable String user_id) {
@@ -366,13 +378,96 @@ public class UserController {
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("user/getSubBoards/user_id 호출성공");
         try {
-
+            List<SubscriptionDto> boards = userService.getSubBoards(user_id);
+            resultMap.put("boards", boards);
             resultMap.put("message", SUCCESS);
         } catch (Exception e) {
             resultMap.put("message", FAIL);
+            logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 댓글(comments) 가져오기
+     * 
+     * developer: 문진환
+     * 
+     * @param : user_id
+     * 
+     * @return : List<Comments>
+     */
+    @GetMapping("user/getComments/{user_id}")
+    public ResponseEntity<Map<String, Object>> getComments(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getComents/user_id 호출성공");
+        try {
+            resultMap.put("message", SUCCESS);
+            List<CommentDto> comments = userService.getComments(user_id);
+            resultMap.put("comments", comments);
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 작성글(post) 가져오기
+     * 
+     * developer: 문진환
+     * 
+     * @param : user_id
+     * 
+     * @return : List<Post>
+     */
+    @GetMapping("user/getPosts/{user_id}")
+    public ResponseEntity<Map<String, Object>> getPost(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getPosts/user_id 호출성공");
+        try {
+            resultMap.put("message", SUCCESS);
+            List<PostDto> posts = userService.getPosts(user_id);
+            logger.info("posts", posts);
+            resultMap.put("posts", posts);
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 북마크(BookMark) 가져오기
+     * 
+     * developer: 문진환
+     * 
+     * @param : user_id
+     * 
+     * @return : List<Post>
+     */
+    @GetMapping("user/getScraps/{user_id}")
+    public ResponseEntity<Map<String, Object>> getScraps(@PathVariable String user_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("user/getScraps/user_id 호출성공");
+        try {
+            resultMap.put("message", SUCCESS);
+            List<PostDto> scraps = userService.getScraps(user_id);
+            logger.info("scraps", scraps);
+            resultMap.put("scraps", scraps);
+            status = HttpStatus.ACCEPTED;
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 }

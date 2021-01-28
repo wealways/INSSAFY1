@@ -1,6 +1,5 @@
 package com.ssafy.pjt1.model.service;
 
-import java.util.Map;
 import java.util.Random;
 
 import javax.mail.Message;

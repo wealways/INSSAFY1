@@ -24,6 +24,7 @@ public class JwtService {
 	private static final String TK = "ssafySecret";
 	private static final int EXPIRE_MINUTES = 60;
 
+	// 1초 -> 1분 -> 60분
 	public <T> String create(String key, T data, String subject) {
 		String jwt = Jwts.builder().setHeaderParam("typ", "JWT").setHeaderParam("regDate", System.currentTimeMillis())
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * EXPIRE_MINUTES)).setSubject(subject)
