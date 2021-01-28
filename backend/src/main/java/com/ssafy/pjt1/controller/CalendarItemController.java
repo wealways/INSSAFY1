@@ -50,11 +50,12 @@ public class CalendarItemController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
-    @GetMapping("/read")
+    @GetMapping("/read/{board_id}")
     public ResponseEntity<Map<String, Object>> readCalendar(@PathVariable String board_id) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/read 호출");
+        logger.info("id: " + board_id);
         try {
             List<CalendarItemDto> items = service.readCalendar(board_id);
             resultMap.put("message", SUCCESS);

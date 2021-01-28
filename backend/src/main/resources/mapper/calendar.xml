@@ -12,7 +12,7 @@
     <select id="readCalendar" parameterType="string" resultType="CalendarItemDto">
         select *
         from calendar_item
-        where boaard_id = #{board_id}
+        where board_id = #{board_id}
     </select>
 
     <update id="updateCalendar" parameterType="CalendarItemDto">

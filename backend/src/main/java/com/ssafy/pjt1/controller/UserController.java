@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import com.ssafy.pjt1.model.dto.comment.CommentDto;
 import com.ssafy.pjt1.model.dto.post.PostDto;
 import com.ssafy.pjt1.model.dto.subscription.SubscriptionDto;
@@ -33,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
@@ -65,11 +63,12 @@ public class UserController {
      * 
      * time: 2021/01/23
      */
+    @ApiOperation(value = "로그인", notes = "email, password를 입력해서 로그인 가능")
     @PostMapping("/confirm/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("/confirm/login 잘 들어옴");
+        logger.info("/confirm/login 호출 성공");
         try {
             UserDto loginUser = userService.login(userDto);
             logger.info("로그인 객체 : " + loginUser.getUser_email());
@@ -108,6 +107,7 @@ public class UserController {
      * 
      * @return ResultMap * time:
      */
+    @ApiOperation(value = "회원가입", notes = "form 입력해서 회원가입")
     @PostMapping("/confirm/join")
     public ResponseEntity<Map<String, Object>> join(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -235,12 +235,10 @@ public class UserController {
      * @return ResultMap
      */
     @GetMapping("/user/{user_id}")
-    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_id") String user_id,
-            HttpServletResponse response, HttpSession session, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> userInfo(@PathVariable("user_id") String user_id) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/user/user_email 호출성공");
-        logger.info("저장된 토큰: " + request.getHeader("auth-token"));
         try {
             UserDto userDto = userService.userInfo(user_id);
             if (userDto != null) {
@@ -265,8 +263,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/user")
-    public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto, HttpServletResponse response,
-            HttpSession session, HttpServletRequest request) {
+    public ResponseEntity<Map<String, Object>> userModify(@RequestBody UserDto userDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("/modify 호출 성공");
