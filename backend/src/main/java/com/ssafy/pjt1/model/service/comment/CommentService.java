@@ -4,8 +4,6 @@ import com.ssafy.pjt1.model.dto.comment.CommentDto;
 
 public interface CommentService {
 
-	// public PostDto getPostById(String post_id);
-
 	public void createComment(CommentDto commentDto);
 
 	public int commentModify(CommentDto commentDto);

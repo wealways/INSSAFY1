@@ -37,10 +37,5 @@ public class CommentServiceImpl implements CommentService {
 	public void createNotification(int comment_id) {
 		sqlSession.getMapper(CommentMapper.class).createNotification(comment_id);
 	}
-
-	// @Override
-	// public PostDto getPostById(String post_id) {
-	// 	return sqlSession.getMapper(PostMapper.class).getPostById(post_id);
-	// }
 	
 }
