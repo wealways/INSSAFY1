@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.pjt1.model.mapper.CommentMapper">
+
+	<insert id="createComment" parameterType="CommentDto" useGeneratedKeys="true" keyProperty="comment_id">
+		insert into comment (user_id, post_id, comment_description,
+		comment_date)
+		values ( #{user_id}, #{post_id}, #{comment_description}, now())
+	</insert>
+
+	<insert id="createNotification" parameterType="CommentDto" useGeneratedKeys="true" keyProperty="comment_id">
+		insert into comment_notification
+		values ( #{comment_id})
+	</insert>
+
+	<update id="commentModify" parameterType="CommentDto">
+		update comment
+		set  comment_description=#{comment_description}
+		where comment_id = #{comment_id}
+	</update>
+
+	<delete id="commentDelete" parameterType="int">
+		delete
+		from comment
+		where comment_id=#{comment_id}
+	</delete>
+
+	<!-- <select id="getPostById" parameterType="string" resultType="PostDto">
+		select * 
+		from post
+		where post_id = #{post_id};
+	</select>
+		
+	<select id="isScrapped" parameterType="map" resultType="int">
+		select count(*)
+		from scrap
+		where post_id = #{post_id} and user_id = #{user_id};	
+	</select>
+
+	<insert id="scrap" parameterType="map">
+		insert into scrap values (
+		#{post_id}, #{user_id}
+		)
+	</insert>
+		
+	<delete id="deleteScrap" parameterType="map"> 
+		delete from scrap 
+		where post_id = #{post_id} and user_id = #{user_id};
+	</delete>
+
+	<select id="isLiked" parameterType="map" resultType="int">
+		select count(*)
+		from postLike
+		where post_id = #{post_id} and user_id = #{user_id};	
+	</select>
+
+	<insert id="like" parameterType="map" >
+		insert into postLike values (
+		#{post_id}, #{user_id}
+		)
+	</insert>
+
+	<update id="plusCount" parameterType="map" >
+		update post 
+		set post_like = post_like + 1
+		where post_id = #{post_id};
+	</update>
+		
+	<delete id="unlike" parameterType="map"> 
+		delete from postLike 
+		where post_id = #{post_id} and user_id = #{user_id};
+	</delete>
+
+	<update id="minusCount" parameterType="map" >
+		update post 
+		set post_like = post_like - 1
+		where post_id = #{post_id};
+	</update> -->
+
+</mapper>

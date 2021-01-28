@@ -89,8 +89,8 @@ public class PostDto {
         return this.post_header;
     }
 
-    public void setPost_header(String psot_header) {
-        this.post_header = psot_header;
+    public void setPost_header(String post_header) {
+        this.post_header = post_header;
     }
 
     public int getPost_state() {
