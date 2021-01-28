@@ -8,30 +8,32 @@
         <div>
           <b-dropdown id="dropdown-left" class="user-name" variant="link" toggle-class="text-decoration-none" no-caret>
             <template #button-content>
-              {{post.user}}
+              {{post.post.user}}
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item href="#">메시지 보내기</b-dropdown-item>
             <!-- <b-dropdown-item href="#">Something else here</b-dropdown-item> -->
           </b-dropdown>
         </div>
-        <div class="post-date">{{post.post_date}}</div>
+        <div class="post-date">{{post.post.post_date}}</div>
       </div>
     </div>
-    <div class="post-body" @click="goToDetail">
-      <div class="title f-text b-desc">{{post.post_title}}</div>
-      <div class="description r-desc">{{post.post_description}}</div>
+    <div class="post-body">
+      <div class="title f-text b-desc">{{post.post.post_title}}</div>
+      <div class="description r-desc">{{post.post.post_description}}</div>
+
+      <img v-if="viewImage" :src="viewImage" alt="이미지 미리보기...">
     </div>
     <div class="post-footer">
-      <div v-if="post.post_like>=10">
-        <div class="post-like" @click="postLike" v-if="flagLike"  style="z-index: 1; position:relative; left:37.64px"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> {{post.post_like}}</div>
+      <div v-if="post.post.post_like>=10">
+        <div class="post-like" @click="postLike" v-if="flagLike"  style="z-index: 1; position:relative; left:37.64px"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> {{post.post.post_like}}</div>
       </div>
       <div v-else>
-        <div class="post-like" @click="postLike" v-if="flagLike"  style="z-index: 1; position:relative; left:28.64px"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> {{post.post_like}}</div>
+        <div class="post-like" @click="postLike" v-if="flagLike"  style="z-index: 1; position:relative; left:28.64px"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> {{post.post.post_like}}</div>
       </div>
-      <div class="post-like" @click="postLike" v-if="flagLike"><b-icon icon="emoji-smile-fill" aria-hidden="true" color="#AA2610"></b-icon> {{post.post_like}}</div>
-      <div class="post-like" @click="postLike" v-if="!flagLike"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> {{post.post_like}}</div>
-      <div class="post-comment"><b-icon icon="chat" aria-hidden="true"></b-icon> {{post.comment_count}}</div>
+      <div class="post-like" @click="postLike" v-if="flagLike"><b-icon icon="emoji-smile-fill" aria-hidden="true" color="#AA2610"></b-icon> {{post.post.post_like}}</div>
+      <div class="post-like" @click="postLike" v-if="!flagLike"><b-icon icon="emoji-smile" aria-hidden="true"></b-icon> {{post.post.post_like}}</div>
+      <div class="post-comment"><b-icon icon="chat" aria-hidden="true"></b-icon> {{post.post.comment_count}}</div>
       <div class="post-bookmark" @click="postBookmark" v-if="flagBookmark"><b-icon icon="bookmark-fill" aria-hidden="true"></b-icon></div>
       <div class="post-bookmark" @click="postBookmark" v-if="!flagBookmark"><b-icon icon="bookmark" aria-hidden="true"></b-icon></div>
     </div>
@@ -40,7 +42,7 @@
 
 <script>
 export default {
-  name:"Post",
+  name:"PostForDetail",
   props:{
     post:Object
   },
@@ -48,23 +50,30 @@ export default {
     return {
       flagLike:false,
       flagBookmark:false,
+      viewImage:null
     }
   },
-  
+  created() {
+    var input = this.post.post.img
+
+    if (input && input[0]) {
+      var reader = new FileReader();
+      reader.onload = e => {
+        this.viewImage = e.target.result;
+      };
+      reader.readAsDataURL(input[0]);
+    } else {
+        this.viewImage = null;
+    }
+  },
   methods:{
-    goToDetail() {
-      console.log(this.post)
-      // params를 이용해서 데이터를 넘겨줄 수 있다.
-      this.$router.push({ name: 'Post', params: {post:this.post} });
-    },
     postLike(e){
       this.flagLike = !this.flagLike
       console.log(this.flagLike)
-
       // 포스트좋아하는거 카운트 바꾸기 위한 지금 이 방식은 bug가 존재합니다. (유저와 연동이 안되어 있기 때문) 
       const flagLikeItem={
         flagLike:this.flagLike,
-        post_id:this.post.post_id
+        post_id:this.post.post.post_id
       }
       this.$store.dispatch('postLike',flagLikeItem)
     },
@@ -91,6 +100,10 @@ export default {
 }
 .post .post-body{
   min-height: 150px;
+}
+img{
+  /* height: 10rem; */
+  width: 70%;
 }
 .post .post-footer{
   display:flex;

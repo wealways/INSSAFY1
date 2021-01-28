@@ -3,7 +3,6 @@
     <b-container class="board">
       <b-row>
         <b-col sm="3" class="board-aside">
-          <a class="board-modify">설정</a>
           <BoardDescription/>
           <button
             class="btn-subscribe b-title"
@@ -21,10 +20,7 @@
             <!-- <b-button variant="light">글쓰기</b-button> -->
             <PostWrite/>
           </div>
-          <Post/>
-          <Post/>
-          <Post/>
-          <Post/>
+          <PostList/>
         </b-col>
       </b-row>
     </b-container>
@@ -33,15 +29,15 @@
 
 <script>
 import BoardDescription from '@/components/board/BoardDescription.vue'
-import Post from '@/components/board/Post.vue'
-import PostWrite from '@/components/board/PostWrite.vue'
 
+import PostWrite from '@/components/board/PostWrite.vue'
+import PostList from '@/components/board/PostList.vue'
 
 export default {
   name:'Board',
   components: {
     BoardDescription,
-    Post,
+    PostList,
     PostWrite,
   },
   methods:{
@@ -57,6 +53,7 @@ export default {
 .board{
   max-width: 1200px !important;
   margin: 0 auto;
+  margin-top:30px;
   /* width:80%;
   margin-left:10%;
   margin-right:10%; */
@@ -90,10 +87,6 @@ export default {
     width: 100%;
     background-color: #000 !important;
     color: #fff;
-  }
-
-  .board-modify{
-    display:none;
   }
   .post-search{
     display:none;

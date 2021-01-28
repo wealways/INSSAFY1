@@ -127,9 +127,10 @@ export default [
     component: Board,
   },
   {
-    path: '/board/post',
+    path: '/board/post/',
     name: 'Post',
     component: PostDetail,
+    props: true,
   },
   {
     path: '/board/create',
