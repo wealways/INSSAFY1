@@ -35,6 +35,15 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    /*
+     * 기능: 보드 생성
+     * 
+     * developer: 윤수민
+     * 
+     * @param : user_id, board_name, board_description, board_location, board_igmyeong, board_hash, checklist_flag, calendar_flag, vote_flag
+     * 
+     * @return : ResultMap
+     */
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> join(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -72,6 +81,15 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 보드 구독
+     * 
+     * developer: 윤수민
+     * 
+     * @param : user_id, board_id, user_role
+     * 
+     * @return : ResultMap
+     */
     @PostMapping("/subscribe")
     public ResponseEntity<Map<String, Object>> subscribe(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -102,6 +120,15 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 회원 검색
+     * 
+     * developer: 윤수민
+     * 
+     * @param : keyword
+     * 
+     * @return : message
+     */
     @GetMapping("/searchUser/{keyword}")
     public ResponseEntity<Map<String, Object>> searchUser(@PathVariable("keyword") String keyword) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -119,6 +146,15 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 관리자 추가
+     * 
+     * developer: 윤수민
+     * 
+     * @param : user_id, board_id
+     * 
+     * @return : message
+     */
     @PostMapping("/updateManager")
     public ResponseEntity<Map<String, Object>> updateManager(@RequestBody Map<String, Object> param){
         Map<String, Object> resultMap = new HashMap<>();
@@ -147,6 +183,15 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 보드 수정
+     * 
+     * developer: 윤수민
+     * 
+     * @param : BoardDto
+     * 
+     * @return : message
+     */
     @PutMapping("/modify")
     public ResponseEntity<Map<String, Object>> modifyBoard(@RequestBody BoardDto boardDto) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -166,6 +211,15 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 전체 보드 (최신순, 인기순)
+     * 
+     * developer: 윤수민
+     * 
+     * @param : sort
+     * 
+     * @return : boardList, message
+     */
     @GetMapping("/getBoards")
     public ResponseEntity<Map<String, Object>> getBoards(@RequestParam(value = "sort")String sort){
         Map<String, Object> resultMap = new HashMap<>();
@@ -191,6 +245,15 @@ public class BoardController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 보드 검색 (최신순, 인기순)
+     * 
+     * developer: 윤수민
+     * 
+     * @param : sort, keyword
+     * 
+     * @return : boardList, message
+     */
     @GetMapping("/searchBoard")
     public ResponseEntity<Map<String, Object>> searchBoard(@RequestParam(value = "sort")String sort, 
     @RequestParam(value = "keyword")String keyword){

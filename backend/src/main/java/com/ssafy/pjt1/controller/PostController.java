@@ -43,7 +43,7 @@ public class PostController {
      * 
      * @param : user_id, board_id, post_title, post_description, post_image, post_iframe, post_header, post_state
      * 
-     * @return : ResultMap
+     * @return : message
      */
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> join(@RequestBody Map<String, Object> param) {
@@ -77,7 +77,7 @@ public class PostController {
      * 
      * @param : login_id, post_id
      * 
-     * @return : ResultMap(message, PostDto, isScrapped, isLiked, like_count, commentList)
+     * @return : message, PostDto, isScrapped, isLiked, like_count, commentList
      */
     @GetMapping("/getPostById")
     public ResponseEntity<Map<String, Object>> getPostById(@RequestParam(value = "post_id")int post_id, 
@@ -116,7 +116,7 @@ public class PostController {
      * 
      * @param : PostDto
      * 
-     * @return : ResultMap
+     * @return : message
      */
     @PutMapping("/modify")
     public ResponseEntity<Map<String, Object>> userModify(@RequestBody PostDto postDto) {
@@ -142,7 +142,7 @@ public class PostController {
      * 
      * @param : post_id
      * 
-     * @return : ResultMap
+     * @return : message
      */
     @DeleteMapping("/delete/{post_id}")
     public ResponseEntity<Map<String, Object>> userDelete(@PathVariable("post_id") int post_id) {
@@ -168,7 +168,7 @@ public class PostController {
      * 
      * @param : post_id, user_id
      * 
-     * @return : ResultMap
+     * @return : message
      */
     @PostMapping("/scrap")
     public ResponseEntity<Map<String, Object>> scrap(@RequestBody Map<String, Object> param) {
@@ -204,7 +204,7 @@ public class PostController {
      * 
      * @param : post_id, user_id
      * 
-     * @return : ResultMap
+     * @return : message
      */
     @PostMapping("/like")
     public ResponseEntity<Map<String, Object>> likePost(@RequestBody Map<String, Object> param) {
