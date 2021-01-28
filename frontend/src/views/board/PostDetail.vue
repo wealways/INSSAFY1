@@ -8,7 +8,7 @@
           
         </header>
         <section>
-          <Post/>
+          <Post :post="$attrs"/>
           <hr>
           <input 
             type="text" 
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import Post from '@/components/post/PostForDetail.vue'
-import CommentList from '@/components/post/CommentList.vue'
+import Post from '@/components/board/postdetail/PostForDetail.vue'
+import CommentList from '@/components/board/postdetail/CommentList.vue'
 export default {
   name:'PostDetail',
   data() {
@@ -45,7 +45,7 @@ export default {
       const commentItem ={
         user:'이름',
         comment:this.comment,
-        date:`${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`
+        date:`${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`
       }
       console.log(commentItem)
       if(commentItem && commentItem.comment.trim())

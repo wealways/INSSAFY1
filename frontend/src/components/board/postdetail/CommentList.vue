@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import Comment from "@/components/post/Comment.vue"
+import Comment from "@/components/board/postdetail/Comment.vue"
 // import {mapState} from 'vuex'
 
 export default {

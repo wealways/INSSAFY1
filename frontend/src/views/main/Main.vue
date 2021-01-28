@@ -158,10 +158,18 @@ export default {
     clickCBtn1: function() {
       this.$router.push({ name: 'Study' });
     },
-    clickCBtn2: function() {},
-    clickCBtn3: function() {},
-    clickCBtn4: function() {},
-    clickCBtn5: function() {},
+    clickCBtn2: function() {
+      this.$router.push({ name: 'LearnShare' });
+    },
+    clickCBtn3: function() {
+      this.$router.push({ name: 'Recruitment' });
+    },
+    clickCBtn4: function() {
+      this.$router.push({ name: 'Market' });
+    },
+    clickCBtn5: function() {
+      this.$router.push({ name: 'BambooForest' });
+    },
   },
 };
 </script>

@@ -125,6 +125,22 @@
         // Push the name to submitted names
         // this.submittedNames.push(this.name)
         // Hide the modal manually
+        let today= new Date()
+        const posts = this.$store.state.posts
+        let idx= posts.length
+        const postItem ={
+          post_id:idx+1,
+          user:'testttttt', 
+          post_title:this.title, 
+          post_description:this.description,
+          post_like:0,
+          comment_count:0,
+          post_date:`${today.getFullYear()}-${today.getMonth()+1}-${today.getDay()}/${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`,
+          img:this.images
+        }
+        this.$store.dispatch('createPost',postItem)
+        
+
         console.log(this.images)
         this.$nextTick(() => {
           this.$bvModal.hide('modal-post')

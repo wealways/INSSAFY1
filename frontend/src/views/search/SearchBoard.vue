@@ -15,7 +15,7 @@
             <option value="">인기</option>
           </select>
         </div>
-        <button style="background-color: green;">보드생성</button>
+        <button @click="goToCreateBoard" style="background-color: green;">보드생성</button>
       </div>
     </div>
     <div class="search-result">
@@ -49,6 +49,11 @@ export default {
   components: {
     Board,
   },
+  methods: {
+    goToCreateBoard(){
+      return this.$router.push({ name: 'BoardForm' });
+    }
+  }
 }
 </script>
 

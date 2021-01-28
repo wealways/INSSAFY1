@@ -106,6 +106,7 @@ export default {
       this.hashtag=''
     },
     onCreate(){
+      this.$router.push({name:'Board'})
       alert('게시판 보드 생성')
     }
   }
