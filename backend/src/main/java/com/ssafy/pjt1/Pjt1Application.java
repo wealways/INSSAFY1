@@ -27,8 +27,11 @@ public class Pjt1Application implements WebMvcConfigurer {
 	// JWTInterceptor를 설치한다. 경로 조건을 설정한다.
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(jwtInterceptor).addPathPatterns("/account/**") // 기본 적용 경로
-				.excludePathPatterns(Arrays.asList("/account/confirm/**"));// 인터셉터 적용 제외 경로
+		registry.addInterceptor(jwtInterceptor).addPathPatterns("") // 기본 적용 경로
+				.excludePathPatterns(Arrays.asList("/account/confirm/**"))// 회원은 인터셉터 제외
+				// 스웨거도 인터셉터 제외
+				.excludePathPatterns("/swagger-resources/**").excludePathPatterns("/swagger-ui.html")
+				.excludePathPatterns("/v2/api-docs").excludePathPatterns("/webjars/**");
 	}
 
 	// Interceptor를 이용해서 처리하므로 전역의 Corss Origin 처리를 해준다.
