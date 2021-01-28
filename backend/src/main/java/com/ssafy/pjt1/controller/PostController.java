@@ -92,7 +92,7 @@ public class PostController {
             map.put("post_id", post_id);
             int isScrapped = postService.isScrapped(map);
             int isLiked = postService.isLiked(map);
-            int like_count = postService.getLikeCount(post_id);
+            int like_count = postService.getPostLikeCount(post_id);
             List<CommentDto> commentList = postService.getComment(post_id);
             
             resultMap.put("postDto", postDto);
@@ -236,4 +236,35 @@ public class PostController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+    /*
+     * 기능: 포스트 리스트
+     * 
+     * developer: 윤수민
+     * 
+     * @param : board_id
+     * 
+     * @return : message, postList(post_id,user_id,post_date,post_title,post_description,
+     * post_image,post_iframe,post_header,post_state,like_count, comment_count)
+     */
+    @GetMapping("/getPostList")
+    public ResponseEntity<Map<String, Object>> getPostByList(@RequestParam(value = "board_id")int board_id){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("post/getPostList 호출성공");
+        try {
+            List<Map<String, Object>> postList = postService.getPostList(board_id); 
+            logger.info("postList: "+postList);
+            resultMap.put("postList", postList);          
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    
+
 }

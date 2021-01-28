@@ -82,12 +82,17 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public int getLikeCount(int post_id) {
-		return sqlSession.getMapper(PostMapper.class).getLikeCount(post_id);
+	public int getPostLikeCount(int post_id) {
+		return sqlSession.getMapper(PostMapper.class).getPostLikeCount(post_id);
 	}
 
 	@Override
 	public List<CommentDto> getComment(int post_id) {
 		return sqlSession.getMapper(PostMapper.class).getComment(post_id);
+	}
+
+	@Override
+	public List<Map<String, Object>> getPostList(int board_id) {
+		return sqlSession.getMapper(PostMapper.class).getPostList(board_id);
 	}
 }

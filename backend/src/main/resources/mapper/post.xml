@@ -75,7 +75,7 @@
 		where post_id = #{post_id};
 	</update>
 
-	<select id="getLikeCount" parameterType="int" resultType="int">
+	<select id="getPostLikeCount" parameterType="int" resultType="int">
 		select count(*)
 		from postLike
 		where post_id = #{post_id};	
@@ -86,6 +86,21 @@
 		from comment
 		where post_id = #{post_id}
 		order by comment_date desc;	
+	</select>
+
+	<select id="getPostList" parameterType="int" resultType="map">
+		select p.post_id, p.user_id, p.post_date, p.post_title, p.post_description, p.post_image, p.post_iframe, 
+		p.post_header, p.post_state, l.like_count, c.comment_count
+		from (select post_id, count(post_id) as like_count
+			  from postLike 
+			  group by post_id) as l right outer join post as p 
+			  on l.post_id = p.post_id 
+			  left outer join
+			  (select post_id, count(post_id) as comment_count
+			  from comment
+			  group by post_id) as c 
+			  on p.post_id = c.post_id 
+		where p.board_id = #{board_id};
 	</select>
 
 </mapper>

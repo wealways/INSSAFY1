@@ -32,8 +32,10 @@ public interface PostService {
 
 	public void minusCount(int post_id);
 
-	public int getLikeCount(int post_id);
+	public int getPostLikeCount(int post_id);
 
 	public List<CommentDto> getComment(int post_id);
+
+	public List<Map<String, Object>> getPostList(int board_id);
 
 }
