@@ -7,10 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface CommentMapper {
 
-	// public PostDto getPostById(String post_id);
-
-	// public int postDelete(int post_id);
-
 	public void createComment(CommentDto commentDto);
 
 	public int commentModify(CommentDto commentDto);
