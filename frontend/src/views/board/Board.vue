@@ -5,6 +5,10 @@
         <b-col sm="3" class="board-aside">
           <a class="board-modify">설정</a>
           <BoardDescription/>
+          <button
+            class="btn-subscribe b-title"
+            @click="onSubscribe"
+          >Subscribe</button>
           <hr>
           <div class="board-function">보드특수기능들</div>
           <div class="add-board-function">보드기능 추가</div>
@@ -28,17 +32,22 @@
 </template>
 
 <script>
+import BoardDescription from '@/components/board/BoardDescription.vue'
 import Post from '@/components/board/Post.vue'
 import PostWrite from '@/components/board/PostWrite.vue'
-import BoardDescription from '@/components/board/BoardDescription.vue'
 
 
 export default {
   name:'Board',
   components: {
+    BoardDescription,
     Post,
     PostWrite,
-    BoardDescription
+  },
+  methods:{
+    onSubscribe(){
+      return
+    }
   }
 }
 </script>
@@ -46,20 +55,43 @@ export default {
 <style scoped>
 
 .board{
-  max-width: 1024px !important;
+  max-width: 1200px !important;
   margin: 0 auto;
+  /* width:80%;
+  margin-left:10%;
+  margin-right:10%; */
 }
 
-.post-write {
-  /* display: inline-block; */
-  /* position:sticky; */
-}
+/* .post-write {
+  display: inline-block;
+  position:sticky;
+} */
 .post-search{
   display: flex;
   justify-content: flex-end;
 }
+.btn-subscribe{
+  /* position: inherit;  */
+  height: 50px;
+  width:100%;
+  font-size: 24px;
+  margin-top: 10px; 
+  margin-bottom: 10px;
+  text-align: center;
+}
+.btn-subscribe:hover,
+.btn-subscribe:active {
+  background-color: #000 !important;
+  color: #fff;
+}
 
 @media screen and (max-width:576px){
+  .btn-subscribe{
+    width: 100%;
+    background-color: #000 !important;
+    color: #fff;
+  }
+
   .board-modify{
     display:none;
   }

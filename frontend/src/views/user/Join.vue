@@ -271,6 +271,7 @@ input, select {
   /* position: inherit;  */
   height: 50px;
   margin-top: 30px; 
+  font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button v-b-modal.modal-prevent-closing variant="light" class="btn-write">글쓰기</b-button>
+    <b-button v-b-modal.modal-post variant="light" class="btn-write">글쓰기</b-button>
 
     <!-- <div class="mt-3">
       Submitted Names:
@@ -11,7 +11,7 @@
     </div> -->
 
     <b-modal
-      id="modal-prevent-closing"
+      id="modal-post"
       ref="modal"
       size="xl"
       title="Post"
@@ -25,27 +25,27 @@
         <b-form-group
           label-for="title-input"
           invalid-feedback="title is required"
-          :state="nameState"
+          :state="titleState"
         >
           <b-form-input
             id="title-input"
             placeholder="제목"
-            v-model="name"
-            :state="nameState"
+            v-model="title"
+            :state="titleState"
             required
           ></b-form-input>
         </b-form-group>
         <b-form-group
           label-for="description-input"
           invalid-feedback="description is required"
-          :state="nameState"
+          :state="descriptionState"
         >
           <b-form-textarea
             id="description-input"
             placeholder="무슨생각하고 있음?"
             style="height:300px"
             v-model="description"
-            :state="nameState"
+            :state="descriptionState"
             required
           ></b-form-textarea>
         </b-form-group>
@@ -55,6 +55,7 @@
           <b-form-file 
             multiple
             id="multiple-media"
+            v-model="images"
             placeholder="Choose a file or drop it here..."
             browse-text='🖼'
           >
@@ -82,21 +83,30 @@
   export default {
     data() {
       return {
-        name: '',
+        title: '',
         description:'',
-        nameState: null,
-        submittedNames: []
+        images:[],
+        titleState: null,
+        descriptionState: null,
       }
     },
     methods: {
-      checkFormValidity() {
+      titleCheckFormValidity() {
         const valid = this.$refs.form.checkValidity()
-        this.nameState = valid
+        this.titleState = valid
+        return valid
+      },
+      descriptionCheckFormValidity() {
+        const valid = this.$refs.form.checkValidity()
+        this.descriptionState = valid
         return valid
       },
       resetModal() {
-        this.name = ''
-        this.nameState = null
+        this.title = ''
+        this.description = ''
+        this.titleState = null
+        this.descriptionState = null
+        this.images=[]
       },
       handleOk(bvModalEvt) {
         // Prevent modal from closing
@@ -106,14 +116,18 @@
       },
       handleSubmit() {
         // Exit when the form isn't valid
-        if (!this.checkFormValidity()) {
+        if (!this.titleCheckFormValidity() ) {
+          return
+        }
+        if (!this.descriptionCheckFormValidity()) {
           return
         }
         // Push the name to submitted names
-        this.submittedNames.push(this.name)
+        // this.submittedNames.push(this.name)
         // Hide the modal manually
+        console.log(this.images)
         this.$nextTick(() => {
-          this.$bvModal.hide('modal-prevent-closing')
+          this.$bvModal.hide('modal-post')
         })
       }
     }

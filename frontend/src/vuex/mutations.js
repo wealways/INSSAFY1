@@ -26,4 +26,9 @@ export default {
       state.toastType.myinfo = true;
     }
   },
+
+  //comment
+  CREATE_COMMENT(state,commentItem) {
+    state.comments.push(commentItem)
+  },
 };

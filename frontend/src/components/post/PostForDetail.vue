@@ -15,7 +15,7 @@
         <div class="post-date">글쓴시간</div>
       </div>
     </div>
-    <div class="post-body" @click="goToDetail">
+    <div class="post-body">
       <div class="title f-text b-desc">포스트제목포스트제목포스트제목포스트제목</div>
       <div class="description r-desc">포스트내용 포스트내용 포스트내용 포스트내용 포스트내용 포스트내용 포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용포스트내용</div>
     </div>
@@ -40,9 +40,6 @@ export default {
     }
   },
   methods:{
-    goToDetail() {
-      this.$router.push({ name: 'Post' });
-    },
     postLike(e){
       this.flagLike = !this.flagLike
       console.log(this.flagLike)
