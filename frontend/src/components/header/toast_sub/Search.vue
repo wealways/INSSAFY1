@@ -1,46 +1,71 @@
 <template>
-  <div id="toast">
-    <div id="decoration"></div>
-    <Myinfo :class="{ none: !getToastType.myinfo }" />
-    <Search :class="{ none: !getToastType.search }" />
+  <div id="search-container">
+    <div id="filter-container">
+      <button
+        class="filter-btn l-desc"
+        :class="{ newmorphism: active.index == index }"
+        v-for="(item, index) in getSearchStateFilters"
+        :key="index"
+        @click="clickFilter(index)"
+      >
+        {{ item }}
+      </button>
+    </div>
+    <div id="search-container">
+      <div id="search-bar" ref="searchBar">
+        <input id="s-input" @keyup.enter="onSearching" v-model="keyword" type="text" placeholder="검색어를 입력하세요" />
+        <button id="s-del-btn" @click="clickDeleteBtn" :class="{ visible: keyword != '' }">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.151 17.943l-4.143-4.102-4.117 4.159-1.833-1.833 4.104-4.157-4.162-4.119 1.833-1.833 4.155 4.102 4.106-4.16 1.849 1.849-4.1 4.141 4.157 4.104-1.849 1.849z"
+            />
+          </svg>
+        </button>
+        <button id="s-btn" ref="searchBtn" @click="onSearching">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path
+              d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <button id="closer" @click="clickCloser">
+      <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+        <path
+          d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
+        />
+      </svg>
+    </button>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import Search from './toast_sub/Search';
-import Myinfo from './toast_sub/Myinfo';
 export default {
-  name: 'Toast',
-  components: {
-    Search,
-    Myinfo,
-  },
+  name: 'Search',
   data() {
     return {
-      ////////
-      //search
       active: {
         index: 0,
         filter: '',
       },
       keyword: '',
-      ///////
     };
   },
   computed: {
-    ...mapGetters(['getSearchStateFilters', 'getToastType']),
+    ...mapGetters(['getSearchStateFilters']),
   },
   methods: {
+    clickCloser: function() {
+      this.$store.commit('setToastTogle');
+    },
     //search function
     clickFilter: function(index) {
       this.active.index = index;
       this.active.filter = this.filter;
       var value = 54 * index;
       this.$refs.searchBar.style.marginTop = `${value}px`;
-    },
-    clickCloser: function() {
-      this.$store.commit('setToastTogle');
     },
     onSearching: function() {
       this.$store.commit('setToastTogle');
@@ -55,34 +80,6 @@ export default {
 </script>
 
 <style scoped>
-#toast {
-  width: 100%;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
-  box-shadow: var(--basic-shadow-b);
-}
-.none {
-  display: none !important;
-}
-#decoration {
-  position: absolute;
-  top: 0;
-  left: 20px;
-  width: 6px;
-  height: 70%;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  background-color: var(--basic-color-key);
-  box-shadow: var(--basic-shadow-m);
-}
-@media (max-width: 426px) {
-  #decoration {
-    display: none;
-  }
-}
-/* ---------------------------------- */
-/* 검색 컴포넌트 */
-/* ---------------------------------- */
 #search-container {
   display: flex;
   flex-direction: row;

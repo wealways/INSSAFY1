@@ -19,4 +19,7 @@ export default {
   getToastActive: function(state) {
     return state.toastActive;
   },
+  getToastType: function(state) {
+    return state.toastType;
+  },
 };

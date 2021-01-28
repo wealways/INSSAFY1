@@ -13,8 +13,17 @@ export default {
     state.searchState = payload;
   },
 
-  //set Toast
+  //Toast
   setToastTogle(state) {
     state.toastActive = !state.toastActive;
+  },
+  setToastType(state, typeName) {
+    if (typeName == 'search') {
+      state.toastType.search = true;
+      state.toastType.myinfo = false;
+    } else if (typeName == 'myinfo') {
+      state.toastType.search = false;
+      state.toastType.myinfo = true;
+    }
   },
 };

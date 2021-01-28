@@ -44,6 +44,9 @@
     </div>
     <div id="popular-container" class="m-top">
       <p class="main-title">POPULAR</p>
+      <div id="follower">
+        <Item class="p-item" v-for="(item, index) in popular" :key="`popular${index}`" :item="item" />
+      </div>
     </div>
   </div>
 </template>
@@ -53,15 +56,37 @@
 // import * as authApi from '@/api/auth';
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
+import Item from '../../components/board/popular/item.vue';
 
 export default {
   name: 'Main',
   components: {
     Swiper,
     SwiperSlide,
+    Item,
   },
   data() {
     return {
+      popular: [
+        {
+          type: 'Custom',
+          boardName: '여행',
+          follower: '609',
+          postTitle: ['겨울에는 역시 스키장!', '겨울에는 호떡', '겨울에는 호빵', '겨울에는 눈썰매', '코로나 ㅠㅠ'],
+        },
+        {
+          type: 'Custom',
+          boardName: '여행',
+          follower: '609',
+          postTitle: ['겨울에는 역시 스키장!', '겨울에는 호떡', '겨울에는 호빵', '겨울에는 눈썰매', '코로나 ㅠㅠ'],
+        },
+        {
+          type: 'Custom',
+          boardName: '여행',
+          follower: '609',
+          postTitle: ['겨울에는 역시 스키장!', '겨울에는 호떡', '겨울에는 호빵', '겨울에는 눈썰매', '코로나 ㅠㅠ'],
+        },
+      ],
       list: function() {
         var list = [];
         for (let index = 1; index <= 10; index++) {
@@ -130,7 +155,9 @@ export default {
     clickFavorite: function(index) {
       alert(index + ' slide clicked!');
     },
-    clickCBtn1: function() {},
+    clickCBtn1: function() {
+      this.$router.push({ name: 'Study' });
+    },
     clickCBtn2: function() {},
     clickCBtn3: function() {},
     clickCBtn4: function() {},
@@ -377,10 +404,15 @@ c-btn:active {
 /* 인기보드 영역 */
 /*-------------------------------------------------- */
 #popular-container {
-  background-color: rgb(105, 194, 253);
-  width: 80%;
+  width: 90%;
   height: 600px;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin: 0 5%;
+}
+@media (max-width: 426px) {
+  #popular-container {
+  }
+}
+.p-item {
+  margin: 10px 0;
 }
 </style>
