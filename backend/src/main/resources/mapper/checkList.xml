@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.pjt1.model.mapper.CheckListItemMapper">
+    <insert id="createCheckLsit" parameterType="CheckListItemDto">
+        insert into check_list_item(board_id, check_list_item_done, check_list_item_description)
+        values(#{board_id},#{check_list_item_done}, #{check_list_item_description});
+    </insert>
+
+    <select id="selectCheckLsit" parameterType="String" resultType="CheckListItemDto">
+        select *
+        from check_list_item
+        where board_id=#{board_id}
+    </select>
+</mapper>
