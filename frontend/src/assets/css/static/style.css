@@ -1,0 +1,196 @@
+@import 'reset.css';
+@import 'color.css';
+
+/* Noto Sans KR */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+/* Bodoni Moda */
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700;900&display=swap');
+/* Nunito Sans */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+/* ------------------------ */
+/* 공통 적용 활용 */
+/* ------------------------ */
+.none {
+  display: none;
+}
+.hidden {
+  visibility: hidden;
+}
+.clear {
+  opacity: 0;
+}
+
+/* 정사각형 */
+.square {
+  /* width는 적용 scope내에서 imoprtant로 조절 */
+  width: 50%;
+  position: relative;
+}
+.square:after {
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+}
+.square-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.toast_hide {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  z-index: -10;
+}
+.m-top {
+  margin-top: 30px;
+}
+.m-top-s {
+  margin-top: 10px;
+}
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+}
+.line {
+  margin: 10px;
+  width: 100%;
+  height: 3px;
+  border-radius: 8px;
+  background-color: var(--basic-color-bg);
+  box-shadow: var(--basic-shadow-b);
+}
+/* button {
+  border: var(--basic-color-key) 1px solid;
+} */
+.newmorphism {
+  color: var(--basic-color-fill3);
+  text-shadow: 0 0px 1px var(--basic-color-fill3);
+  background: #ebebe9;
+  box-shadow: 10px 10px 20px #bcbcba, -10px -10px 20px #ffffff;
+  transition: 0.3s all ease;
+}
+.newmorphism-active {
+  background: #ebebe9;
+  background: linear-gradient(145deg, #d4d4d2, #fbfbf9);
+  box-shadow: 10px 10px 20px #b3b3b1, -10px -10px 20px #ffffff;
+}
+
+.anim-btn {
+  animation: anim-btn 0.8s cubic-bezier(0.35, -0.01, 0.45, 1.2);
+  animation-fill-mode: both;
+}
+@keyframes anim-btn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.delay1 {
+  animation-delay: 0.1s;
+}
+.delay2 {
+  animation-delay: 0.2s;
+}
+.delay3 {
+  animation-delay: 0.3s;
+}
+
+.real-shadow-box {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05), 0 2px 2px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.1);
+}
+.real-shadow-text {
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.05), 0 16px 16px rgba(0, 0, 0, 0.1),
+    0 32px 32px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-only {
+  display: none;
+}
+@media (max-width: 426px) {
+  .pc-only {
+    display: none;
+  }
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* ------------------------ */
+/* 웹폰트 */
+/* ------------------------ */
+.b-title {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 900;
+}
+.m-title {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 700;
+}
+.r-title {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 400;
+}
+
+.b-desc-e {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 900;
+}
+.t-desc-e {
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 200;
+}
+
+.b-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+}
+.m-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+}
+.r-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+}
+.l-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+.t-desc {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 200;
+}
+
+/* ------------------------ */
+/* 커스텀 스크롤바 */
+/* ------------------------ */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 18px;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 6px;
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  background-color: rgba(0, 0, 0, 0, 0.2);
+  -webkit-border-radius: 7px;
+  -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
