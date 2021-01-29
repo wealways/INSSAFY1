@@ -11,6 +11,15 @@
 /* ------------------------ */
 /* 공통 적용 활용 */
 /* ------------------------ */
+.none {
+  display: none;
+}
+.hidden {
+  visibility: hidden;
+}
+.clear {
+  opacity: 0;
+}
 
 /* 정사각형 */
 .square {
@@ -23,7 +32,7 @@
   display: block;
   padding-bottom: 100%;
 }
-.inner {
+.square-inner {
   position: absolute;
   width: 100%;
   height: 100%;

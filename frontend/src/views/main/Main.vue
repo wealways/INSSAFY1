@@ -27,8 +27,6 @@
             </div>
           </div>
         </swiper-slide>
-        <!-- <div class="swiper-button-prev" slot="button-prev"></div>
-        <div class="swiper-button-next" slot="button-next"></div> -->
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
     </div>
@@ -44,7 +42,10 @@
     </div>
     <div id="popular-container" class="m-top">
       <p class="main-title">POPULAR</p>
-      <div id="follower">
+      <div id="p-item-container">
+        <Item class="p-item" v-for="(item, index) in popular" :key="`popular${index}`" :item="item" />
+      </div>
+      <div id="p-item-container">
         <Item class="p-item" v-for="(item, index) in popular" :key="`popular${index}`" :item="item" />
       </div>
     </div>
@@ -58,15 +59,25 @@ import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 import Item from '../../components/board/popular/item.vue';
 
+//toast nority
+
 export default {
   name: 'Main',
   components: {
+    //vue-awesome-swiper
     Swiper,
     SwiperSlide,
+    //popular
     Item,
+    //
   },
   data() {
     return {
+      options: {
+        width: '400px',
+        position: 'bottom-right',
+        padding: '1rem',
+      },
       popular: [
         {
           type: 'Custom',
@@ -154,14 +165,23 @@ export default {
   methods: {
     clickFavorite: function(index) {
       alert(index + ' slide clicked!');
+      this.$router.push({ name: 'Board' });
     },
     clickCBtn1: function() {
-      this.$router.push({ name: 'Study' });
+      this.$router.push({ name: 'StudyMain' });
     },
-    clickCBtn2: function() {},
-    clickCBtn3: function() {},
-    clickCBtn4: function() {},
-    clickCBtn5: function() {},
+    clickCBtn2: function() {
+      this.$router.push({ name: 'LearnShare' });
+    },
+    clickCBtn3: function() {
+      this.$router.push({ name: 'Recruitment' });
+    },
+    clickCBtn4: function() {
+      this.$router.push({ name: 'Market' });
+    },
+    clickCBtn5: function() {
+      this.$router.push({ name: 'BambooForest' });
+    },
   },
 };
 </script>
@@ -408,11 +428,25 @@ c-btn:active {
   height: 600px;
   margin: 0 5%;
 }
-@media (max-width: 426px) {
-  #popular-container {
-  }
+
+.p-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
+
 .p-item {
-  margin: 10px 0;
+  width: 30% !important;
+  margin: 10px 1.65%;
+  box-shadow: var(--basic-shadow-s);
+}
+@media (max-width: 768px) {
+  .p-item-container {
+    display: relative;
+    flex-direction: column;
+  }
+  .p-item {
+    width: 100% !important;
+  }
 }
 </style>
