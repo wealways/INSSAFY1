@@ -5,14 +5,16 @@
       <div class="user-profile">
         <div class="hd">
           <h2 class="info">내 정보</h2>
-          <button>edit</button>
+          <button class="my-info-edit">edit</button>
         </div>
         <div class="img">
-          <span>프로필 사진</span>
-          <div>edit</div>
+          <img src="@/assets/images/slide.jpg" alt="" class="avatar">
+          <div>
+            <button class="img-edit">edit</button>
+          </div>
         </div>
         <div class="my-info">
-          <h3 style="margin: 5% 0 0 0;">사용자 닉네임</h3>
+          <h3 style="margin: 0 0 0 0;">사용자 닉네임</h3>
           <!-- <input type="text" placeholder="닉네임"> -->
           <p style="margin: 0;">사용자 이메일</p>
           <!-- <input type="text" placeholder="이메일"> -->
@@ -68,7 +70,6 @@
       class="my-board column z-index-forward" 
       :class="{focuslist : mobileTap[0]}"
     >
-      <h2>내 보드</h2>
       <Subscription />
       <Subscription />
       <Subscription />
@@ -207,15 +208,14 @@ div > div {
 /* 사용자 정보관련 */
 .user-profile {
   display: grid;
-  grid-template-rows: 1fr 3fr 2fr 1fr;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 2fr 1.2fr;
+  grid-template-columns: 1fr 2fr 1fr;
   grid-template-areas: 
-    "hd hd hd hd"
-    ". img img ."
-    "myinfo myinfo myinfo myinfo"
-    "pw pw pw pw";
-  place-content: center;
-  align-items: center;
+    "hd hd hd"
+    ". img ."
+    "myinfo myinfo myinfo";
+  
+  /* place-content: center; */
 }
 /* 내 정보의 header */
 .hd {
@@ -232,24 +232,20 @@ div > div {
 /* 프로필 이미지 부분 */
 .img {
   grid-area: img;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border: 1px solid;
+}
+.avatar {
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
-  height: 78%;
 }
 /* 프로필 이미지 편집 버튼 */
 .img div {
   z-index: 1;
   position: relative;
   display: table-cell;
-  left: 30%;
-  top: 25%;
+  left: 100px;
+  top: -40px;
   background-color: antiquewhite;
-  width: 30%;
   text-align: center;
 }
 /* 사용자 입력값 보여줄 부분 */
@@ -257,10 +253,10 @@ div > div {
   grid-area: myinfo;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
 }
 /* 비밀번호 변경 */
 .password-change {
-  grid-area: pw;
   text-align: end; 
   margin: 0;
 }
@@ -292,7 +288,6 @@ div > div {
     order: 1;
     box-sizing: border-box;
     margin: 0;
-    padding-left: 28%;
     padding-top: 2%;
   }
   .info {
@@ -301,16 +296,25 @@ div > div {
   .img {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    border: 1px solid;
-    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
     width: 20%;
     height: 60%;
     margin: 0 2%;
     padding: 2%;
   }
+  .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  }
   .my-info {
-    flex-basis: 60%;
+    flex-basis: 67%;
+  }
+  .img div {
+    position: relative;
+    left: 20px;
+    top: -30px;
   }
   .password-change > p {
     margin: 0;
@@ -329,12 +333,11 @@ div > div {
   }
   /* 첫 모바일 화면에서 진입시 */
   .z-index-forward {
-    border: 5px solid;
     background-color: #ebebe9;
     position: absolute;
     width: 96%;
     height: 70%;
-    top: 34%;
+    top: 37.5%;
     z-index: 1;
   }
   .z-index-back {
@@ -343,7 +346,7 @@ div > div {
     width: 96%;
     height: 70%;
     z-index: 0;
-    top: 34%;
+    top: 37.5%;
   }
   /* 화면 탭 클릭시 탭 강조 */
   .focustap {

@@ -264,7 +264,8 @@ p {
   margin: 0 5%;
   color: #fff;
   background-image: url('../../assets/images/slide.jpg');
-  background-size: cover;
+  background-position: center bottom;
+  background-size: contain;
   /* box-shadow: var(--basic-shadow-s); */
   /* filter: brightness(0.9); */
 }
