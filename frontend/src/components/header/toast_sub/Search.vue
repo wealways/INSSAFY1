@@ -63,6 +63,12 @@ export default {
     onSearching: function() {
       this.$store.commit('setToastTogle');
       this.$store.commit('setSearchKeyword', this.keyword);
+      console.log(this.active.index);
+      if (this.active.index == 0) {
+        this.$router.push({ name: 'SearchBoard' });
+      } else if (this.active.index == 1) {
+        this.$router.push({ name: 'SearchPost' });
+      }
       // this.$refs.searchBtn.blur();
     },
     clickDeleteBtn: function() {
@@ -159,5 +165,11 @@ export default {
   position: absolute;
   top: 5px;
   right: 5px;
+}
+
+@media (max-width: 426px) {
+  input::placeholder {
+    font-size: 11px;
+  }
 }
 </style>

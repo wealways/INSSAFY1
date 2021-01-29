@@ -43,9 +43,15 @@
     <div id="popular-container" class="m-top">
       <p class="main-title">POPULAR</p>
       <div id="p-item-container">
+        <p class="p-desc l-desc">팔로워 수</p>
         <Item class="p-item" v-for="(item, index) in popular" :key="`popular${index}`" :item="item" />
       </div>
       <div id="p-item-container">
+        <p class="p-desc l-desc">팔로워 수</p>
+        <Item class="p-item" v-for="(item, index) in popular" :key="`popular${index}`" :item="item" />
+      </div>
+      <div id="p-item-container">
+        <p class="p-desc l-desc">팔로워 수</p>
         <Item class="p-item" v-for="(item, index) in popular" :key="`popular${index}`" :item="item" />
       </div>
     </div>
@@ -55,6 +61,7 @@
 <script>
 // import "../../components/css/user.scss";
 // import * as authApi from '@/api/auth';
+//https://github.surmon.me/vue-awesome-swiper/?ref=madewithvuejs.com
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper';
 import 'swiper/css/swiper.css';
 import Item from '../../components/board/popular/item.vue';
@@ -265,7 +272,7 @@ p {
   color: #fff;
   background-image: url('../../assets/images/slide.jpg');
   background-position: center bottom;
-  background-size: contain;
+  background-size: cover;
   /* box-shadow: var(--basic-shadow-s); */
   /* filter: brightness(0.9); */
 }
@@ -432,6 +439,7 @@ c-btn:active {
 
 .p-item-container {
   display: flex;
+  margin-bottom: 100px !important;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -449,5 +457,8 @@ c-btn:active {
   .p-item {
     width: 100% !important;
   }
+}
+.p-desc {
+  margin: 0px 1.65% -10px;
 }
 </style>

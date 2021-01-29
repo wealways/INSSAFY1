@@ -32,7 +32,7 @@
           <b-icon icon="heart" aria-hidden="true" style="width: 28px; height: 28px; color: #aa2610;" />
           <b-icon
             id="f-icon"
-            :class="{ clear: followState }"
+            :class="{ clear: !followState }"
             icon="heart-fill"
             @click="clickFollow"
             aria-hidden="true"
