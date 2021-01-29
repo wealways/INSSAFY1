@@ -1,7 +1,10 @@
 <template>
   <div class="board-description">
     <div class="board-name-detail">
-      <div class="board-name">보드이름</div>
+      <div class="name-setting">
+        <div class="board-name">보드이름</div>
+        <a href=""><b-icon icon="gear-fill"></b-icon></a>
+      </div>
       <div class="board-detail">보드디테일보드디테일보드디테일보드디테일보드디테일보드디테일보드디테일</div>
     </div>
     <div class="board-hash-people">
@@ -22,9 +25,16 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.name-setting{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
 .board-name{
   font-weight: bold;
-  font-size:1.3rem
+  font-size:1.3rem;
+  margin:0;
 }
 .board-hash-people{
   display: grid;

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Comment
-      v-for="(comment,idx) in comments"
+    <Post
+      v-for="(post,idx) in posts"
       :key="idx"
-      :comment="comment"
+      :post="post"
     />
   </div>
 </template>
@@ -18,8 +18,8 @@ export default {
     Post
   },
   computed:{
-    comments() {
-      return this.$store.state.comments
+    posts() {
+      return this.$store.state.posts
     },
   }
 }
