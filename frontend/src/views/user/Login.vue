@@ -4,10 +4,9 @@
       <b-row>
         <b-col cols="6" class="banner">
           <div>
-            <img src="@/assets/images/login-img.jpg" alt="" width="100%">
+            <img src="@/assets/images/login-img.jpg" alt="" width="100%" />
           </div>
           <!-- <h2 class="b-title">for SSAFY</h2> -->
-          
         </b-col>
         <b-col class="login">
           <h2 class="b-title">로그인</h2>
@@ -109,7 +108,7 @@ export default {
       this.email = this.email.toLowerCase();
       if (this.email.length >= 0 && !EmailValidator.validate(this.email)) this.error.email = '이메일 형식이 아닙니다.';
       else this.error.email = false;
-      
+
       if (this.password.length >= 0 && !this.passwordSchema.validate(this.password)) this.error.password = '영문,숫자 포함 8 자리이상이어야 합니다.';
       else this.error.password = false;
 
@@ -127,9 +126,15 @@ export default {
         })
         .then((res) => {
           console.log(res);
-          if (res.data.message === 'fail') {
+          if (res.data.message === 'FAIL') {
             alert('이메일 또는 비밀번호를 다시 확인하여 주십시오.');
             this.password = '';
+          } else if (res.data.message === 'NO_AUTH') {
+            //이메일 인증 완료 유도를 위해 toast 활용
+            //toast 내에서 vuex를 활용하여 도메인 링크 동적 생성
+            this.$store.commit('setToastTogle');
+            this.$store.commit('setToastType', 'email');
+            // alert('이메일 인증을 완료해주세요.');
           } else {
             this.$router.replace(`/${this.nextRoute}`);
             // this.$router.push({ name: 'Main' });
@@ -144,16 +149,16 @@ export default {
 
 <style scoped>
 .row {
-  margin-top:50px;
+  margin-top: 50px;
 }
-.banner{
+.banner {
   display: flex;
   flex-direction: column;
   justify-content: center;
   /* align-items: flex-end; */
   background-color: #fff;
 }
-.banner h2{
+.banner h2 {
   text-align: end;
 }
 .login {
@@ -166,12 +171,12 @@ export default {
   padding-bottom: 30px;
   background-color: #fff;
 }
-h2{
+h2 {
   margin-bottom: 30px;
 }
 .login p {
-  color:#949590;
-  font-weight:300;
+  color: #949590;
+  font-weight: 300;
   margin-bottom: 3rem;
 }
 .login-form {
@@ -214,7 +219,7 @@ input {
 }
 .etc-option-item p {
   margin-bottom: 0;
-  color:#949590;
+  color: #949590;
 }
 .etc-option-item a {
   margin: auto 0;
@@ -224,18 +229,17 @@ input {
   font-size: 0.8rem;
   color: #ff0404;
 }
-.btn-text{
-  color:#949590;
+.btn-text {
+  color: #949590;
   font-weight: 800;
-  text-decoration:none
+  text-decoration: none;
 }
 #login-btn {
   width: 100%;
   height: 40px;
-  margin-top: 100px; 
+  margin-top: 100px;
   margin-bottom: 20px;
-  
-  
+
   font-size: 24px;
   transition: color 0.3s, background-color 0.3s ease;
 }
@@ -244,28 +248,27 @@ input {
   background-color: #000 !important;
   color: #fff;
 }
-@media screen and (min-width:576px) {
+@media screen and (min-width: 576px) {
   .login {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* align-items: center; */
-  max-width: 580px;
-  width: 100%;
-  padding: 60px 70px;
-  border-width:0.5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    max-width: 580px;
+    width: 100%;
+    padding: 60px 70px;
+    border-width: 0.5px;
   }
-  .row{
-    border:1px #949590 solid;
+  .row {
+    border: 1px #949590 solid;
   }
 }
-@media screen and (max-width:576px) {
-
-  #login-btn{
+@media screen and (max-width: 576px) {
+  #login-btn {
     background-color: #000 !important;
     color: #fff;
   }
-  .banner{
+  .banner {
     display: none;
   }
 }
@@ -278,50 +281,52 @@ input {
   margin-bottom: 10px;
 }
 
-.input-with-label input[type="text"],
-.input-with-label input[type="password"] {
+.input-with-label input[type='text'],
+.input-with-label input[type='password'] {
   width: 100%;
   float: left;
   height: 50px;
   line-height: 1;
   padding: 2px 15px 0 105px;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   color: #000;
   border: 1px solid #000;
   border-radius: 3px;
 }
 
-.input-with-label input[type="text"]:hover, .input-with-label input[type="text"]:focus,
-.input-with-label input[type="password"]:hover,
-.input-with-label input[type="password"]:focus {
+.input-with-label input[type='text']:hover,
+.input-with-label input[type='text']:focus,
+.input-with-label input[type='password']:hover,
+.input-with-label input[type='password']:focus {
   border: 2px solid #000;
 }
 
-.input-with-label input[type="text"].error,
-.input-with-label input[type="password"].error {
+.input-with-label input[type='text'].error,
+.input-with-label input[type='password'].error {
   border-radius: 0;
   border: none;
-  border-bottom: 1px solid #EE4B55;
+  border-bottom: 1px solid #ee4b55;
 }
 
-.input-with-label input[type="text"].complete,
-.input-with-label input[type="password"].complete {
+.input-with-label input[type='text'].complete,
+.input-with-label input[type='password'].complete {
   border-radius: 0;
   border: none;
-  border-bottom: 1px solid #3893A8;
+  border-bottom: 1px solid #3893a8;
 }
 
-.input-with-label input[type="text"].disabled,
-.input-with-label input[type="password"].disabled {
+.input-with-label input[type='text'].disabled,
+.input-with-label input[type='password'].disabled {
   background: #eee;
   color: #333;
   font-weight: 600;
 }
 
-.input-with-label input[type="text"].disabled:hover, .input-with-label input[type="text"].disabled:focus,
-.input-with-label input[type="password"].disabled:hover,
-.input-with-label input[type="password"].disabled:focus {
+.input-with-label input[type='text'].disabled:hover,
+.input-with-label input[type='text'].disabled:focus,
+.input-with-label input[type='password'].disabled:hover,
+.input-with-label input[type='password'].disabled:focus {
   border: 1px solid #000;
 }
 
@@ -344,7 +349,7 @@ input {
 .input-with-label .error-text {
   width: 100%;
   float: left;
-  color: #EE4B55;
+  color: #ee4b55;
   margin-top: 3px;
 }
 
@@ -361,13 +366,13 @@ input {
   display: block;
 }
 
-.label-with-input input[type="text"] {
+.label-with-input input[type='text'] {
   width: 100%;
   float: left;
 }
 
-.label-with-input input[type="text"].error {
-  border-color: #EE4B55;
+.label-with-input input[type='text'].error {
+  border-color: #ee4b55;
 }
 
 .label-with-input:last-of-type {
@@ -377,7 +382,7 @@ input {
 .label-with-input .error-text {
   width: 100%;
   float: left;
-  color: #EE4B55;
+  color: #ee4b55;
   margin-top: 3px;
 }
 </style>

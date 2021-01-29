@@ -34,6 +34,7 @@ const state = {
   toastType: {
     search: false,
     myinfo: false,
+    email: false,
   },
   searchState: SEARCH_STATE(),
 

@@ -1,3 +1,4 @@
+alert(response.data.user.user_email);
 <template>
   <div id="wrap">
     <div id="nav-container-pc" class="navigation">
