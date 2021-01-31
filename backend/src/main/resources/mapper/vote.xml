@@ -23,5 +23,10 @@
 		where vote_id=#{vote_id}
 	</delete>
 
+	<insert id="createVoteItem" parameterType="VoteItemDto" useGeneratedKeys="true" keyProperty="vote_item_id">
+		insert into vote_item (vote_id, vote_item_name) values (
+		#{vote_id}, #{vote_item_name})
+	</insert>
+
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.ssafy.pjt1.model.service.vote;
 
 import com.ssafy.pjt1.model.dto.vote.VoteDto;
+import com.ssafy.pjt1.model.dto.vote.VoteItemDto;
 import com.ssafy.pjt1.model.mapper.VoteMapper;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,6 +27,11 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public int voteDelete(int vote_id) {
         return sqlSession.getMapper(VoteMapper.class).voteDelete(vote_id);
+    }
+
+    @Override
+    public void createVoteItem(VoteItemDto voteItemDto) {
+        sqlSession.getMapper(VoteMapper.class).createVoteItem(voteItemDto);
     }
 
 

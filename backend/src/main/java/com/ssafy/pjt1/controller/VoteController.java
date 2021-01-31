@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.ssafy.pjt1.model.dto.vote.VoteDto;
+import com.ssafy.pjt1.model.dto.vote.VoteItemDto;
 import com.ssafy.pjt1.model.service.vote.VoteService;
 
 import org.slf4j.Logger;
@@ -69,7 +70,7 @@ public class VoteController {
      * 
      * developer: 윤수민
      * 
-     * @param : PostDto
+     * @param : VoteDto
      * 
      * @return : message
      */
@@ -95,7 +96,7 @@ public class VoteController {
      * 
      * developer: 윤수민
      * 
-     * @param : post_id
+     * @param : vote_id
      * 
      * @return : message
      */
@@ -112,6 +113,34 @@ public class VoteController {
             resultMap.put("message", FAIL);
             logger.error("error", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+     /*
+     * 기능: 투표 항목 생성
+     * 
+     * developer: 윤수민
+     * 
+     * @param : vote_id,vote_item_name
+     * 
+     * @return : message
+     */
+    @PostMapping("/item/create")
+    public ResponseEntity<Map<String, Object>> voteItemCreate(@RequestBody Map<String, Object> param) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("vote/item/create 호출성공");
+        try {
+            VoteItemDto voteItemDto = new VoteItemDto();
+            voteItemDto.setVote_id((int) param.get("vote_id"));
+            voteItemDto.setVote_item_name((String) param.get("vote_item_name"));
+            voteService.createVoteItem(voteItemDto);
+
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
