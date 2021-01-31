@@ -13,7 +13,10 @@ public interface CheckListItemMapper {
 
     // select
     public List<CheckListItemDto> selectCheckLsit(String board_id);
+
     // update
+    public int updateCheckLsit(CheckListItemDto item);
 
     // delete
+    public int deleteCheckList(String check_list_item_id);
 }

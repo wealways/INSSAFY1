@@ -12,4 +12,15 @@
         from check_list_item
         where board_id=#{board_id}
     </select>
+
+    <update id="updateCheckLsit" parameterType="CheckListItemDto">
+        update check_list_item set check_list_item_done=#{check_list_item_done}, check_list_item_description=#{check_list_item_description}
+        where check_list_item_id = #{check_list_item_id}
+    </update>
+
+    <delete id="deleteCheckList" parameterType="String">
+        delete 
+        from check_list_item
+        where check_list_item_id = #{check_list_item_id}
+    </delete>
 </mapper>

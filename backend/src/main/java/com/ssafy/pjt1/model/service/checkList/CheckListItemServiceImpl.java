@@ -24,4 +24,14 @@ public class CheckListItemServiceImpl implements CheckListItemService {
         return sqlSession.getMapper(CheckListItemMapper.class).selectCheckLsit(board_id);
     }
 
+    @Override
+    public int updateCheckLsit(CheckListItemDto item) {
+        return sqlSession.getMapper(CheckListItemMapper.class).updateCheckLsit(item);
+    }
+
+    @Override
+    public int deleteCheckList(String check_list_item_id) {
+        return sqlSession.getMapper(CheckListItemMapper.class).deleteCheckList(check_list_item_id);
+    }
+
 }
