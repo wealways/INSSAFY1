@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.pjt1.model.mapper.VoteMapper">
+
+	<insert id="createVote" parameterType="VoteDto" useGeneratedKeys="true" keyProperty="vote_id">
+		insert into vote (board_id, vote_name, vote_done, vote_description, 
+		vote_end_datetime, vote_duplication, vote_igmyeong) values (
+		#{board_id}, #{vote_name}, 0, #{vote_description}, #{vote_end_datetime}
+		, #{vote_duplication}, #{vote_igmyeong})
+	</insert>
+
+	<update id="voteModify" parameterType="VoteDto">
+		update vote
+		set  vote_name=#{vote_name}, vote_done=#{vote_done},vote_description=#{vote_description}, 
+		vote_end_datetime=#{vote_end_datetime}, vote_duplication=#{vote_duplication}, vote_igmyeong=#{vote_igmyeong}
+		where vote_id = #{vote_id}
+	</update>
+	
+	<delete id="voteDelete" parameterType="int">
+		delete
+		from vote
+		where vote_id=#{vote_id}
+	</delete>
+
+	<insert id="createVoteItem" parameterType="VoteItemDto" useGeneratedKeys="true" keyProperty="vote_item_id">
+		insert into vote_item (vote_id, vote_item_name) values (
+		#{vote_id}, #{vote_item_name})
+	</insert>
+
+	<update id="voteItemModify" parameterType="VoteItemDto">
+		update vote_item
+		set  vote_item_name=#{vote_item_name}
+		where vote_item_id = #{vote_item_id}
+	</update>
+	
+	<delete id="voteItemDelete" parameterType="int">
+		delete
+		from vote_item
+		where vote_item_id=#{vote_item_id}
+	</delete>
+
+	<insert id="selectVote" parameterType="VoteSelectDto">
+		insert into vote_select (user_id, vote_item_id) values (
+		#{user_id}, #{vote_item_id})
+	</insert>
+
+	<select id="getVoteById" parameterType="int" resultType="VoteDto">
+		select * 
+		from vote
+		where vote_id = #{vote_id};
+	</select>
+
+	<select id="getVoteItem" parameterType="int" resultType="map">
+		select i.vote_item_name, i.vote_item_id, count(s.vote_item_id) as vote_item_count
+		from vote_item as i join vote_select as s on (i.vote_item_id = s.vote_item_id)
+		group by (i.vote_item_id)
+		order by i.vote_item_id;
+	</select>
+
+</mapper>
