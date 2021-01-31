@@ -1,10 +1,12 @@
 package com.ssafy.pjt1.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ssafy.pjt1.model.dto.vote.VoteDto;
 import com.ssafy.pjt1.model.dto.vote.VoteItemDto;
+import com.ssafy.pjt1.model.dto.vote.VoteSelectDto;
 import com.ssafy.pjt1.model.service.vote.VoteService;
 
 import org.slf4j.Logger;
@@ -14,11 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
@@ -158,7 +162,7 @@ public class VoteController {
     public ResponseEntity<Map<String, Object>> voteItemModify(@RequestBody VoteItemDto voteItemDto) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("vote/modify 호출 성공");
+        logger.info("vote/item/modify 호출 성공");
         try {
             if (voteService.voteItemModify(voteItemDto) == 1) {
                 resultMap.put("message", SUCCESS);
@@ -184,7 +188,7 @@ public class VoteController {
     public ResponseEntity<Map<String, Object>> voteItemDelete(@PathVariable("vote_item_id") int vote_item_id) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
-        logger.info("vote/delete 호출성공");
+        logger.info("vote/item/delete 호출성공");
         try {
             if (voteService.voteItemDelete(vote_item_id) == 1) {
                 resultMap.put("message", SUCCESS);
@@ -196,4 +200,62 @@ public class VoteController {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
+
+     /*
+     * 기능: 투표 선택
+     * 
+     * developer: 윤수민
+     * 
+     * @param : user_id,vote_item_id
+     * 
+     * @return : message
+     */
+    @PostMapping("/select")
+    public ResponseEntity<Map<String, Object>> voteSelect(@RequestBody Map<String, Object> param) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("vote/select 호출성공");
+        try {
+            VoteSelectDto voteSelectDto = new VoteSelectDto();
+            voteSelectDto.setUser_id((String) param.get("user_id"));
+            voteSelectDto.setVote_item_id((int) param.get("vote_item_id"));
+            voteService.selectVote(voteSelectDto);
+
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 투표 디테일
+     * 
+     * developer: 윤수민
+     * 
+     * @param : vote_id
+     * 
+     * @return : message, VoteDto, voteItemList
+     */
+    @GetMapping("/getVoteById")
+    public ResponseEntity<Map<String, Object>> getVoteById(@RequestParam(value = "vote_id")int vote_id){
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("vote/getVoteById 호출성공");
+        try {
+            VoteDto voteDto = voteService.getVoteById(vote_id);
+            List<Map<String, Object>> voteItemList = voteService.getVoteItem(vote_id);
+            
+            resultMap.put("voteDto", voteDto); 
+            resultMap.put("voteItemList", voteItemList);          
+            resultMap.put("message", SUCCESS);
+        } catch (Exception e) {
+            logger.error("실패", e);
+            resultMap.put("message", FAIL);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
 }
