@@ -34,5 +34,15 @@ public class VoteServiceImpl implements VoteService {
         sqlSession.getMapper(VoteMapper.class).createVoteItem(voteItemDto);
     }
 
+    @Override
+    public int voteItemModify(VoteItemDto voteItemDto) {
+        return sqlSession.getMapper(VoteMapper.class).voteItemModify(voteItemDto);
+    }
+
+    @Override
+    public int voteItemDelete(int vote_item_id) {
+        return sqlSession.getMapper(VoteMapper.class).voteItemDelete(vote_item_id);
+    }
+
 
 }

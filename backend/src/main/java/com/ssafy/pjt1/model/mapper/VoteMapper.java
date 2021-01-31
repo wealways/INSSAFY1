@@ -15,5 +15,9 @@ public interface VoteMapper {
 	public int voteDelete(int vote_id);
 
 	public void createVoteItem(VoteItemDto voteItemDto);
+
+	public int voteItemModify(VoteItemDto voteItemDto);
+
+	public int voteItemDelete(int vote_item_id);
     
 }

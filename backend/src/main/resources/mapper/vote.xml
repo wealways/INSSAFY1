@@ -28,5 +28,16 @@
 		#{vote_id}, #{vote_item_name})
 	</insert>
 
+	<update id="voteItemModify" parameterType="VoteItemDto">
+		update vote_item
+		set  vote_item_name=#{vote_item_name}
+		where vote_item_id = #{vote_item_id}
+	</update>
+	
+	<delete id="voteItemDelete" parameterType="int">
+		delete
+		from vote_item
+		where vote_item_id=#{vote_item_id}
+	</delete>
 
 </mapper>

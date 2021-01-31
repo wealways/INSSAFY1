@@ -145,4 +145,55 @@ public class VoteController {
         return new ResponseEntity<Map<String, Object>>(resultMap, status);
     }
 
+    /*
+     * 기능: 투표 항목 수정
+     * 
+     * developer: 윤수민
+     * 
+     * @param : VoteItemDto
+     * 
+     * @return : message
+     */
+    @PutMapping("/item/modify")
+    public ResponseEntity<Map<String, Object>> voteItemModify(@RequestBody VoteItemDto voteItemDto) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("vote/modify 호출 성공");
+        try {
+            if (voteService.voteItemModify(voteItemDto) == 1) {
+                resultMap.put("message", SUCCESS);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
+
+    /*
+     * 기능: 투표 항목 삭제
+     * 
+     * developer: 윤수민
+     * 
+     * @param : vote_item_id
+     * 
+     * @return : message
+     */
+    @DeleteMapping("/item/delete/{vote_item_id}")
+    public ResponseEntity<Map<String, Object>> voteItemDelete(@PathVariable("vote_item_id") int vote_item_id) {
+        Map<String, Object> resultMap = new HashMap<>();
+        HttpStatus status = HttpStatus.ACCEPTED;
+        logger.info("vote/delete 호출성공");
+        try {
+            if (voteService.voteItemDelete(vote_item_id) == 1) {
+                resultMap.put("message", SUCCESS);
+            }
+        } catch (Exception e) {
+            resultMap.put("message", FAIL);
+            logger.error("error", e);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, status);
+    }
 }
