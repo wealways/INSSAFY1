@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.pjt1.model.dto.board.BoardDto;
+import com.ssafy.pjt1.model.dto.subscription.SubscriptionDto;
 import com.ssafy.pjt1.model.dto.user.UserDto;
 import com.ssafy.pjt1.model.service.BoardService;
 
@@ -47,6 +48,8 @@ public class BoardController {
      */
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> boardCreate(@RequestBody Map<String, Object> param) {
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, Object>> join(@RequestBody Map<String, Object> param) {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         logger.info("board/create 호출성공");
